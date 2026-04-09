@@ -28,23 +28,7 @@
             --glass: rgba(30, 41, 59, 0.85);
         }
 
-        body.dark-mode .service-card { background: #1e293b; border-color: #334155; }
-        body.dark-mode .service-content { background: rgba(15, 23, 42, 0.5); color: #f1f5f9; }
-
-        .res-item-bot { background: #f8fafc; border: 1px solid #f1f5f9; transition: 0.3s; }
-        body.dark-mode .res-item-bot { background: #0f172a !important; border-color: #334155 !important; color: white !important; }
-        body.dark-mode .res-item-bot p { color: #94a3b8 !important; }
-
         .hidden { display: none !important; }
-        .nav-footer, .nav-bar, .bottom-nav { background: #111827 !important; }
-
-        .nav-home-pulse i {
-            animation: home-blink 2s infinite ease-in-out;
-        }
-        @keyframes home-blink {
-            0%, 100% { color: #4b5563; transform: scale(1); }
-            50% { color: white; transform: scale(1.2); }
-        }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -55,8 +39,6 @@
             color: var(--text-dark); overflow-x: hidden;
         }
 
-        html { height: 100%; }
-        
         header {
             padding: 40px 20px 20px;
             background: rgba(255, 255, 255, 0.4);
@@ -71,10 +53,23 @@
             display: flex; align-items: center; justify-content: center;
         }
         .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .welcome-msg h1 { margin: 0; font-size: 1.25rem; font-weight: 800; }
-        .welcome-msg p { margin: 0; font-size: 0.8rem; opacity: 0.5; }
+        
+        .welcome-msg h1 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
 
-        .container { padding: 20px 16px 120px; max-width: 600px; margin: 0 auto; }
+        .welcome-msg p {
+            margin: 0;
+            font-size: 1.05rem;
+            opacity: 0.8;
+            font-weight: 600;
+            color: var(--stm-primary);
+        }
+
+        .container { padding: 20px 16px 140px; max-width: 600px; margin: 0 auto; }
 
         /* --- SERVICE CARDS --- */
         .service-card {
@@ -117,7 +112,7 @@
         .badge { padding: 5px 12px; border-radius: 10px; background: #e2e8f0; font-size: 0.7rem; font-weight: 700; color: #64748b; }
         body.dark-mode .badge { background: #334155; color: #cbd5e1; }
 
-        /* --- BOT STYLES --- */
+        /* --- BOT & NAV (STRICT) --- */
         .fab-bot {
             position: fixed; bottom: 100px; right: 20px;
             width: 60px; height: 60px;
@@ -127,7 +122,6 @@
             box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
             animation: bounceBot 3s infinite;
         }
-        .fab-bot i { color: white !important; }
         @keyframes bounceBot { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
         .bot-modal {
@@ -136,9 +130,7 @@
             z-index: 9999; visibility: hidden; opacity: 0; transition: 0.3s;
         }
         .bot-modal.active { visibility: visible; opacity: 1; }
-        
 
-        /* --- NAVIGATION --- */
         .nav-footer {
             position: fixed; bottom: 25px; bottom: calc(env(safe-area-inset-bottom, 0px) + 25px);
             left: 50%; transform: translateX(-50%);
@@ -158,99 +150,27 @@
         .nav-home-pulse i { animation: home-blink 3s infinite ease-in-out; }
         @keyframes home-blink { 0%, 100% { color: #64748b; transform: scale(1); } 50% { color: white; transform: scale(1.1); } }
 
-        /* --- NOTIFICATION & UTILS --- */
-        .stm-notify {
-            position: fixed; top: 30px; left: 50%; transform: translateX(-50%) translateY(-100px);
-            background: white; padding: 15px 25px; border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15); border: 1px solid #e2e8f0;
-            z-index: 10000; display: flex; align-items: center; gap: 12px;
-            transition: 0.5s; opacity: 0; pointer-events: none;
-        }
-        .stm-notify.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-        .stm-notify i { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--stm-primary); color: white; font-size: 0.8rem; }
-
         #loader-wrapper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; z-index: 9999;
+            background: white; display: flex; align-items: center; justify-content: center; z-index: 9999;
         }
         body.dark-mode #loader-wrapper { background: #0f172a; }
-        .loader-logo { width: 100px; height: auto; animation: logo-spin 2s linear infinite; }
+        .loader-logo { width: 80px; animation: logo-spin 2s linear infinite; }
         @keyframes logo-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .bot-input {
-            width: 100%;
-            padding: 15px 20px 15px 50px;
-            border-radius: 18px;
-            border: 2px solid #f1f5f9;
-            background: #f8fafc;
-            font-family: inherit;
-            font-size: 1rem;
-            font-weight: 500;
-            color: var(--text-dark);
-            outline: none;
-            transition: 0.3s;
-        }
-        .bot-input:focus {
-            border-color: var(--stm-primary);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
-        }
-        body.dark-mode .bot-input {
-            background: #0f172a;
-            border-color: #334155;
-            color: #f1f5f9;
-        }
-        body.dark-mode .bot-input:focus {
-            border-color: var(--stm-primary);
-            background: #0f172a;
-        }
-        .bot-search-box {
-            position: relative;
-            margin-bottom: 15px;
-        }
-        .bot-search-box > i {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--stm-primary);
-            font-size: 1.1rem;
-        }
-        .bot-content {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background: white;
-            border-top-left-radius: 30px;
-            border-top-right-radius: 30px;
-            padding: 30px 20px 40px;
-            transform: translateY(100%);
-            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            max-height: 85vh;
-            overflow-y: auto;
-        }
-        body.dark-mode .bot-content {
-            background: #1e293b;
-            color: #f1f5f9;
-        }
-        .bot-modal.active .bot-content {
-            transform: translateY(0);
-        }
-        .bot-results-title {
-            font-size: 0.72rem;
-            font-weight: 800;
-            color: var(--stm-primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 0 0 10px;
-        }
+        
+        .bot-input { width: 100%; padding: 15px 20px 15px 50px; border-radius: 18px; border: 2px solid #f1f5f9; background: #f8fafc; font-family: inherit; font-size: 1rem; color: var(--text-dark); outline: none; transition: 0.3s; }
+        body.dark-mode .bot-input { background: #0f172a; border-color: #334155; color: #f1f5f9; }
+        .bot-search-box { position: relative; margin-bottom: 15px; }
+        .bot-search-box i { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--stm-primary); }
+        .bot-content { position: absolute; bottom: 0; width: 100%; background: white; border-top-left-radius: 30px; border-top-right-radius: 30px; padding: 30px 20px 40px; transform: translateY(100%); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); max-height: 85vh; overflow-y: auto; }
+        body.dark-mode .bot-content { background: #1e293b; color: white; }
+        .bot-modal.active .bot-content { transform: translateY(0); }
     </style>
 </head>
 <body>
 
     <div id="loader-wrapper">
-        <img src="logo nuevo.png" class="loader-logo" alt="Cargando...">
-        <div style="font-weight:700; color:var(--stm-primary); margin-top:20px">SERVICIOS STM</div>
+        <img src="logo nuevo.png" class="loader-logo" alt="STM">
     </div>
 
     <header>
@@ -392,7 +312,6 @@
     </div>
 
     <script>
-        // Verificación de Acceso
         if (localStorage.getItem('isLogged') !== 'true') { window.location.href = 'index.html'; }
 
         const sitePages = [
@@ -408,92 +327,17 @@
             { t: "Género y Diversidad", d: "Protección y bienestar integral", f: "generoydiversidad.html", tags: "ayuda derechos protección género diversidad violencia bienestar", ico: "fa-hand-holding-heart" },
             { t: "Mini Turismo", d: "Viajes y escapadas para afiliados", f: "miniturismo.html", tags: "viaje turismo miramar escapada fin de semana costa hotel", ico: "fa-umbrella-beach" },
             { t: "Capacitación", d: "Formación y becas para estudiantes", f: "capacitacion.html", tags: "estudio terciario universitario beca kit utiles voucher formacion", ico: "fa-graduation-cap" },
-                        { t: "Novedades STM", d: "Últimas noticias y comunicados", f: "novedades.html", tags: "noticias novedad aviso boletin comunicado sorteos informacion ultimo", ico: "fa-newspaper" },
+            { t: "Novedades STM", d: "Últimas noticias y comunicados", f: "novedades.html", tags: "noticias novedad aviso boletin comunicado sorteos informacion ultimo", ico: "fa-newspaper" },
             { t: "Inicio", d: "Panel principal de opciones", f: "opciones.html", tags: "inicio dashboard panel principal volver", ico: "fa-house" }
         ];
 
         const USER_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznHgKBFeFZMc8IVRHLrTr9RcRROqB4DasbNFPyD3XDxFt9JYT9uzN0tqKNfRTTpOlqBg/exec';
 
         function toggleDetail(el) { el.classList.toggle('open'); }
-        
-        // --- NOVEDADES PARA EL BOT ---
-        const NEWS_SHEET_ID = "16Y723omF3l38Ntq0MUSh-ZMYnRIvYmctrscidox5ktc";
-        const NEWS_GID = "195669740";
-        const NEWS_URL = `https://docs.google.com/spreadsheets/d/${NEWS_SHEET_ID}/gviz/tq?tqx=out:json&gid=${NEWS_GID}`;
-        let allNews = [];
-
-        async function fetchNews() {
-            if (allNews.length > 0) return;
-            try {
-                const res = await fetch(NEWS_URL);
-                const text = await res.text();
-                const json = JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1));
-                allNews = (json.table.rows || []).map(r => ({
-                    titulo: (r.c[1]?.v || "").toString(),
-                    desc:   (r.c[2]?.v || "").toString(),
-                    fecha:  (r.c[3]?.f || r.c[3]?.v || "").toString(),
-                    activo: (r.c[4]?.v || "").toString().trim().toUpperCase() === "SI"
-                })).filter(n => n.activo).reverse();
-            } catch (e) { console.warn("Bot: no se pudieron cargar novedades", e); }
-        }
-
         function normalize(str) { return (str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
-        function toggleBot(show) { document.getElementById('modalBot').classList.toggle('active', show); if(show) document.getElementById('botSearch').focus();
-            fetchNews(); }
+        function toggleBot(show) { document.getElementById('modalBot').classList.toggle('active', show); if(show) document.getElementById('botSearch').focus(); }
         function toggleSettings(show) { document.getElementById('modalConfig').classList.toggle('active', show); }
-        function toggleUser(show) { document.getElementById('modalUser').classList.toggle('active', show); if(show) document.getElementById('newPass').focus(); }
-
-        function showNotify(msg, type = 'info') {
-            const div = document.createElement('div');
-            div.className = 'stm-notify';
-            const ico = type === 'error' ? 'fa-triangle-exclamation' : 'fa-check';
-            const bg = type === 'error' ? '#ef4444' : '#10b981';
-            div.innerHTML = `<i class="fa-solid ${ico}" style="background:${bg}"></i> <span>${msg}</span>`;
-            document.body.appendChild(div);
-            setTimeout(() => div.classList.add('show'), 10);
-            setTimeout(() => { div.classList.remove('show'); setTimeout(() => div.remove(), 500); }, 3000);
-        }
-
-        function applyConfig(type, value) {
-            localStorage.setItem('cfg_' + type, value);
-            if (type === 'dark') document.body.classList.toggle('dark-mode', value);
-            if (type === 'bot') document.getElementById('fabBotIcon').classList.toggle('hidden', !value);
-        }
-
-        async function changePassword() {
-            const p1 = document.getElementById('newPass').value;
-            const p2 = document.getElementById('confirmPass').value;
-            const btn = document.querySelector('#modalUser button[onclick="changePassword()"]');
-            const usrID = localStorage.getItem('usrID');
-            
-            if(!p1 || !p2) { showNotify("Completa todos los campos.", "error"); return; }
-            if(p1 !== p2) { showNotify("Las contraseñas no coinciden.", "error"); return; }
-            if (!usrID) { showNotify("Sesión inválida, reingresa", "error"); return; }
-
-            const originalText = btn.innerText;
-            btn.innerText = "Procesando...";
-            btn.style.pointerEvents = "none";
-
-            try {
-                await fetch(USER_SCRIPT_URL, {
-                    method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'UPDATE_PASSWORD', id: usrID, newPass: p1 })
-                });
-                localStorage.setItem('usrPass', p1);
-                showNotify("¡Contraseña actualizada en la nube!", "success");
-                btn.innerText = "¡Listo! ✓";
-                btn.style.background = "#10b981";
-                setTimeout(() => {
-                    toggleUser(false);
-                    btn.innerText = originalText; btn.style.background = "var(--stm-primary)";
-                    btn.style.pointerEvents = "auto";
-                    document.getElementById('newPass').value = ""; document.getElementById('confirmPass').value = "";
-                }, 1500);
-            } catch (err) {
-                showNotify("Error de conexión", "error");
-                btn.innerText = originalText; btn.style.pointerEvents = "auto";
-            }
-        }
+        function toggleUser(show) { document.getElementById('modalUser').classList.toggle('active', show); }
 
         document.getElementById('botSearch').addEventListener('input', (e) => {
             const val = normalize(e.target.value).trim();
@@ -515,15 +359,11 @@
             }
         });
 
-        function logout() {
-            localStorage.clear();
-            window.location.href = 'index.html';
-        }
+        function logout() { localStorage.clear(); window.location.href = 'index.html'; }
 
         window.addEventListener('load', () => {
             const cfg = { dark: localStorage.getItem('cfg_dark') === 'true', bot: localStorage.getItem('cfg_bot') !== 'false' };
             document.body.classList.toggle('dark-mode', cfg.dark);
-            document.getElementById('fabBotIcon').classList.toggle('hidden', !cfg.bot);
             const savedName = localStorage.getItem('usrName') || "Afiliado STM";
             document.getElementById('usrDisplayName').innerText = savedName;
             const h = new Date().getHours();

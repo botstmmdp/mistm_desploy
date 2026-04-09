@@ -51,13 +51,32 @@
             display: flex; align-items: center; justify-content: center;
         }
         .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .welcome-msg h1 { margin: 0; font-size: 1.25rem; font-weight: 800; }
-        .welcome-msg p { margin: 0; font-size: 0.8rem; opacity: 0.6; font-weight: 600; color: var(--stm-primary); }
+        .welcome-msg h1 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .welcome-msg p {
+            margin: 0;
+            font-size: 1.05rem;
+            opacity: 0.8;
+            font-weight: 600;
+            color: var(--stm-primary);
+        }
 
         .container { padding: 20px 16px 140px; max-width: 800px; margin: 0 auto; }
 
         /* --- SEARCH & FILTERS --- */
-        .filter-container { margin-bottom: 30px; position: relative; }
+        .filter-container { 
+            margin-bottom: 30px; 
+            position: sticky;
+            top: 110px;
+            z-index: 50;
+            background: var(--bg-body);
+            padding: 10px 0;
+        }
         .btn-filter-main {
             width: 100%; padding: 20px;
             border-radius: 26px; border: none;
@@ -422,7 +441,7 @@
                     titulo: (r.c[2]?.v || "").toString(),
                     detalle: (r.c[3]?.v || "").toString(),
                     activo: (r.c[4]?.v || "").toString().trim().toUpperCase() === "SI"
-                })).filter(c => c.activo);
+                })).filter(c => c.activo).sort((a,b) => a.titulo.localeCompare(b.titulo));
                 renderConvenios(allConvenios);
             } catch (e) { console.error("Error al cargar convenios:", e); }
         }
@@ -493,29 +512,81 @@
         function normalize(str) { return (str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
 
 
-        // --- BOT LOGIC ---
-        function toggleBot(show) { document.getElementById('modalBot').classList.toggle('active', show); if(show) document.getElementById('botSearch').focus(); }
+        // --- NOVEDADES PARA EL BOT ---
+        const NEWS_SHEET_ID = "16Y723omF3l38Ntq0MUSh-ZMYnRIvYmctrscidox5ktc";
+        const NEWS_GID = "195669740";
+        const NEWS_URL = `https://docs.google.com/spreadsheets/d/${NEWS_SHEET_ID}/gviz/tq?tqx=out:json&gid=${NEWS_GID}`;
+        let allNews = [];
+
+        async function fetchNews() {
+            if (allNews.length > 0) return;
+            try {
+                const res = await fetch(NEWS_URL);
+                const text = await res.text();
+                const json = JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1));
+                allNews = (json.table.rows || []).map(r => ({
+                    titulo: (r.c[1]?.v || "").toString(),
+                    desc:   (r.c[2]?.v || "").toString(),
+                    fecha:  (r.c[3]?.f || r.c[3]?.v || "").toString(),
+                    activo: (r.c[4]?.v || "").toString().trim().toUpperCase() === "SI"
+                })).filter(n => n.activo).reverse();
+            } catch (e) { console.warn("Bot: no pudo cargar novedades"); }
+        }
+
+        function toggleBot(show) { 
+            document.getElementById('modalBot').classList.toggle('active', show); 
+            if(show) {
+                document.getElementById('botSearch').focus();
+                fetchNews();
+            }
+        }
         function toggleSettings(show) { document.getElementById('modalConfig').classList.toggle('active', show); }
         function toggleUser(show) { document.getElementById('modalUser').classList.toggle('active', show); }
 
+        let botTimer = null;
         document.getElementById('botSearch').addEventListener('input', (e) => {
             const val = normalize(e.target.value).trim();
             const res = document.getElementById('botRes');
-            res.innerHTML = "";
-            if (val.length > 2) {
+            if(botTimer) clearTimeout(botTimer);
+            if (val.length <= 2) { res.innerHTML = ""; return; }
+
+            res.innerHTML = `<div style="padding:20px; text-align:center; color:#94a3b8; font-size:0.85rem;" class="animate__animated animate__pulse animate__infinite">Analizando información del STM...</div>`;
+            
+            botTimer = setTimeout(() => {
+                res.innerHTML = "";
                 const words = val.split(" ").filter(w => w.length > 2);
-                sitePages.filter(p => {
+                const filtered = sitePages.filter(p => {
                     const target = normalize(p.t + " " + p.tags);
                     return words.some(w => target.includes(w)) || target.includes(val);
-                }).forEach(p => {
-                    res.innerHTML += `<a href="${p.f}" class="res-item-bot">
-                        <div style="display:flex; align-items:center; gap:10px">
-                            <div style="width:30px; height:30px; border-radius:8px; background:var(--stm-primary); color:white; display:flex; align-items:center; justify-content:center; font-size:0.8rem"><i class="fa-solid ${p.ico}"></i></div>
-                            <div><h4 style="margin:0; font-size:0.85rem">${p.t}</h4><p style="margin:0; font-size:0.7rem; opacity:0.7">${p.d}</p></div>
-                        </div>
-                    </a>`;
                 });
-            }
+                const filteredNews = allNews.filter(n => {
+                    const target = normalize(n.titulo + " " + n.desc);
+                    return words.some(w => target.includes(w)) || target.includes(val);
+                }).slice(0, 5);
+
+                if (filtered.length > 0 || filteredNews.length > 0) {
+                    res.innerHTML = `<p style="font-size:0.8rem; font-weight:800; color:var(--stm-primary); margin-bottom:10px">¡Hola! Encontré esto para vos...</p>`;
+                    filtered.forEach(p => {
+                        res.innerHTML += `<a href="${p.f}" class="res-item-bot" style="display:flex; align-items:center; gap:12px; padding:12px; border-radius:15px; margin-bottom:8px; text-decoration:none; color:inherit; display:block">
+                            <div style="display:flex; align-items:center; gap:10px">
+                                <div style="width:30px; height:30px; border-radius:8px; background:var(--stm-primary); color:white; display:flex; align-items:center; justify-content:center; font-size:0.8rem"><i class="fa-solid ${p.ico}"></i></div>
+                                <div><h4 style="margin:0; font-size:0.85rem">${p.t}</h4><p style="margin:0; font-size:0.7rem; opacity:0.7">${p.d}</p></div>
+                            </div>
+                        </a>`;
+                    });
+                    filteredNews.forEach(n => {
+                        res.innerHTML += `<a href="novedades.html" class="res-item-bot" style="display:block; padding:12px; border-radius:15px; margin-bottom:8px; text-decoration:none; color:inherit; border-left:4px solid #6366f1">
+                            <div style="display:flex; align-items:center; gap:10px">
+                                <div style="width:30px; height:30px; border-radius:8px; background:#6366f1; color:white; display:flex; align-items:center; justify-content:center; font-size:0.8rem"><i class="fa-solid fa-bolt"></i></div>
+                                <div style="flex:1"><h4 style="margin:0; font-size:0.65rem; color:#6366f1; text-transform:uppercase">NOVEDAD</h4><h4 style="margin:0; font-size:0.85rem">${n.titulo}</h4><p style="margin:2px 0 0; font-size:0.7rem; opacity:0.6">${n.fecha}</p></div>
+                                <i class="fa-solid fa-eye" style="color:#94a3b8; font-size:0.8rem"></i>
+                            </div>
+                        </a>`;
+                    });
+                } else {
+                    res.innerHTML = `<p style="font-size:0.8rem; opacity:0.6">No encontré resultados para eso, ¿probamos con otra palabra?</p>`;
+                }
+            }, 600);
         });
 
         function applyConfig(type, value) {
