@@ -771,7 +771,8 @@
         }
 
         function renderFilterOptions() {
-            const rubros = ["TODOS", ...new Set(allConvenios.map(c => c.rubro.toUpperCase()))];
+            const onlyRubros = [...new Set(allConvenios.map(c => c.rubro.toUpperCase()))].sort((a, b) => a.localeCompare(b));
+            const rubros = ["TODOS", ...onlyRubros];
             const cont = document.getElementById('filterOptions');
             cont.innerHTML = "";
             rubros.forEach(r => {
