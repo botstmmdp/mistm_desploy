@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Reclamo Antigüedad - STM</title>
+    <link rel="icon" type="image/png" href="logo nuevo.png">
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    
+    <style>
+        :root {
+            --stm-primary: #4f46e5;
+            --stm-accent: #f59e0b;
+            --nav-bg: #111827;
+            --text-dark: #1e293b;
+            --glass: rgba(255, 255, 255, 0.85);
+            --bg-body: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        body.dark-mode {
+            --stm-primary: #818cf8;
+            --text-dark: #f1f5f9;
+            --bg-body: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --glass: rgba(30, 41, 59, 0.85);
+        }
+        
+        body.dark-mode .info-card { background: #1e293b; border-color: #334155; color: white; }
+        body.dark-mode .claimer-box { background: #0f172a; border-color: #334155; }
+
+        .res-item-bot { background: #f8fafc; border: 1px solid #f1f5f9; transition: 0.3s; }
+        body.dark-mode .res-item-bot { background: #0f172a !important; border-color: #334155 !important; color: white !important; }
+        body.dark-mode .res-item-bot p { color: #94a3b8 !important; }
+
+        .hidden { display: none !important; }
+        .nav-footer, .nav-bar, .bottom-nav { background: #111827 !important; }
+
+        .nav-home-pulse i {
+            animation: home-blink 2s infinite ease-in-out;
+        }
+        @keyframes home-blink {
+            0%, 100% { color: #4b5563; transform: scale(1); }
+            50% { color: white; transform: scale(1.2); }
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-body);
+            margin: 0; padding: 0; min-height: 100vh;
+            color: var(--text-dark); overflow-x: hidden;
+        }
+
+        html { height: 100%; }
+
+        header {
+            padding: 40px 20px 20px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .header-box { display: flex; align-items: center; gap: 15px; }
+        .logo-box {
+            width: 50px; height: 50px; background: white; border-radius: 14px;
+            padding: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .welcome-msg h1 { margin: 0; font-size: 1.25rem; font-weight: 800; }
+        .welcome-msg p { margin: 0; font-size: 0.8rem; opacity: 0.5; }
+
+        .container { padding: 20px 16px 120px; max-width: 600px; margin: 0 auto; }
+
+        .info-card {
+            background: white; border-radius: 26px; padding: 25px;
+            margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            border: 1px solid rgba(255,255,255,0.8);
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section-title {
+            font-size: 0.9rem; font-weight: 800; text-transform: uppercase;
+            color: var(--stm-primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;
+        }
+
+        .claimer-box {
+            background: #f8fafc; border-radius: 20px; padding: 15px;
+            margin-top: 15px; border: 1px solid #f1f5f9;
+        }
+        .claimer-title { font-weight: 800; font-size: 0.85rem; color: var(--stm-primary); margin-bottom: 15px; text-transform: uppercase; }
+        .doc-item { display: flex; gap: 12px; margin-bottom: 10px; font-size: 0.9rem; align-items: center; }
+        .doc-item i { color: var(--stm-accent); font-size: 1.1rem; }
+
+        .whatsapp-bubble {
+            margin-top: 25px; padding: 20px; background: #25D366;
+            border-radius: 20px; color: white; display: flex; align-items: center; gap: 15px;
+        }
+        .whatsapp-bubble i { font-size: 1.8rem; }
+
+        /* --- BOT STYLES --- */
+        .fab-bot {
+            position: fixed; 
+            bottom: 20px;
+            bottom: calc(env(safe-area-inset-bottom, 0px) + 98px);
+            right: 20px;
+            width: 60px; height: 60px;
+            background: #6366f1 !important; color: white !important;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; cursor: pointer; z-index: 1001; 
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+            animation: bounceBot 3s infinite;
+        }
+        .fab-bot i { color: white !important; }
+        @keyframes bounceBot { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+        .bot-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(8px);
+            z-index: 2000; visibility: hidden; opacity: 0; transition: 0.3s;
+        }
+        .bot-modal.active { visibility: visible; opacity: 1; }
+        
+
+        /* --- NAVIGATION --- */
+        .nav-footer {
+            position: fixed; 
+            bottom: 20px;
+            bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+            left: 50%; 
+            transform: translateX(-50%);
+            width: calc(100% - 32px); 
+            max-width: 400px;
+            height: 68px; 
+            background: var(--nav-bg) !important;
+            border-radius: 35px; 
+            padding: 0 10px;
+            display: flex; 
+            justify-content: space-around; 
+            align-items: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
+            z-index: 5000;
+        }
+        .nav-link {
+            text-decoration: none; color: #4b5563; width: 50px; height: 50px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.3s;
+        }
+        .nav-link.active { color: white; background: var(--stm-primary); border-radius: 50%; transform: translateY(-12px); box-shadow: 0 8px 18px rgba(79, 70, 229, 0.4); }
+
+        /* --- NOTIFICATION & UTILS --- */
+        .stm-notify {
+            position: fixed; top: 30px; left: 50%; transform: translateX(-50%) translateY(-100px);
+            background: white; padding: 15px 25px; border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15); border: 1px solid #e2e8f0;
+            z-index: 10000; display: flex; align-items: center; gap: 12px;
+            transition: 0.5s; opacity: 0; pointer-events: none;
+        }
+        .stm-notify.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .stm-notify i { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--stm-primary); color: white; font-size: 0.8rem; }
+
+        #loader-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 9999;
+        }
+        body.dark-mode #loader-wrapper { background: #0f172a; }
+        .loader-logo { width: 100px; height: auto; animation: logo-spin 2s linear infinite; }
+        @keyframes logo-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .bot-input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border-radius: 18px;
+            border: 2px solid #f1f5f9;
+            background: #f8fafc;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            outline: none;
+            transition: 0.3s;
+        }
+        .bot-input:focus {
+            border-color: var(--stm-primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
+        }
+        body.dark-mode .bot-input {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+        body.dark-mode .bot-input:focus {
+            border-color: var(--stm-primary);
+            background: #0f172a;
+        }
+        .bot-search-box {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .bot-search-box > i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--stm-primary);
+            font-size: 1.1rem;
+        }
+        .bot-content {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            padding: 30px 20px 40px;
+            transform: translateY(100%);
+            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        body.dark-mode .bot-content {
+            background: #1e293b;
+            color: #f1f5f9;
+        }
+        .bot-modal.active .bot-content {
+            transform: translateY(0);
+        }
+        .bot-results-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--stm-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader-wrapper">
+        <img src="logo nuevo.png" class="loader-logo" alt="Cargando...">
+        <div style="font-weight:700; color:var(--stm-primary); margin-top:20px">RECLAMO ANTIGÜEDAD</div>
+    </div>
+
+    <header>
+        <div class="header-box">
+            <div class="logo-box"><img src="logo nuevo.png" alt="STM"></div>
+            <div class="welcome-msg">
+                <h1 id="usrGreeting">Antigüedad</h1>
+                <p id="usrDisplayName">Asesoría Judicial</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container animate__animated animate__fadeIn">
+        
+        <div class="info-card">
+            <h2 class="section-title"><i class="fa-solid fa-circle-exclamation"></i> Reclamo 1995-2014</h2>
+            <p style="font-size: 0.95rem; line-height: 1.6;">Podrán iniciar el reclamo judicial con los asesores letrados para servicios prestados en dicho período.</p>
+        </div>
+
+        <div class="info-card">
+            <h2 class="section-title"><i class="fa-solid fa-folder-open"></i> Documentación</h2>
+            <div class="claimer-box">
+                <div class="claimer-title">Activos</div>
+                <div class="doc-item"><i class="fa-solid fa-check"></i> <span>DNI y Últimos 3 recibos</span></div>
+                <div class="doc-item"><i class="fa-solid fa-check"></i> <span>Fecha de ingreso municipal</span></div>
+            </div>
+            <div class="claimer-box" style="margin-top:15px">
+                <div class="claimer-title">Jubilados</div>
+                <div class="doc-item"><i class="fa-solid fa-check"></i> <span>DNI y Recibos IPS</span></div>
+                <div class="doc-item"><i class="fa-solid fa-check"></i> <span>Decreto de baja</span></div>
+            </div>
+        </div>
+
+        <div class="whatsapp-bubble">
+            <i class="fa-brands fa-whatsapp"></i>
+            <div style="font-size:0.85rem; font-weight:600">Se conformarán grupos de 20 personas y se informará vía WhatsApp.</div>
+        </div>
+    </div>
+
+    <!-- BOT & NAV -->
+    <div class="fab-bot" id="fabBotIcon" onclick="toggleBot(true)"><i class="fa-solid fa-robot"></i></div>
+    <div class="bot-modal" id="modalBot" onclick="if(event.target == this) toggleBot(false)">
+        <div class="bot-content">
+            <div style="width: 40px; height: 5px; background: #e2e8f0; border-radius: 10px; margin: -10px auto 20px;"></div>
+            <div class="bot-search-box"><i class="fa-solid fa-robot"></i><input type="text" class="bot-input" placeholder="¿En qué puedo ayudarte?" id="botSearch"></div>
+            <div id="botRes" style="margin-top: 15px; max-height: 40vh; overflow-y:auto;"></div>
+        </div>
+    </div>
+
+    <nav class="nav-footer">
+        <a href="opciones.html" class="nav-link nav-home-pulse"><i class="fa-solid fa-house"></i></a>
+        <a href="contactos.html" class="nav-link"><i class="fa-solid fa-phone"></i></a>
+        <a href="#" class="nav-link" onclick="toggleUser(true)"><i class="fa-solid fa-user"></i></a>
+        <a href="#" class="nav-link" onclick="toggleSettings(true)"><i class="fa-solid fa-gear"></i></a>
+    </nav>
+
+    <!-- MODALS CONFIG & USER -->
+    <div class="bot-modal" id="modalConfig" onclick="if(event.target == this) toggleSettings(false)">
+        <div class="bot-content">
+            <div style="width: 40px; height: 5px; background: #e2e8f0; border-radius: 10px; margin: -10px auto 20px;"></div>
+            <h2 style="font-weight: 800; font-size: 1.3rem; margin-bottom:20px; color: var(--stm-primary);">Configuración</h2>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-weight: 600;">Modo Oscuro</span><input type="checkbox" id="checkDark" onchange="applyConfig('dark', this.checked)" style="width: 20px; height: 20px;"></div>
+                <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-weight: 600;">Ver Asistente Bot</span><input type="checkbox" id="checkBot" onchange="applyConfig('bot', this.checked)" checked style="width: 20px; height: 20px;"></div>
+            </div>
+            <button onclick="toggleSettings(false)" style="margin-top: 30px; width: 100%; padding: 15px; border-radius: 15px; border: none; background: #f1f5f9; font-weight: 800; cursor: pointer;">Cerrar</button>
+        </div>
+    </div>
+
+    <div class="bot-modal" id="modalUser" onclick="if(event.target == this) toggleUser(false)">
+        <div class="bot-content">
+            <div style="width: 40px; height: 5px; background: #e2e8f0; border-radius: 10px; margin: -10px auto 20px;"></div>
+            <h2 style="font-weight: 800; font-size: 1.3rem; margin-bottom:10px; color: var(--stm-primary);">Mi Cuenta</h2>
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <input type="password" id="newPass" class="bot-input" placeholder="Nueva Contraseña" style="padding-left:20px">
+                <input type="password" id="confirmPass" class="bot-input" placeholder="Confirmar Nueva Contraseña" style="padding-left:20px">
+                <button onclick="changePassword()" style="padding: 18px; border-radius: 18px; border: none; background: var(--stm-primary); color: white; font-weight: 800; cursor: pointer;">Actualizar Contraseña</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top:20px;">
+                <button onclick="logout()" style="padding: 15px; border-radius: 18px; border: 2px solid #ef4444; background: transparent; color: #ef4444; font-weight: 800; cursor: pointer;">Cerrar Sesión</button>
+                <button onclick="toggleUser(false)" style="padding: 15px; border: none; background: transparent; color: #64748b; font-weight: 600; cursor: pointer;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Verificación de Acceso
+        if (localStorage.getItem('isLogged') !== 'true') { window.location.href = 'index.html'; }
+
+        const sitePages = [
+            { t: "Actividades STM", d: "Beneficios de temporada y eventos", f: "actividades.html", tags: "libros bolsa tiles guardapolvos escolares mochilas canasta educacion hijos accion social escolaridad beneficio primaria secundaria", ico: "fa-calendar-check" },
+            { t: "Reclamo Ganancias", d: "Información judicial y trámites", f: "reclamoganancias.html", tags: "ganancias impuesto afip arca ips documentos cronograma", ico: "fa-scale-balanced" },
+            { t: "Reclamo Antigüedad", d: "Reclamos judiciales 1995-2014", f: "reclamoantiguedad.html", tags: "antiguedad reclamo judicial abogados demanda activos jubilados", ico: "fa-clock-rotate-left" },
+            { t: "Servicios STM", d: "Beneficios, camping, subsidios y más", f: "servicios.html", tags: "camping quinchos piletas préstamos proveeduría casamiento nacimiento útiles libros guardapolvos farmacia legal asesoría", ico: "fa-screwdriver-wrench" },
+            { t: "Convenios Especiales", d: "Descuentos en comercios y salud", f: "convenios.html", tags: "descuentos convenios beneficios automotor salud veterinaria recreacion comercios", ico: "fa-handshake" },
+            { t: "Autoridades", d: "Cuerpo directivo y secretarías", f: "autoridades.html", tags: "quien mando jefe directiva secretario conducción", ico: "fa-users-gear" },
+            { t: "Afiliación Online", d: "Inicia tu trámite para sumarte al sindicato", f: "afiliacion.html", tags: "alta inscripción socio sindicato ficha nueva sumarse", ico: "fa-user-plus" },
+            { t: "Consulta de Trámite", d: "Estado de tus gestiones y expedientes", f: "consulta.html", tags: "ver estado proceso seguimiento expediente trámite", ico: "fa-magnifying-glass-chart" },
+            { t: "Contactos e Internos", d: "Directorio de internos y secretarías", f: "contactos.html", tags: "teléfono oficina directivos secretario ayuda interno llamar", ico: "fa-address-book" },
+            { t: "Género y Diversidad", d: "Protección y bienestar integral", f: "generoydiversidad.html", tags: "ayuda derechos protección género diversidad violencia bienestar", ico: "fa-hand-holding-heart" },
+            { t: "Mini Turismo", d: "Viajes y escapadas para afiliados", f: "miniturismo.html", tags: "viaje turismo miramar escapada fin de semana costa hotel", ico: "fa-umbrella-beach" },
+            { t: "Capacitación", d: "Formación y becas para estudiantes", f: "capacitacion.html", tags: "estudio terciario universitario beca kit utiles voucher formacion", ico: "fa-graduation-cap" },
+                        { t: "Novedades STM", d: "Últimas noticias y comunicados", f: "novedades.html", tags: "noticias novedad aviso boletin comunicado sorteos informacion ultimo", ico: "fa-newspaper" },
+            { t: "Inicio", d: "Panel principal de opciones", f: "opciones.html", tags: "inicio dashboard panel principal volver", ico: "fa-house" }
+        ];
+
+        const USER_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznHgKBFeFZMc8IVRHLrTr9RcRROqB4DasbNFPyD3XDxFt9JYT9uzN0tqKNfRTTpOlqBg/exec';
+
+        
+        // --- NOVEDADES PARA EL BOT ---
+        const NEWS_SHEET_ID = "16Y723omF3l38Ntq0MUSh-ZMYnRIvYmctrscidox5ktc";
+        const NEWS_GID = "195669740";
+        const NEWS_URL = `https://docs.google.com/spreadsheets/d/${NEWS_SHEET_ID}/gviz/tq?tqx=out:json&gid=${NEWS_GID}`;
+        let allNews = [];
+
+        async function fetchNews() {
+            if (allNews.length > 0) return;
+            try {
+                const res = await fetch(NEWS_URL);
+                const text = await res.text();
+                const json = JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1));
+                allNews = (json.table.rows || []).map(r => ({
+                    titulo: (r.c[1]?.v || "").toString(),
+                    desc:   (r.c[2]?.v || "").toString(),
+                    fecha:  (r.c[3]?.f || r.c[3]?.v || "").toString(),
+                    activo: (r.c[4]?.v || "").toString().trim().toUpperCase() === "SI"
+                })).filter(n => n.activo).reverse();
+            } catch (e) { console.warn("Bot: no se pudieron cargar novedades", e); }
+        }
+
+        function normalize(str) { return (str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
+        function toggleBot(show) { document.getElementById('modalBot').classList.toggle('active', show); if(show) document.getElementById('botSearch').focus();
+            fetchNews(); }
+        function toggleSettings(show) { document.getElementById('modalConfig').classList.toggle('active', show); }
+        function toggleUser(show) { document.getElementById('modalUser').classList.toggle('active', show); if(show) document.getElementById('newPass').focus(); }
+
+        function showNotify(msg, type = 'info') {
+            const div = document.createElement('div');
+            div.className = 'stm-notify';
+            const ico = type === 'error' ? 'fa-triangle-exclamation' : 'fa-check';
+            const bg = type === 'error' ? '#ef4444' : '#10b981';
+            div.innerHTML = `<i class="fa-solid ${ico}" style="background:${bg}"></i> <span>${msg}</span>`;
+            document.body.appendChild(div);
+            setTimeout(() => div.classList.add('show'), 10);
+            setTimeout(() => { div.classList.remove('show'); setTimeout(() => div.remove(), 500); }, 3000);
+        }
+
+        function applyConfig(type, value) {
+            localStorage.setItem('cfg_' + type, value);
+            if (type === 'dark') document.body.classList.toggle('dark-mode', value);
+            if (type === 'bot') document.getElementById('fabBotIcon').classList.toggle('hidden', !value);
+        }
+
+        async function changePassword() {
+            const p1 = document.getElementById('newPass').value;
+            const p2 = document.getElementById('confirmPass').value;
+            const btn = document.querySelector('#modalUser button[onclick="changePassword()"]');
+            const usrID = localStorage.getItem('usrID');
+            
+            if(!p1 || !p2) { showNotify("Por favor completa ambos campos.", "error"); return; }
+            if(p1 !== p2) { showNotify("Las contraseñas no coinciden.", "error"); return; }
+            if (!usrID) { showNotify("Sesión inválida, reingresa", "error"); return; }
+
+            const originalText = btn.innerText;
+            btn.innerText = "Procesando...";
+            btn.style.pointerEvents = "none";
+
+            try {
+                await fetch(USER_SCRIPT_URL, {
+                    method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'UPDATE_PASSWORD', id: usrID, newPass: p1 })
+                });
+                localStorage.setItem('usrPass', p1);
+                showNotify("¡Contraseña actualizada en la nube!", "success");
+                btn.innerText = "¡Listo! ✓";
+                btn.style.background = "#10b981";
+                setTimeout(() => {
+                    toggleUser(false);
+                    btn.innerText = originalText; btn.style.background = "var(--stm-primary)";
+                    btn.style.pointerEvents = "auto";
+                    document.getElementById('newPass').value = ""; document.getElementById('confirmPass').value = "";
+                }, 1500);
+            } catch (err) {
+                showNotify("Error de conexión", "error");
+                btn.innerText = originalText; btn.style.pointerEvents = "auto";
+            }
+        }
+
+        document.getElementById('botSearch').addEventListener('input', (e) => {
+            const val = normalize(e.target.value).trim();
+            const res = document.getElementById('botRes');
+            res.innerHTML = "";
+            if (val.length > 2) {
+                const words = val.split(" ").filter(w => w.length > 2);
+                sitePages.filter(p => {
+                    const target = normalize(p.t + " " + p.tags);
+                    return words.some(w => target.includes(w)) || target.includes(val);
+                }).forEach(p => {
+                    res.innerHTML += `<a href="${p.f}" class="res-item-bot" style="display:flex; align-items:center; gap:12px; padding:12px; border-radius:15px; margin-bottom:8px; text-decoration:none; color:inherit; display:block">
+                        <div style="display:flex; align-items:center; gap:10px">
+                            <div style="width:30px; height:30px; border-radius:8px; background:var(--stm-primary); color:white; display:flex; align-items:center; justify-content:center; font-size:0.8rem"><i class="fa-solid ${p.ico}"></i></div>
+                            <div><h4 style="margin:0; font-size:0.85rem">${p.t}</h4><p style="margin:0; font-size:0.7rem; opacity:0.7">${p.d}</p></div>
+                        </div>
+                    </a>`;
+                });
+            }
+        });
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        window.addEventListener('load', () => {
+            const cfg = { dark: localStorage.getItem('cfg_dark') === 'true', bot: localStorage.getItem('cfg_bot') !== 'false' };
+            document.body.classList.toggle('dark-mode', cfg.dark);
+            document.getElementById('fabBotIcon').classList.toggle('hidden', !cfg.bot);
+            const loader = document.getElementById('loader-wrapper');
+            const savedName = localStorage.getItem('usrName') || "Afiliado STM";
+            const h = new Date().getHours();
+            const greet = h < 12 ? "¡Buen día!" : h < 20 ? "¡Buenas tardes!" : "¡Buenas noches!";
+            document.getElementById('usrGreeting').innerText = greet;
+            document.getElementById('usrDisplayName').innerText = savedName;
+            setTimeout(() => { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }, 600);
+        });
+    </script>
+</body>
+</html>

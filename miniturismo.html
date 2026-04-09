@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Mini Turismo STM - Miramar 2026</title>
+    <link rel="icon" type="image/png" href="logo nuevo.png">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <style>
+        :root {
+            --stm-primary: #4f46e5;
+            --stm-accent: #f59e0b;
+            --nav-bg: #111827;
+            --text-dark: #1e293b;
+            --glass: rgba(255, 255, 255, 0.85);
+            --bg-body: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        body.dark-mode {
+            --stm-primary: #818cf8;
+            --text-dark: #f1f5f9;
+            --bg-body: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --glass: rgba(30, 41, 59, 0.85);
+        }
+
+        .hidden { display: none !important; }
+
+        .nav-home-pulse i {
+            animation: home-blink 2s infinite ease-in-out;
+        }
+
+        @keyframes home-blink {
+            0%, 100% { color: #4b5563; transform: scale(1); }
+            50% { color: white; transform: scale(1.2); }
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-body);
+            margin: 0; padding: 0; min-height: 100vh;
+            color: var(--text-dark); overflow-x: hidden;
+        }
+
+        html { height: 100%; }
+
+        header {
+            padding: 40px 20px 20px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            position: sticky; top: 0; z-index: 100;
+        }
+
+        body.dark-mode header {
+            background: rgba(15, 23, 42, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-box { display: flex; align-items: center; gap: 15px; }
+
+        .logo-box {
+            width: 50px; height: 50px; background: white; border-radius: 14px;
+            padding: 6px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+        .header-text h1 { font-size: 1.2rem; font-weight: 800; margin: 0; color: var(--stm-primary); }
+        .header-text p { font-size: 0.8rem; font-weight: 500; margin: 0; opacity: 0.7; }
+
+        .container { padding: 25px 20px 145px; max-width: 600px; margin: 0 auto; }
+
+        /* --- TURISMO CARDS --- */
+        .card-trip {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+        }
+
+        .trip-banner {
+            width: 100%; height: 180px; border-radius: 20px;
+            background: linear-gradient(rgba(79, 70, 229, 0.1), rgba(79, 70, 229, 0.05));
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px; overflow: hidden; position: relative;
+        }
+
+        .trip-banner i { font-size: 4rem; color: var(--stm-primary); opacity: 0.2; }
+
+        .trip-banner .banner-text {
+            position: absolute; font-weight: 900; font-size: 3rem;
+            color: var(--stm-primary); opacity: 0.1; text-transform: uppercase; letter-spacing: 5px;
+        }
+
+        .trip-header { margin-bottom: 25px; }
+
+        .trip-badge {
+            display: inline-block; background: #eef2ff; color: #4f46e5;
+            padding: 6px 14px; border-radius: 10px; font-size: 0.75rem; font-weight: 700;
+            margin-bottom: 8px; text-transform: uppercase;
+        }
+
+        body.dark-mode .trip-badge { background: rgba(79, 70, 229, 0.2); color: #818cf8; }
+
+        .trip-title { font-size: 1.4rem; font-weight: 800; margin: 0 0 10px; }
+
+        .trip-info-row { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; }
+
+        .info-pill {
+            display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600;
+            opacity: 0.8; background: rgba(0, 0, 0, 0.03); padding: 8px 12px; border-radius: 12px;
+        }
+
+        .itinerary-box {
+            background: rgba(255, 255, 255, 0.5); border-radius: 20px; padding: 20px;
+            margin-bottom: 25px; border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark-mode .itinerary-box { background: rgba(0, 0, 0, 0.2); border-color: rgba(255,255,255,0.1); }
+
+        .itinerary-day { margin-bottom: 20px; }
+
+        .day-title {
+            font-weight: 800; font-size: 0.95rem; color: var(--stm-primary);
+            display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+        }
+
+        .itinerary-list { margin: 0; padding-left: 20px; font-size: 0.9rem; line-height: 1.8; }
+        .itinerary-list li { margin-bottom: 8px; list-style-type: none; position: relative; }
+        .itinerary-list li::before { content: "•"; color: var(--stm-primary); position: absolute; left: -15px; font-weight: bold; }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%);
+            border: 1px solid #fde68a; padding: 20px; border-radius: 20px; margin: 20px 0; color: #92400e;
+        }
+
+        body.dark-mode .highlight-box { background: linear-gradient(135deg, #78350f 0%, #451a03 100%); border-color: #92400e; color: #fef3c7; }
+
+        .form-btn {
+            display: block; width: 100%; background: var(--stm-primary); color: white;
+            text-align: center; padding: 18px; border-radius: 18px; text-decoration: none;
+            font-weight: 800; font-size: 1rem; box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3); margin-top: 15px;
+        }
+
+        /* --- BOT & NAV (STRICT) --- */
+        .fab-bot {
+            position: fixed; 
+            bottom: 20px;
+            bottom: calc(env(safe-area-inset-bottom, 0px) + 98px);
+            right: 20px; 
+            width: 60px; height: 60px;
+            background: #6366f1 !important; color: white !important; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+            cursor: pointer; z-index: 1001; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+            animation: bounceBot 3s infinite;
+        }
+        @keyframes bounceBot { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+        .bot-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(8px);
+            z-index: 2000; visibility: hidden; opacity: 0; transition: 0.3s;
+        }
+        .bot-modal.active { visibility: visible; opacity: 1; }
+        
+
+        .nav-footer {
+            position: fixed; 
+            bottom: 20px;
+            bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+            left: 50%; 
+            transform: translateX(-50%);
+            width: calc(100% - 32px); 
+            max-width: 400px; 
+            height: 68px;
+            background: #111827 !important; 
+            border-radius: 35px; 
+            padding: 0 10px;
+            display: flex; 
+            justify-content: space-around; 
+            align-items: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
+            z-index: 5000;
+        }
+        .nav-link {
+            text-decoration: none; color: #4b5563; width: 50px; height: 50px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: 0.3s;
+        }
+        .nav-link.active { color: white; background: var(--stm-primary); border-radius: 50%; transform: translateY(-12px); box-shadow: 0 8px 18px rgba(79, 70, 229, 0.4); }
+
+        /* Loader */
+        #loader-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white;
+            display: flex; align-items: center; justify-content: center; z-index: 9999; transition: 0.5s;
+        }
+        body.dark-mode #loader-wrapper { background: #0f172a; }
+        .loader-logo { width: 80px; animation: logo-spin 2s linear infinite; }
+        @keyframes logo-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .bot-input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border-radius: 18px;
+            border: 2px solid #f1f5f9;
+            background: #f8fafc;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            outline: none;
+            transition: 0.3s;
+        }
+        .bot-input:focus {
+            border-color: var(--stm-primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
+        }
+        body.dark-mode .bot-input {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+        body.dark-mode .bot-input:focus {
+            border-color: var(--stm-primary);
+            background: #0f172a;
+        }
+        .bot-search-box {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .bot-search-box > i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--stm-primary);
+            font-size: 1.1rem;
+        }
+        .bot-content {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            padding: 30px 20px 40px;
+            transform: translateY(100%);
+            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        body.dark-mode .bot-content {
+            background: #1e293b;
+            color: #f1f5f9;
+        }
+        .bot-modal.active .bot-content {
+            transform: translateY(0);
+        }
+        .bot-results-title {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--stm-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="loader-wrapper">
+        <img src="logo nuevo.png" class="loader-logo" alt="STM">
+    </div>
+
+    <header>
+        <div class="header-box">
+            <div class="logo-box">
+                <img src="logo nuevo.png" alt="STM Logo">
+            </div>
+            <div class="header-text">
+                <h1>Mini Turismo</h1>
+                <p id="usrDisplayName">Afiliado STM</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container animate__animated animate__fadeIn">
+        
+        <div class="card-trip">
+            <div class="trip-header">
+                <span class="trip-badge">Escapada de Fin de Semana</span>
+                <h2 class="trip-title">VIAJE A MIRAMAR</h2>
+                <div class="trip-info-row">
+                    <div class="info-pill"><i class="fa-solid fa-calendar-day"></i> 18-19 Abril</div>
+                    <div class="info-pill"><i class="fa-solid fa-hotel"></i> Hotel Costanera</div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div style="font-weight: 800; font-size: 1.1rem; margin-bottom: 5px;">VALOR: $84.000</div>
+                <div style="font-size: 0.9rem; opacity: 0.9;">A pagar con orden de proveeduría hasta en 3 cuotas.</div>
+            </div>
+
+            <div class="itinerary-box">
+                <div class="itinerary-day">
+                    <div class="day-title"><i class="fa-solid fa-bus"></i> SÁBADO 18</div>
+                    <ul class="itinerary-list">
+                        <li>Salida por la mañana desde la Sede Gremial (Moreno 4359).</li>
+                        <li>Llegada y visita al Bosque Energético.</li>
+                        <li>Check-in en Hotel Costanera (frente al mar).</li>
+                        <li>Almuerzo incluido en el hotel.</li>
+                        <li>Tarde libre para disfrutar Miramar.</li>
+                        <li>Cena Show incluida.</li>
+                    </ul>
+                </div>
+
+                <div class="itinerary-day">
+                    <div class="day-title"><i class="fa-solid fa-sun"></i> DOMINGO 19</div>
+                    <ul class="itinerary-list">
+                        <li>Desayuno incluido.</li>
+                        <li>Mañana de playa y paseos.</li>
+                        <li>Asado de despedida.</li>
+                        <li>Regreso a Mar del Plata por la tarde.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 25px;">
+                <h4 style="font-weight: 800; margin-bottom: 10px;">INCLUYE:</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div style="font-size: 0.85rem; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> Traslado
+                    </div>
+                    <div style="font-size: 0.85rem; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> Alojamiento
+                    </div>
+                    <div style="font-size: 0.85rem; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> Comidas
+                    </div>
+                    <div style="font-size: 0.85rem; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-circle-check" style="color: #10b981;"></i> Cena Show
+                    </div>
+                </div>
+            </div>
+
+            <p style="font-size: 0.9rem; margin-bottom: 25px; border-left: 4px solid var(--stm-primary); padding-left: 15px;">
+                <strong>Cupos Limitados.</strong> Pueden viajar afiliado/a y grupo familiar directo (máximo 2 personas extra).
+            </p>
+
+            <a href="https://forms.gle/ePJKzAKvqUkzQiV48" target="_blank" class="form-btn">Pre-inscripción Online <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+    </main>
+
+    <!-- FAB BOT -->
+    <div class="fab-bot" id="fabBotIcon" onclick="toggleBot(true)"><i class="fa-solid fa-robot"></i></div>
+
+    <!-- TAB BAR NAV (STRICT) -->
+    <nav class="nav-footer">
+        <a href="opciones.html" class="nav-link nav-home-pulse"><i class="fa-solid fa-house"></i></a>
+        <a href="contactos.html" class="nav-link"><i class="fa-solid fa-phone"></i></a>
+        <a href="#" class="nav-link" onclick="toggleUser(true)"><i class="fa-solid fa-user"></i></a>
+        <a href="#" class="nav-link" onclick="toggleSettings(true)"><i class="fa-solid fa-gear"></i></a>
+    </nav>
+
+    <!-- BOT MODAL -->
+    <div class="bot-modal" id="modalBot" onclick="if(event.target == this) toggleBot(false)">
+        <div class="bot-content">
+            <div style="width: 40px; height: 5px; background: #e2e8f0; border-radius: 10px; margin: -10px auto 25px;"></div>
+            <div class="bot-search-box">
+                <i class="fa-solid fa-robot"></i>
+                <input type="text" class="bot-input" id="botSearch" placeholder="¿En qué puedo ayudarte?">
+            </div>
+            <div id="botRes" style="margin-top: 15px; max-height: 40vh; overflow-y:auto;"></div>
+        </div>
+    </div>
+
+    <!-- MODAL USER -->
+    <div class="bot-modal" id="modalUser" onclick="if(event.target == this) toggleUser(false)">
+        <div class="bot-content">
+            <div style="width: 40px; height: 5px; background: #e2e8f0; border-radius: 10px; margin: -10px auto 20px;"></div>
+            <h2 style="font-weight: 800; font-size: 1.3rem; margin-bottom:10px; color: var(--stm-primary);">Mi Cuenta</h2>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <input type="password" id="newPass" class="bot-input" placeholder="Nueva Contraseña" style="padding-left:20px">
+                <input type="password" id="confirmPass" class="bot-input" placeholder="Confirmar Nueva Contraseña" style="padding-left:20px">
+                <button onclick="changePassword()" style="padding: 18px; border-radius: 18px; border: none; background: var(--stm-primary); color: white; font-weight: 800; cursor: pointer; box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);">Actualizar Contraseña</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top:20px;">
+                <button onclick="logout()" style="padding: 15px; border-radius: 18px; border: 2px solid #ef4444; background: transparent; color: #ef4444; font-weight: 800; cursor: pointer;">Cerrar Sesión</button>
+                <button onclick="toggleUser(false)" style="padding: 15px; border: none; background: transparent; color: #64748b; font-weight: 600; cursor: pointer;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CONFIG -->
+    <div class="bot-modal" id="modalConfig" onclick="if(event.target == this) toggleSettings(false)">
+        <div class="bot-content">
+            <div style="width: 40px; height: 5px; background: #e2e8f0; border-radius: 10px; margin: -10px auto 20px;"></div>
+            <h2 style="font-weight: 800; font-size: 1.3rem; margin-bottom:20px; color: var(--stm-primary);">Configuración</h2>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-weight: 600;">Modo Oscuro</span><input type="checkbox" id="checkDark" onchange="applyConfig('dark', this.checked)" style="width: 20px; height: 20px;"></div>
+                <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-weight: 600;">Ver Asistente Bot</span><input type="checkbox" id="checkBot" onchange="applyConfig('bot', this.checked)" checked style="width: 20px; height: 20px;"></div>
+            </div>
+            <button onclick="toggleSettings(false)" style="margin-top: 30px; width: 100%; padding: 15px; border-radius: 15px; border: none; background: #f1f5f9; font-weight: 800; cursor: pointer;">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        // Auth Check
+        if (localStorage.getItem('isLogged') !== 'true') { window.location.href = 'index.html'; }
+
+        // Bot Search Data
+        const sitePages = [
+            { t: "Actividades STM", d: "Beneficios de temporada y eventos", f: "actividades.html", tags: "libros bolsa tiles guardapolvos escolares mochilas canasta educacion hijos accion social escolaridad beneficio primaria secundaria", ico: "fa-calendar-check" },
+            { t: "Reclamo Ganancias", d: "Información judicial y trámites", f: "reclamoganancias.html", tags: "ganancias impuesto afip arca ips documentos cronograma", ico: "fa-scale-balanced" },
+            { t: "Reclamo Antigüedad", d: "Reclamos judiciales 1995-2014", f: "reclamoantiguedad.html", tags: "antiguedad reclamo judicial abogados demanda activos jubilados", ico: "fa-clock-rotate-left" },
+            { t: "Servicios STM", d: "Beneficios, camping, subsidios y más", f: "servicios.html", tags: "camping quinchos piletas préstamos proveeduría casamiento nacimiento útiles libros guardapolvos farmacia legal asesoría", ico: "fa-screwdriver-wrench" },
+            { t: "Convenios Especiales", d: "Descuentos en comercios y salud", f: "convenios.html", tags: "descuentos convenios beneficios automotor salud veterinaria recreacion comercios", ico: "fa-handshake" },
+            { t: "Autoridades", d: "Cuerpo directivo y secretarías", f: "autoridades.html", tags: "quien mando jefe directiva secretario conducción", ico: "fa-users-gear" },
+            { t: "Contactos e Internos", d: "Directorio de internos y secretarías", f: "contactos.html", tags: "teléfono oficina directivos secretario ayuda interno llamar", ico: "fa-address-book" },
+            { t: "Género y Diversidad", d: "Protección y bienestar integral", f: "generoydiversidad.html", tags: "ayuda derechos protección género diversidad violencia bienestar", ico: "fa-hand-holding-heart" },
+            { t: "Mini Turismo", d: "Viajes y escapadas para afiliados", f: "miniturismo.html", tags: "viaje turismo miramar escapada fin de semana costa hotel", ico: "fa-umbrella-beach" },
+            { t: "Capacitación", d: "Formación y becas para estudiantes", f: "capacitacion.html", tags: "estudio terciario universitario beca kit utiles voucher formacion", ico: "fa-graduation-cap" },
+                        { t: "Novedades STM", d: "Últimas noticias y comunicados", f: "novedades.html", tags: "noticias novedad aviso boletin comunicado sorteos informacion ultimo", ico: "fa-newspaper" },
+            { t: "Inicio", d: "Panel principal de opciones", f: "opciones.html", tags: "inicio dashboard panel principal volver", ico: "fa-house" }
+        ];
+
+        const USER_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznHgKBFeFZMc8IVRHLrTr9RcRROqB4DasbNFPyD3XDxFt9JYT9uzN0tqKNfRTTpOlqBg/exec';
+
+        
+        // --- NOVEDADES PARA EL BOT ---
+        const NEWS_SHEET_ID = "16Y723omF3l38Ntq0MUSh-ZMYnRIvYmctrscidox5ktc";
+        const NEWS_GID = "195669740";
+        const NEWS_URL = `https://docs.google.com/spreadsheets/d/${NEWS_SHEET_ID}/gviz/tq?tqx=out:json&gid=${NEWS_GID}`;
+        let allNews = [];
+
+        async function fetchNews() {
+            if (allNews.length > 0) return;
+            try {
+                const res = await fetch(NEWS_URL);
+                const text = await res.text();
+                const json = JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1));
+                allNews = (json.table.rows || []).map(r => ({
+                    titulo: (r.c[1]?.v || "").toString(),
+                    desc:   (r.c[2]?.v || "").toString(),
+                    fecha:  (r.c[3]?.f || r.c[3]?.v || "").toString(),
+                    activo: (r.c[4]?.v || "").toString().trim().toUpperCase() === "SI"
+                })).filter(n => n.activo).reverse();
+            } catch (e) { console.warn("Bot: no se pudieron cargar novedades", e); }
+        }
+
+        function normalize(str) { return (str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
+        function toggleBot(show) { document.getElementById('modalBot').classList.toggle('active', show); if (show) document.getElementById('botSearch').focus();
+            fetchNews(); }
+        function toggleUser(show) { document.getElementById('modalUser').classList.toggle('active', show); if (show) document.getElementById('newPass').focus(); }
+        function toggleSettings(show) { document.getElementById('modalConfig').classList.toggle('active', show); }
+
+        function showNotify(msg, type = 'info') {
+            const div = document.createElement('div'); div.className = 'stm-notify';
+            const ico = type === 'error' ? 'fa-triangle-exclamation' : 'fa-check';
+            const bg = type === 'error' ? '#ef4444' : '#10b981';
+            div.style = "position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-100px); background:white; padding:15px 25px; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,0.1); z-index:10000; display:flex; align-items:center; gap:10px; transition:0.4s; opacity:0;";
+            div.innerHTML = `<i class="fa-solid ${ico}" style="width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:${bg}; color:white; font-size:0.8rem"></i> <span style="font-weight:600; font-size:0.9rem">${msg}</span>`;
+            document.body.appendChild(div); setTimeout(() => { div.style.transform = 'translateX(-50%) translateY(0)'; div.style.opacity = '1'; }, 10);
+            setTimeout(() => { div.style.transform = 'translateX(-50%) translateY(-100px)'; div.style.opacity = '0'; setTimeout(() => div.remove(), 500); }, 3000);
+        }
+
+        function applyConfig(type, value) {
+            localStorage.setItem('cfg_' + type, value);
+            if (type === 'dark') document.body.classList.toggle('dark-mode', value);
+            if (type === 'bot') document.getElementById('fabBotIcon').classList.toggle('hidden', !value);
+        }
+
+async function changePassword() {
+    const p1 = document.getElementById('newPass').value;
+    const p2 = document.getElementById('confirmPass').value;
+    const btn = document.querySelector('#modalUser button[onclick="changePassword()"]');
+    const usrID = localStorage.getItem('usrID');
+    if(!p1 || !p2) { showNotify("Completa todos los campos.", "error"); return; }
+    if(p1 !== p2) { showNotify("Las contraseñas no coinciden.", "error"); return; }
+    if (!usrID) { showNotify("Sesión inválida, reingresa", "error"); return; }
+    const originalText = btn.innerText; btn.innerText = "Procesando..."; btn.style.pointerEvents = "none";
+    try {
+        await fetch(USER_SCRIPT_URL, {
+            method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'UPDATE_PASSWORD', id: usrID, newPass: p1 })
+        });
+        localStorage.setItem('usrPass', p1);
+        showNotify("¡Contraseña actualizada!", "success");
+        btn.innerText = "¡Listo! ✓"; btn.style.background = "#10b981";
+        setTimeout(() => {
+            toggleUser(false);
+            btn.innerText = originalText; btn.style.background = "var(--stm-primary)";
+            btn.style.pointerEvents = "auto";
+            document.getElementById('newPass').value = ""; document.getElementById('confirmPass').value = "";
+        }, 1500);
+    } catch (err) {
+        showNotify("Error de conexión", "error");
+        btn.innerText = originalText; btn.style.pointerEvents = "auto";
+    }
+}
+
+        let searchTimer = null;
+        document.getElementById('botSearch').addEventListener('input', (e) => {
+            const val = normalize(e.target.value).trim();
+            const res = document.getElementById('botRes');
+            if (searchTimer) clearTimeout(searchTimer);
+            if (val.length <= 2) { res.innerHTML = ""; return; }
+            res.innerHTML = `<div style="padding:20px; text-align:center; color:#94a3b8; font-size:0.85rem;">Buscando...</div>`;
+            searchTimer = setTimeout(() => {
+                res.innerHTML = "";
+                const words = val.split(" ").filter(w => w.length > 2);
+                sitePages.filter(p => {
+                    const target = normalize(p.t + " " + p.tags);
+                    return words.some(w => target.includes(w)) || target.includes(val);
+                }).forEach(p => {
+                    res.innerHTML += `<a href="${p.f}" class="res-item-bot" style="display:flex; align-items:center; gap:12px; padding:12px; border-radius:15px; margin-bottom:8px; text-decoration:none; color:inherit;">
+                        <div style="background:var(--stm-primary); color:white; width:35px; height:35px; border-radius:10px; display:flex; align-items:center; justify-content:center;"><i class="fa-solid ${p.ico}"></i></div>
+                        <div><h4 style="margin:0; font-size:0.85rem">${p.t}</h4><p style="margin:0; font-size:0.7rem; opacity:0.7">${p.d}</p></div>
+                    </a>`;
+                });
+            }, 500);
+        });
+
+        function logout() { localStorage.clear(); window.location.href = 'index.html'; }
+
+        window.addEventListener('load', () => {
+            const cfg = { dark: localStorage.getItem('cfg_dark') === 'true', bot: localStorage.getItem('cfg_bot') !== 'false' };
+            document.body.classList.toggle('dark-mode', cfg.dark);
+            if(document.getElementById('checkDark')) document.getElementById('checkDark').checked = cfg.dark;
+            if(document.getElementById('checkBot')) document.getElementById('checkBot').checked = cfg.bot;
+            if(document.getElementById('fabBotIcon')) document.getElementById('fabBotIcon').classList.toggle('hidden', !cfg.bot);
+            const savedName = localStorage.getItem('usrName') || "Afiliado STM";
+            document.getElementById('usrDisplayName').innerText = savedName;
+            setTimeout(() => { document.getElementById('loader-wrapper').style.opacity = '0'; setTimeout(() => document.getElementById('loader-wrapper').style.display = 'none', 500); }, 600);
+        });
+    </script>
+</body>
+
+</html>

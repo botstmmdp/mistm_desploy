@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Convenios STM - Beneficios Exclusivos</title>
+    <link rel="icon" type="image/png" href="logo nuevo.png">
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    
+    <style>
+        :root {
+            --stm-primary: #4f46e5;
+            --stm-accent: #f59e0b;
+            --nav-bg: #111827;
+            --text-dark: #1e293b;
+            --glass: rgba(255, 255, 255, 0.85);
+            --bg-body: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        body.dark-mode {
+            --stm-primary: #818cf8;
+            --text-dark: #f1f5f9;
+            --bg-body: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --glass: rgba(30, 41, 59, 0.85);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-body);
+            margin: 0; padding: 0; min-height: 100vh;
+            color: var(--text-dark); overflow-x: hidden;
+        }
+
+        header {
+            padding: 40px 20px 20px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .header-box { display: flex; align-items: center; gap: 15px; }
+        .logo-box {
+            width: 50px; height: 50px; background: white; border-radius: 14px;
+            padding: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .welcome-msg h1 { margin: 0; font-size: 1.25rem; font-weight: 800; }
+        .welcome-msg p { margin: 0; font-size: 0.8rem; opacity: 0.6; font-weight: 600; color: var(--stm-primary); }
+
+        .container { padding: 20px 16px 140px; max-width: 800px; margin: 0 auto; }
+
+        /* Search Section */
+        .search-container { margin-bottom: 25px; position: relative; }
+        .search-box {
+            width: 100%; padding: 18px 60px 18px 50px;
+            border-radius: 24px; border: 1px solid rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.7); backdrop-filter: blur(20px);
+            font-family: inherit; font-size: 1rem; font-weight: 600;
+            color: var(--text-dark); outline: none; transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04), inset 0 0 0 1px rgba(255,255,255,0.2);
+        }
+        .search-box:focus { 
+            border-color: var(--stm-primary); 
+            background: white; 
+            box-shadow: 0 15px 35px rgba(79, 70, 229, 0.12);
+            transform: translateY(-2px);
+        }
+        .search-container i { position: absolute; left: 22px; top: 50%; transform: translateY(-50%); color: var(--stm-primary); font-size: 1.1rem; z-index: 10; }
+        
+        body.dark-mode .search-box { 
+            background: rgba(30, 41, 59, 0.7); 
+            border-color: rgba(255, 255, 255, 0.05); 
+            color: white; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        body.dark-mode .search-box:focus { background: rgba(30, 41, 59, 0.9); }
+
+        /* Convenios Grid & Cards */
+        .convenios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 16px;
+        }
+
+        .card-flip {
+            height: 190px;
+            perspective: 1000px;
+            cursor: pointer;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-style: preserve-3d;
+        }
+
+        .card-flip.is-flipped .card-inner { 
+            transform: rotateY(180deg);
+            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.2);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 22px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .card-front { 
+            background: rgba(255,255,255,0.9); 
+            backdrop-filter: blur(10px);
+            color: var(--text-dark); 
+            background: radial-gradient(circle at top left, rgba(255,255,255,1), rgba(248,250,252,1));
+        }
+        .card-back { 
+            background: linear-gradient(135deg, #4f46e5, #818cf8); 
+            color: white; 
+            transform: rotateY(180deg); 
+            padding: 20px;
+            display: flex;
+            align-items: center; justify-content: center;
+        }
+
+        body.dark-mode .card-front { 
+            background: linear-gradient(135deg, #1e293b, #0f172a); 
+            border-color: rgba(255,255,255,0.05); 
+        }
+        body.dark-mode .card-back { 
+            background: linear-gradient(135deg, #6366f1, #4338ca); 
+        }
+
+        .rubro-tag {
+            font-size: 0.62rem; font-weight: 800; text-transform: uppercase;
+            padding: 5px 12px; border-radius: 12px; 
+            background: rgba(79, 70, 229, 0.08);
+            color: var(--stm-primary); margin-bottom: 12px;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(79, 70, 229, 0.1);
+        }
+        body.dark-mode .rubro-tag { 
+            background: rgba(129, 140, 248, 0.15); 
+            border-color: rgba(129, 140, 248, 0.1);
+        }
+
+        .card-title { font-size: 0.95rem; font-weight: 800; line-height: 1.2; margin: 0; }
+        .card-detail { font-size: 0.8rem; line-height: 1.4; margin: 0; font-weight: 500; }
+        .tap-hint { font-size: 0.6rem; opacity: 0.5; margin-top: 10px; font-weight: 700; text-transform: uppercase; }
+
+        /* Bottom Sheet de Filtrado */
+        .filter-sheet-title {
+            font-weight: 800; font-size: 1.2rem; color: var(--stm-primary); margin-bottom: 20px;
+        }
+        .filter-options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .filter-option {
+            padding: 16px 20px;
+            background: #f8fafc;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center; justify-content: space-between;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 2px solid transparent;
+        }
+        .filter-option.active {
+            background: rgba(79, 70, 229, 0.08);
+            border-color: var(--stm-primary);
+            color: var(--stm-primary);
+        }
+        .filter-option i { font-size: 0.8rem; opacity: 0; transition: 0.3s; }
+        .filter-option.active i { opacity: 1; transform: translateX(-5px); }
+
+        body.dark-mode .filter-option { background: #0f172a; color: white; border-color: #334155; }
+        body.dark-mode .filter-option.active { background: rgba(129, 140, 248, 0.1); border-color: var(--stm-primary); }
+
+        .close-sheet-btn {
+            width: 100%; padding: 16px; border-radius: 18px; border: none;
+            background: var(--stm-primary); color: white; font-weight: 800; font-size: 1rem;
+            cursor: pointer; box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-filter-trigger {
+            position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+            width: 48px; height: 48px; border-radius: 20px; background: var(--stm-primary);
+            color: white; border: none; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3); transition: 0.3s;
+            z-index: 11;
+        }
+        .btn-filter-trigger:active { transform: translateY(-50%) scale(0.9); }
+        .filter-active-indicator {
+            position: absolute; top: -3px; right: -3px; width: 14px; height: 14px;
+            background: #ef4444; border: 3px solid white; border-radius: 50%;
+        }
+        body.dark-mode .filter-active-indicator { border-color: #1e293b; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- NAVIGATION --- */
+        .nav-footer {
+            position: fixed; 
+            bottom: 25px; 
+            bottom: calc(env(safe-area-inset-bottom, 0px) + 25px);
+            left: 50%; transform: translateX(-50%);
+            width: calc(100% - 40px); max-width: 380px; height: 72px;
+            background: rgba(17, 24, 39, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-radius: 35px;
+            display: flex; justify-content: space-around; align-items: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4); z-index: 5000;
+            padding: 0 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .nav-link {
+            text-decoration: none; color: #64748b; width: 54px; height: 54px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.3rem; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .nav-link:active { transform: scale(0.9); }
+        
+        .nav-home-pulse i {
+            animation: home-blink 3s infinite ease-in-out;
+        }
+        @keyframes home-blink {
+            0%, 100% { color: #64748b; transform: scale(1); }
+            50% { color: white; transform: scale(1.1); }
+        }
+
+        /* --- BOT & MODALS --- */
+        .fab-bot {
+            position: fixed; bottom: 100px; right: 20px;
+            width: 60px; height: 60px;
+            background: #6366f1 !important; color: white !important;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; cursor: pointer; z-index: 1001; 
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+            animation: bounceBot 3s infinite;
+        }
+        @keyframes bounceBot { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        
+        .bot-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(8px);
+            z-index: 9999; visibility: hidden; opacity: 0; transition: 0.3s;
+        }
+        .bot-modal.active { visibility: visible; opacity: 1; }
+        .bot-content {
+            position: absolute; bottom: 0; width: 100%;
+            background: white; border-top-left-radius: 30px; border-top-right-radius: 30px;
+            padding: 30px 20px 40px; transform: translateY(100%);
+            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); max-height: 85vh; overflow-y: auto;
+        }
+        body.dark-mode .bot-content { background: #1e293b; color: white; }
+        .bot-modal.active .bot-content { transform: translateY(0); }
+
+        .bot-input { width: 100%; padding: 15px 20px 15px 50px; border-radius: 18px; border: 2px solid #f1f5f9; background: #f8fafc; font-family: inherit; font-size: 1rem; color: var(--text-dark); outline: none; transition: 0.3s; }
+        body.dark-mode .bot-input { background: #0f172a; border-color: #334155; color: white; }
+        
+        #loader-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: white; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 9999;
+        }
+        body.dark-mode #loader-wrapper { background: #0f172a; }
+        .loader-logo { width: 100px; animation: logo-spin 2s linear infinite; }
+        @keyframes logo-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .stm-notify {
+            position: fixed; top: 30px; left: 50%; transform: translateX(-50%) translateY(-100px);
+            background: white; padding: 15px 25px; border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15); border: 1px solid #e2e8f0;
+            z-index: 10000; display: flex; align-items: center; gap: 12px;
+            transition: 0.5s; opacity: 0; pointer-events: none;
+        }
+        .stm-notify.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .stm-notify i { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--stm-primary); color: white; }
+
+        .res-item-bot { background: #f8fafc; border: 1px solid #f1f5f9; transition: 0.3s; text-decoration: none; color: inherit; display: block; border-radius: 15px; margin-bottom: 8px; padding: 12px; }
+        body.dark-mode .res-item-bot { background: #0f172a !important; border-color: #334155 !important; color: white !important; }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div id="loader-wrapper">
+        <img src="logo nuevo.png" class="loader-logo" alt="Cargando...">
+        <div style="font-weight:800; color:var(--stm-primary); margin-top:20px; text-transform:uppercase; letter-spacing:1px">Convenios STM</div>
+    </div>
+
+    <header>
+        <div class="header-box">
+            <div class="logo-box"><img src="logo nuevo.png" alt="STM"></div>
+            <div class="welcome-msg">
+                <h1 id="usrGreeting">¡Hola!</h1>
+                <p id="usrDisplayName">Cargando...</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" class="search-box" placeholder="Buscar convenio (ej: Farmacia, Óptica...)" id="pageSearch">
+            <button class="btn-filter-trigger" onclick="toggleFilters(true)">
+                <i class="fa-solid fa-sliders"></i>
+                <div id="filterDot" class="filter-active-indicator hidden"></div>
+            </button>
+        </div>
+
+        <div class="convenios-grid" id="conveniosList">
+            <!-- Dynamic Content -->
+        </div>
+
+    </div>
+
+    <!-- BOT & NAV -->
+    <div class="fab-bot" id="fabBotIcon" onclick="toggleBot(true)"><i class="fa-solid fa-robot"></i></div>
+    <div class="bot-modal" id="modalBot" onclick="if(event.target == this) toggleBot(false)">
+        <div class="bot-content">
+            <div style="width: 40px; height: 5px; background: #e2e8f0; border-radius: 10px; margin: -10px auto 20px;"></div>
+            <div style="position:relative; margin-bottom:15px"><i class="fa-solid fa-robot" style="position:absolute; left:18px; top:50%; transform:translateY(-50%); color:var(--stm-primary)"></i><input type="text" class="bot-input" placeholder="¿En qué puedo ayudarte?" id="botSearch"></div>
+            <div id="botRes" style="margin-top: 15px; max-height: 40vh; overflow-y:auto;"></div>
+        </div>
+    </div>
+
+    <div class="bot-modal" id="modalFilters" onclick="if(event.target == this) toggleFilters(false)">
+        <div class="bot-content">
+            <div style="width: 40px; height: 5px; background: #e2e8f0; border-radius: 10px; margin: -10px auto 20px;"></div>
+            <h2 class="filter-sheet-title">Filtrar por Rubro</h2>
+            <div class="filter-options-grid" id="filterOptions">
+                <!-- Dinámico -->
+            </div>
+            <button onclick="toggleFilters(false)" class="close-sheet-btn">Ver Resultados</button>
+        </div>
+    </div>
+
+    <nav class="nav-footer">
+        <a href="opciones.html" class="nav-link nav-home-pulse"><i class="fa-solid fa-house"></i></a>
+        <a href="contactos.html" class="nav-link"><i class="fa-solid fa-phone"></i></a>
+        <a href="#" class="nav-link" onclick="toggleUser(true)"><i class="fa-solid fa-user"></i></a>
+        <a href="#" class="nav-link" onclick="toggleSettings(true)"><i class="fa-solid fa-gear"></i></a>
+    </nav>
+
+    <!-- CONFIG & USER MODALS (Partial reuse from template) -->
+    <div class="bot-modal" id="modalConfig" onclick="if(event.target == this) toggleSettings(false)">
+        <div class="bot-content">
+            <div style="width: 40px; height: 5px; background: #e2e8f0; border-radius: 10px; margin: -10px auto 20px;"></div>
+            <h2 style="font-weight: 800; font-size: 1.3rem; margin-bottom:20px; color: var(--stm-primary);">Configuración</h2>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-weight: 600;">Modo Oscuro</span><input type="checkbox" id="checkDark" onchange="applyConfig('dark', this.checked)" style="width: 20px; height: 20px;"></div>
+                <div style="display: flex; justify-content: space-between; align-items: center;"><span style="font-weight: 600;">Ver Asistente Bot</span><input type="checkbox" id="checkBot" onchange="applyConfig('bot', this.checked)" checked style="width: 20px; height: 20px;"></div>
+            </div>
+            <button onclick="toggleSettings(false)" style="margin-top: 30px; width: 100%; padding: 15px; border-radius: 15px; border: none; background: #f1f5f9; font-weight: 800; cursor: pointer;">Cerrar</button>
+        </div>
+    </div>
+
+    <div class="bot-modal" id="modalUser" onclick="if(event.target == this) toggleUser(false)">
+        <div class="bot-content">
+            <div style="width: 40px; height: 5px; background: #e2e8f0; border-radius: 10px; margin: -10px auto 20px;"></div>
+            <h2 style="font-weight: 800; font-size: 1.3rem; margin-bottom:10px; color: var(--stm-primary);">Mi Cuenta</h2>
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <input type="password" id="newPass" class="bot-input" placeholder="Nueva Contraseña" style="padding-left:20px">
+                <input type="password" id="confirmPass" class="bot-input" placeholder="Confirmar Nueva Contraseña" style="padding-left:20px">
+                <button onclick="changePassword()" style="padding: 18px; border-radius: 18px; border: none; background: var(--stm-primary); color: white; font-weight: 800; cursor: pointer;">Actualizar Contraseña</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top:20px;">
+                <button onclick="logout()" style="padding: 15px; border-radius: 18px; border: 2px solid #ef4444; background: transparent; color: #ef4444; font-weight: 800; cursor: pointer;">Cerrar Sesión</button>
+                <button onclick="toggleUser(false)" style="padding: 15px; border: none; background: transparent; color: #64748b; font-weight: 600; cursor: pointer;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        if (localStorage.getItem('isLogged') !== 'true') { window.location.href = 'index.html'; }
+
+        const sitePages = [
+            { t: "Actividades STM", d: "Beneficios de temporada y eventos", f: "actividades.html", tags: "libros bolsa tiles guardapolvos escolares mochilas canasta educacion hijos accion social escolaridad beneficio primaria secundaria", ico: "fa-calendar-check" },
+            { t: "Reclamo Ganancias", d: "Información judicial y trámites", f: "reclamoganancias.html", tags: "ganancias impuesto afip arca ips documentos cronograma", ico: "fa-scale-balanced" },
+            { t: "Reclamo Antigüedad", d: "Reclamos judiciales 1995-2014", f: "reclamoantiguedad.html", tags: "antiguedad reclamo judicial abogados demanda activos jubilados", ico: "fa-clock-rotate-left" },
+            { t: "Servicios STM", d: "Beneficios, camping, subsidios y más", f: "servicios.html", tags: "camping quinchos piletas préstamos proveeduría casamiento nacimiento útiles libros guardapolvos farmacia legal asesoría", ico: "fa-screwdriver-wrench" },
+            { t: "Convenios Especiales", d: "Descuentos en comercios y salud", f: "convenios.html", tags: "descuentos convenios beneficios automotor salud veterinaria recreacion comercios", ico: "fa-handshake" },
+            { t: "Autoridades", d: "Cuerpo directivo y secretarías", f: "autoridades.html", tags: "quien mando jefe directiva secretario conducción", ico: "fa-users-gear" },
+            { t: "Afiliación Online", d: "Inicia tu trámite para sumarte al sindicato", f: "afiliacion.html", tags: "alta inscripción socio sindicato ficha nueva sumarse", ico: "fa-user-plus" },
+            { t: "Consulta de Trámite", d: "Estado de tus gestiones y expedientes", f: "consulta.html", tags: "ver estado proceso seguimiento expediente trámite", ico: "fa-magnifying-glass-chart" },
+            { t: "Contactos e Internos", d: "Directorio de internos y secretarías", f: "contactos.html", tags: "teléfono oficina directivos secretario ayuda interno llamar", ico: "fa-address-book" },
+            { t: "Género y Diversidad", d: "Protección y bienestar integral", f: "generoydiversidad.html", tags: "ayuda derechos protección género diversidad violencia bienestar", ico: "fa-hand-holding-heart" },
+            { t: "Mini Turismo", d: "Viajes y escapadas para afiliados", f: "miniturismo.html", tags: "viaje turismo miramar escapada fin de semana costa hotel", ico: "fa-umbrella-beach" },
+            { t: "Capacitación", d: "Formación y becas para estudiantes", f: "capacitacion.html", tags: "estudio terciario universitario beca kit utiles voucher formacion", ico: "fa-graduation-cap" },
+            { t: "Novedades STM", d: "Últimas noticias y comunicados", f: "novedades.html", tags: "noticias novedad aviso boletin comunicado sorteos informacion ultimo", ico: "fa-newspaper" },
+            { t: "Inicio", d: "Panel principal de opciones", f: "opciones.html", tags: "inicio dashboard panel principal volver", ico: "fa-house" }
+        ];
+
+        const SPREADSHEET_ID = '16Y723omF3l38Ntq0MUSh-ZMYnRIvYmctrscidox5ktc';
+        const GID_CONVENIOS = '1025588963';
+        const DATA_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json&gid=${GID_CONVENIOS}`;
+        const USER_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznHgKBFeFZMc8IVRHLrTr9RcRROqB4DasbNFPyD3XDxFt9JYT9uzN0tqKNfRTTpOlqBg/exec';
+
+        let allConvenios = [];
+
+        async function initData() {
+            try {
+                const res = await fetch(DATA_URL);
+                const text = await res.text();
+                const json = JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1));
+                allConvenios = (json.table.rows || []).map(r => ({
+                    rubro: (r.c[1]?.v || "").toString(),
+                    titulo: (r.c[2]?.v || "").toString(),
+                    detalle: (r.c[3]?.v || "").toString(),
+                    activo: (r.c[4]?.v || "").toString().trim().toUpperCase() === "SI"
+                })).filter(c => c.activo);
+                renderConvenios(allConvenios);
+            } catch (e) { console.error("Error al cargar convenios:", e); }
+        }
+
+        let currentFilter = "TODOS";
+
+        function toggleFilters(show) { 
+            document.getElementById('modalFilters').classList.toggle('active', show); 
+            if(show) renderFilterOptions();
+        }
+
+        function renderFilterOptions() {
+            const rubros = ["TODOS", ...new Set(allConvenios.map(c => c.rubro.toUpperCase()))];
+            const cont = document.getElementById('filterOptions');
+            cont.innerHTML = "";
+            rubros.forEach(r => {
+                const opt = document.createElement('div');
+                opt.className = `filter-option ${currentFilter === r ? 'active' : ''}`;
+                opt.innerHTML = `<span>${r}</span><i class="fa-solid fa-check"></i>`;
+                opt.onclick = () => {
+                    currentFilter = r;
+                    const val = normalize(document.getElementById('pageSearch').value);
+                    applyFilters(val);
+                    document.getElementById('filterDot').classList.toggle('hidden', r === "TODOS");
+                    toggleFilters(false);
+                };
+                cont.appendChild(opt);
+            });
+        }
+
+        function applyFilters(searchVal) {
+            const filtered = allConvenios.filter(c => {
+                const matchesSearch = normalize(c.titulo + " " + c.rubro + " " + c.detalle).includes(searchVal);
+                const matchesRubro = currentFilter === "TODOS" || c.rubro.toUpperCase() === currentFilter;
+                return matchesSearch && matchesRubro;
+            });
+            renderConvenios(filtered);
+        }
+
+        function renderConvenios(list) {
+            const grid = document.getElementById('conveniosList');
+            grid.innerHTML = "";
+            list.forEach((c, idx) => {
+                const card = document.createElement('div');
+                card.className = "card-flip";
+                card.onclick = () => {
+                    const wasFlipped = card.classList.contains('is-flipped');
+                    // Close all flipped cards
+                    document.querySelectorAll('.card-flip.is-flipped').forEach(f => f.classList.remove('is-flipped'));
+                    // If the card wasn't flipped, flip it now
+                    if (!wasFlipped) card.classList.add('is-flipped');
+                };
+                card.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <span class="rubro-tag">${c.rubro}</span>
+                            <h3 class="card-title">${c.titulo}</h3>
+                            <span class="tap-hint"><i class="fa-solid fa-rotate"></i> Ver detalle</span>
+                        </div>
+                        <div class="card-back">
+                            <p class="card-detail">${c.detalle}</p>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function normalize(str) { return (str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
+
+        document.getElementById('pageSearch').addEventListener('input', (e) => {
+            const val = normalize(e.target.value);
+            applyFilters(val);
+        });
+
+        // --- BOT LOGIC ---
+        function toggleBot(show) { document.getElementById('modalBot').classList.toggle('active', show); if(show) document.getElementById('botSearch').focus(); }
+        function toggleSettings(show) { document.getElementById('modalConfig').classList.toggle('active', show); }
+        function toggleUser(show) { document.getElementById('modalUser').classList.toggle('active', show); }
+
+        document.getElementById('botSearch').addEventListener('input', (e) => {
+            const val = normalize(e.target.value).trim();
+            const res = document.getElementById('botRes');
+            res.innerHTML = "";
+            if (val.length > 2) {
+                const words = val.split(" ").filter(w => w.length > 2);
+                sitePages.filter(p => {
+                    const target = normalize(p.t + " " + p.tags);
+                    return words.some(w => target.includes(w)) || target.includes(val);
+                }).forEach(p => {
+                    res.innerHTML += `<a href="${p.f}" class="res-item-bot">
+                        <div style="display:flex; align-items:center; gap:10px">
+                            <div style="width:30px; height:30px; border-radius:8px; background:var(--stm-primary); color:white; display:flex; align-items:center; justify-content:center; font-size:0.8rem"><i class="fa-solid ${p.ico}"></i></div>
+                            <div><h4 style="margin:0; font-size:0.85rem">${p.t}</h4><p style="margin:0; font-size:0.7rem; opacity:0.7">${p.d}</p></div>
+                        </div>
+                    </a>`;
+                });
+            }
+        });
+
+        function applyConfig(type, value) {
+            localStorage.setItem('cfg_' + type, value);
+            if (type === 'dark') document.body.classList.toggle('dark-mode', value);
+            if (type === 'bot') document.getElementById('fabBotIcon').classList.toggle('hidden', !value);
+        }
+
+        function showNotify(msg, type = 'info') {
+            const div = document.createElement('div');
+            div.className = 'stm-notify';
+            div.innerHTML = `<i class="fa-solid ${type==='error'?'fa-triangle-exclamation':'fa-check'}" style="background:${type==='error'?'#ef4444':'#10b981'}"></i> <span>${msg}</span>`;
+            document.body.appendChild(div);
+            setTimeout(() => div.classList.add('show'), 10);
+            setTimeout(() => { div.classList.remove('show'); setTimeout(() => div.remove(), 500); }, 3000);
+        }
+
+        async function changePassword() {
+            const p1 = document.getElementById('newPass').value;
+            const p2 = document.getElementById('confirmPass').value;
+            const usrID = localStorage.getItem('usrID');
+            if(!p1 || p1 !== p2) { showNotify("Verifica las contraseñas", "error"); return; }
+            try {
+                await fetch(USER_SCRIPT_URL, {
+                    method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'UPDATE_PASSWORD', id: usrID, newPass: p1 })
+                });
+                showNotify("Contraseña actualizada", "success");
+                toggleUser(false);
+            } catch (e) { showNotify("Error de conexión", "error"); }
+        }
+
+        function logout() { localStorage.clear(); window.location.href = 'index.html'; }
+
+        window.addEventListener('load', () => {
+            const cfg = { dark: localStorage.getItem('cfg_dark') === 'true', bot: localStorage.getItem('cfg_bot') !== 'false' };
+            document.body.classList.toggle('dark-mode', cfg.dark);
+            document.getElementById('fabBotIcon').classList.toggle('hidden', !cfg.bot);
+            const savedName = localStorage.getItem('usrName') || "Afiliado STM";
+            const h = new Date().getHours();
+            const greet = h < 12 ? "¡Buen día!" : h < 20 ? "¡Buenas tardes!" : "¡Buenas noches!";
+            document.getElementById('usrDisplayName').innerText = savedName;
+            document.getElementById('usrGreeting').innerText = greet;
+            initData();
+            setTimeout(() => { document.getElementById('loader-wrapper').style.opacity = '0'; setTimeout(() => document.getElementById('loader-wrapper').style.display = 'none', 500); }, 800);
+        });
+    </script>
+</body>
+</html>
