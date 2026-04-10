@@ -1256,6 +1256,22 @@
         const NEWS_GID = "195669740";
         const NEWS_URL = `https://docs.google.com/spreadsheets/d/${NEWS_SHEET_ID}/gviz/tq?tqx=out:json&gid=${NEWS_GID}`;
         let allNews = [];
+        
+        function getRawDate(dateString) {
+            let date;
+            const stringMatch = String(dateString).match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
+            if (stringMatch) {
+                date = new Date(+stringMatch[3], +stringMatch[2] - 1, +stringMatch[1]);
+            } else {
+                const vizMatch = String(dateString).match(/Date\((\d{4}),(\d{1,2}),(\d{1,2})\)/);
+                if (vizMatch) {
+                    date = new Date(+vizMatch[1], +vizMatch[2], +vizMatch[3]);
+                } else {
+                    date = new Date(dateString);
+                }
+            }
+            return isNaN(date.getTime()) ? new Date(0) : date;
+        }
 
         async function fetchNews() {
             if (allNews.length > 0) return; // ya cargadas
@@ -1268,7 +1284,7 @@
                     desc: (r.c[2]?.v || "").toString(),
                     fecha: (r.c[3]?.f || r.c[3]?.v || "").toString(),
                     activo: (r.c[4]?.v || "").toString().trim().toUpperCase() === "SI"
-                })).filter(n => n.activo).reverse();
+                })).filter(n => n.activo).sort((a,b) => getRawDate(b.fecha) - getRawDate(a.fecha));
 
                 // Verificar si mostramos el botón de alerta en el header
                 checkHeaderAlerts();

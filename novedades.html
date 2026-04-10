@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Novedades STM - Noticias de Interés</title>
     <link rel="icon" type="image/png" href="logo nuevo.png">
 
@@ -81,8 +82,17 @@
         }
 
         @keyframes home-blink {
-            0%, 100% { color: #4b5563; transform: scale(1); }
-            50% { color: white; transform: scale(1.2); }
+
+            0%,
+            100% {
+                color: #4b5563;
+                transform: scale(1);
+            }
+
+            50% {
+                color: white;
+                transform: scale(1.2);
+            }
         }
 
         * {
@@ -93,12 +103,17 @@
         body {
             font-family: 'Outfit', sans-serif;
             background: var(--bg-body);
-            margin: 0; padding: 0; min-height: 100vh;
-            color: var(--text-dark); overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: var(--text-dark);
+            overflow-x: hidden;
         }
 
-        html { height: 100%; }
-        
+        html {
+            height: 100%;
+        }
+
         header {
             padding: 40px 20px 20px;
             background: rgba(255, 255, 255, 0.4);
@@ -177,8 +192,17 @@
         }
 
         @keyframes blink {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(0.98); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(0.98);
+            }
         }
 
         .hero-content {
@@ -273,7 +297,12 @@
             padding: 60px 20px;
             color: #94a3b8;
         }
-        .empty-state i { font-size: 3rem; margin-bottom: 15px; display: block; }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
 
         /* --- FAB BOT --- */
         .fab-bot {
@@ -296,11 +325,20 @@
             animation: bounceBot 3s infinite;
         }
 
-        .fab-bot i { color: white !important; }
+        .fab-bot i {
+            color: white !important;
+        }
 
         @keyframes bounceBot {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
         }
 
         /* --- NAVIGATION --- */
@@ -382,8 +420,10 @@
         /* MODAL BOT */
         .bot-modal {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(15, 23, 42, 0.4);
             backdrop-filter: blur(8px);
             z-index: 2000;
@@ -397,13 +437,15 @@
             opacity: 1;
         }
 
-        
+
 
         /* --- PRELOADER --- */
         #loader-wrapper {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: white;
             display: flex;
             flex-direction: column;
@@ -413,7 +455,9 @@
             transition: opacity 0.5s ease;
         }
 
-        body.dark-mode #loader-wrapper { background: #0f172a; }
+        body.dark-mode #loader-wrapper {
+            background: #0f172a;
+        }
 
         .loader-logo {
             width: 100px;
@@ -424,8 +468,13 @@
         }
 
         @keyframes logo-spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .loader-text {
@@ -435,6 +484,7 @@
             text-transform: uppercase;
             font-size: 0.8rem;
         }
+
         .bot-input {
             width: 100%;
             padding: 15px 20px 15px 50px;
@@ -448,25 +498,30 @@
             outline: none;
             transition: 0.3s;
         }
+
         .bot-input:focus {
             border-color: var(--stm-primary);
             background: white;
             box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
         }
+
         body.dark-mode .bot-input {
             background: #0f172a;
             border-color: #334155;
             color: #f1f5f9;
         }
+
         body.dark-mode .bot-input:focus {
             border-color: var(--stm-primary);
             background: #0f172a;
         }
+
         .bot-search-box {
             position: relative;
             margin-bottom: 15px;
         }
-        .bot-search-box > i {
+
+        .bot-search-box>i {
             position: absolute;
             left: 18px;
             top: 50%;
@@ -474,6 +529,7 @@
             color: var(--stm-primary);
             font-size: 1.1rem;
         }
+
         .bot-content {
             position: absolute;
             bottom: 0;
@@ -487,13 +543,16 @@
             max-height: 85vh;
             overflow-y: auto;
         }
+
         body.dark-mode .bot-content {
             background: #1e293b;
             color: #f1f5f9;
         }
+
         .bot-modal.active .bot-content {
             transform: translateY(0);
         }
+
         .bot-results-title {
             font-size: 0.72rem;
             font-weight: 800;
@@ -621,20 +680,25 @@
         /**
          * Convierte el formato de fecha de Google Sheets a DD de mes de YYYY.
          */
-        function formatDate(dateString) {
+        function getRawDate(dateString) {
             let date;
-            const stringMatch = dateString.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
+            const stringMatch = String(dateString).match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
             if (stringMatch) {
                 date = new Date(+stringMatch[3], +stringMatch[2] - 1, +stringMatch[1]);
             } else {
-                const vizMatch = dateString.match(/Date\((\d{4}),(\d{1,2}),(\d{1,2})\)/);
+                const vizMatch = String(dateString).match(/Date\((\d{4}),(\d{1,2}),(\d{1,2})\)/);
                 if (vizMatch) {
                     date = new Date(+vizMatch[1], +vizMatch[2], +vizMatch[3]);
                 } else {
                     date = new Date(dateString);
                 }
             }
-            if (isNaN(date.getTime())) return dateString;
+            return isNaN(date.getTime()) ? new Date(0) : date;
+        }
+
+        function formatDate(dateString) {
+            const date = getRawDate(dateString);
+            if (isNaN(date.getTime()) || date.getTime() === 0) return dateString;
             return new Intl.DateTimeFormat('es-AR', { day: '2-digit', month: 'long', year: 'numeric' })
                 .format(date).replace(/\./g, '').replace(/,/g, '').trim();
         }
@@ -655,7 +719,7 @@
                         fecha: (c[3]?.f || c[3]?.v || "").toString(),
                         activo: (c[4]?.v || "").toString().trim().toUpperCase() === "SI"
                     };
-                }).filter(n => n.activo).reverse(); // activas más recientes primero
+                }).filter(n => n.activo).sort((a,b) => getRawDate(b.fecha) - getRawDate(a.fecha)); // activas más recientes primero por FECHA
 
                 renderFeed(allNews);
             } catch (e) {
@@ -718,7 +782,7 @@
                 <div style="padding:15px">
                     <span style="font-size:0.7rem; color:#6366f1; font-weight:800">${formatDate(n.fecha)}</span>
                     <h3 style="margin:5px 0 10px; font-weight:800">${n.titulo}</h3>
-                    <p style="font-size:0.92rem; color:#475569; line-height:1.6">${n.desc.replace(/\n/g,'<br>')}</p>
+                    <p style="font-size:0.92rem; color:#475569; line-height:1.6">${n.desc.replace(/\n/g, '<br>')}</p>
                 </div>
             `;
             toggleBot(true);
