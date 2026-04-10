@@ -1668,10 +1668,9 @@
                 if (inner) { inner.style.transform = 'scale(0.5)'; inner.style.opacity = '0'; }
                 setTimeout(() => { modal.style.display = 'none'; }, 400);
 
-                // AUTOMATIZACIÓN: Borrar mensaje de Bienvenida del servidor una vez visto
-                const welcomeMsgs = userMessages.filter(m => m.titulo === "¡Bienvenido/a!");
-                if (welcomeMsgs.length > 0) {
-                    for (const msg of welcomeMsgs) {
+                // AUTOMATIZACIÓN: Borrar TODOS los mensajes del servidor una vez vistos
+                if (userMessages.length > 0) {
+                    for (const msg of userMessages) {
                         const msgId = msg.id_mensaje || msg.id;
                         // Envío asíncrono de eliminación
                         fetch(ADMIN_BACKEND_URL, {
@@ -1679,14 +1678,12 @@
                             mode: 'no-cors',
                             headers: { 'Content-Type': 'text/plain' },
                             body: JSON.stringify({ action: 'DELETE', sheet: 'MENSAJES', id: msgId })
-                        }).catch(e => console.warn("Error borrando bienvenida:", e));
+                        }).catch(e => console.warn("Error borrando mensaje:", e));
                     }
-                    // Quitar de la lista local
-                    userMessages = userMessages.filter(m => m.titulo !== "¡Bienvenido/a!");
-                    if (userMessages.length === 0) {
-                        const btn = document.getElementById('headerAlertBtn');
-                        if (btn) { btn.classList.add('bell-inactive'); btn.classList.remove('bell-active'); }
-                    }
+                    // Limpiar la lista local
+                    userMessages = [];
+                    const btn = document.getElementById('headerAlertBtn');
+                    if (btn) { btn.classList.add('bell-inactive'); btn.classList.remove('bell-active'); }
                 }
             }
         }
