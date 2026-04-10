@@ -1637,7 +1637,7 @@
             } catch (e) { return dateStr; }
         }
 
-        function toggleMensajeModal(show) {
+        async function toggleMensajeModal(show) {
             const modal = document.getElementById('modalMensajeUser');
             if (show) {
                 modal.style.display = 'flex';
@@ -1651,6 +1651,27 @@
                 const inner = modal.querySelector('.search-content');
                 if (inner) { inner.style.transform = 'scale(0.5)'; inner.style.opacity = '0'; }
                 setTimeout(() => { modal.style.display = 'none'; }, 400);
+
+                // AUTOMATIZACIÓN: Borrar mensaje de Bienvenida del servidor una vez visto
+                const welcomeMsgs = userMessages.filter(m => m.titulo === "¡Bienvenido/a!");
+                if (welcomeMsgs.length > 0) {
+                    for (const msg of welcomeMsgs) {
+                        const msgId = msg.id_mensaje || msg.id;
+                        // Envío asíncrono de eliminación
+                        fetch(ADMIN_BACKEND_URL, {
+                            method: 'POST',
+                            mode: 'no-cors',
+                            headers: { 'Content-Type': 'text/plain' },
+                            body: JSON.stringify({ action: 'DELETE', sheet: 'MENSAJES', id: msgId })
+                        }).catch(e => console.warn("Error borrando bienvenida:", e));
+                    }
+                    // Quitar de la lista local
+                    userMessages = userMessages.filter(m => m.titulo !== "¡Bienvenido/a!");
+                    if (userMessages.length === 0) {
+                        const btn = document.getElementById('headerAlertBtn');
+                        if (btn) { btn.classList.add('bell-inactive'); btn.classList.remove('bell-active'); }
+                    }
+                }
             }
         }
 
