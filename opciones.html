@@ -518,45 +518,52 @@
             transform: scale(0.95);
         }
 
-        /* --- ASISTENTE OVERLAY --- */
-        .search-modal {
+        /* --- ASISTENTE OVERLAY --- */        .search-modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.5);
+            inset: 0;
+            background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(10px);
             z-index: 10000;
-            visibility: hidden;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
             opacity: 0;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.4s ease;
         }
 
         .search-modal.active {
-            visibility: visible;
+            display: flex;
             opacity: 1;
         }
 
         .search-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
             background: white;
-            border-top-left-radius: 35px;
-            border-top-right-radius: 35px;
-            padding: 30px 20px 40px;
-            box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.1);
-            transform: translateY(100%);
-            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            max-height: 85vh;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 35px;
+            padding: 40px 25px 30px;
+            position: relative;
+            transform: scale(0.6);
+            opacity: 0;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .search-modal.active .search-content {
-            transform: translateY(0);
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        body.dark-mode .search-content {
+            background: #1e293b;
+            color: white;
+            border: 1px solid #334155;
         }
 
         .search-bar-box {
@@ -1092,28 +1099,31 @@
         </div>
     </div>
 
-    <!-- MODAL PERFIL/CONTRASEÑA -->
+    <!-- MODAL PERFIL/CONTRASEÑA - DISEÑO CENTRADO PREMIUM -->
     <div class="search-modal" id="modalUser" onclick="if(event.target == this) toggleUser(false)">
         <div class="search-content">
-            <div style="width: 40px; height: 5px; background: #e2e8f0; border-radius: 10px; margin: -10px auto 20px;">
+            <div style="width: 70px; height: 70px; background: rgba(79, 70, 229, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                <i class="fa-solid fa-user-shield" style="font-size: 1.8rem; color: var(--stm-primary);"></i>
             </div>
-            <h2 style="font-weight: 800; font-size: 1.3rem; margin-bottom:10px; color: var(--stm-primary);">Mi Cuenta
-            </h2>
+            <h2 style="font-weight: 900; font-size: 1.5rem; margin-bottom: 5px; color: inherit;">Mi Cuenta</h2>
+            <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 25px;">Gestiona tu acceso y seguridad</p>
+            
             <div style="display: flex; flex-direction: column; gap: 15px;">
-                <input type="password" id="newPass" class="search-input" placeholder="Nueva Contraseña"
-                    style="padding-left:20px">
-                <input type="password" id="confirmPass" class="search-input" placeholder="Confirmar Nueva Contraseña"
-                    style="padding-left:20px">
-                <button onclick="changePassword()"
-                    style="padding: 18px; border-radius: 18px; border: none; background: var(--stm-primary); color: white; font-weight: 800; cursor: pointer; box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);">Actualizar
-                    Contraseña</button>
+                <div style="position: relative;">
+                    <i class="fa-solid fa-lock" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+                    <input type="password" id="newPass" class="search-input" placeholder="Nueva Contraseña" style="padding-left: 50px;">
+                </div>
+                <div style="position: relative;">
+                    <i class="fa-solid fa-shield-check" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+                    <input type="password" id="confirmPass" class="search-input" placeholder="Confirmar contraseña" style="padding-left: 50px;">
+                </div>
+                
+                <button onclick="changePassword()" style="margin-top: 10px; width: 100%; padding: 18px; border-radius: 20px; border: none; background: var(--stm-primary); color: white; font-weight: 800; font-family: inherit; font-size: 1.1rem; cursor: pointer; box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);">Actualizar Contraseña</button>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 10px; margin-top:20px;">
-                <button onclick="logout()"
-                    style="padding: 15px; border-radius: 18px; border: 2px solid #ef4444; background: transparent; color: #ef4444; font-weight: 800; cursor: pointer;">Cerrar
-                    Sesión</button>
-                <button onclick="toggleUser(false)"
-                    style="padding: 15px; border: none; background: transparent; color: #64748b; font-weight: 600; cursor: pointer;">Cancelar</button>
+            
+            <div style="margin-top: 25px; border-top: 1px solid #f1f5f9; padding-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                <button onclick="logout()" style="width: 100%; padding: 15px; border-radius: 18px; border: 2px solid #ef4444; background: transparent; color: #ef4444; font-weight: 800; font-family: inherit; font-size: 0.95rem; cursor: pointer;">Cerrar Sesión</button>
+                <button onclick="toggleUser(false)" style="width: 100%; padding: 10px; border: none; background: transparent; color: #94a3b8; font-weight: 600; font-family: inherit; font-size: 0.9rem; cursor: pointer;">Cancelar</button>
             </div>
         </div>
     </div>
@@ -1320,19 +1330,23 @@
             document.getElementById('modalProx').classList.toggle('active', show);
         }
 
-        function toggleModal(show) {
-            document.getElementById('modalAsist').classList.toggle('active', show);
-            if (show) {
-                document.getElementById('searchInput').focus();
-                fetchNews(); // carga novedades en background si aún no están
-            }
-            if (window.navigator.vibrate) window.navigator.vibrate(15);
+        function toggleBot(show) {
+            document.getElementById('searchOverlay').classList.toggle('active', show);
+            if (show) setTimeout(() => document.getElementById('searchInput').focus(), 400);
+        }
+
+        function toggleSettings(show) {
+            document.getElementById('modalConfig').classList.toggle('active', show);
         }
 
         function toggleUser(show) {
-            document.getElementById('modalUser').classList.toggle('active', show);
-            if (show) document.getElementById('newPass').focus();
-            if (window.navigator.vibrate) window.navigator.vibrate(15);
+            const modal = document.getElementById('modalUser');
+            modal.classList.toggle('active', show);
+            if (!show) {
+                // Limpiar campos al cerrar
+                document.getElementById('newPass').value = "";
+                document.getElementById('confirmPass').value = "";
+            }
         }
 
         async function changePassword() {
