@@ -1469,15 +1469,16 @@
             btn.style.opacity = "0.7";
 
             try {
-                // El backend debe permitir POST con action=UPDATE_PASSWORD o similar
-                const res = await fetch(USER_SCRIPT_URL, {
+                // Usar ADMIN_BACKEND_URL con action UPDATE sobre la tabla USUARIOS
+                const res = await fetch(ADMIN_BACKEND_URL, {
                     method: 'POST',
-                    mode: 'no-cors', // Apps Script requiere no-cors para POST desde browser a veces
-                    headers: { 'Content-Type': 'application/json' },
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain' },
                     body: JSON.stringify({
-                        action: 'UPDATE_PASSWORD',
+                        action: 'UPDATE',
+                        sheet: 'USUARIOS',
                         id: usrID,
-                        newPass: p1
+                        data: { password: p1 }
                     })
                 });
 
