@@ -57,7 +57,7 @@
         }
     }
 
-    function normalizeStr(str) { return (str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
+    function normalizeStr(str) { return (str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[¿?¡!.,;:()"'\-\/]/g, "").toLowerCase(); }
 
     // Algoritmo de distancia para tolerar errores ortográficos (tipeos)
     function levenshtein(a, b) {
@@ -123,6 +123,17 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+        // Auto-detectar página actual y marcar botón activo en la botonera
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        const navBtns = document.querySelectorAll('.bottom-nav .nav-btn');
+        navBtns.forEach(btn => {
+            const href = (btn.getAttribute('href') || '').split('/').pop();
+            if (href && href !== '#' && currentPage === href) {
+                btn.classList.add('active');
+                btn.classList.remove('nav-home-pulse'); // No parpadear si ya está activo
+            }
+        });
+
         let oldInput = document.getElementById('botSearch');
         
         if (oldInput) {
@@ -146,7 +157,7 @@
                 searchTimer = setTimeout(() => {
                     res.innerHTML = "";
                     const rawWords = val.split(" ").filter(w => w.length > 2);
-                    const stopWords = ["quiero","necesito","busco","ver","saber","como","donde","de","la","el","los","las","un","una","unos","unas","mi","tu","su","para","con","por","en","hola","bot","stm","que","cual","quien","porfavor","favor"];
+                    const stopWords = ["quiero","necesito","busco","ver","saber","como","donde","de","la","el","los","las","un","una","unos","unas","mi","tu","su","para","con","por","en","hola","bot","stm","que","cual","quien","porfavor","favor","cuando","sale","hay","tiene","tienen","puedo","puede","hacer","del","al","sobre","mas","esta","estan","son","ser","era","fue","muy","tambien","algo","eso","ese","esa","esto","este","esta","nos","les","les","sin","pero","porque","desde","hasta","entre","otro","otra","otros","cada","todo","toda","todos","todas"];
                     const words = rawWords.filter(w => !stopWords.includes(w));
                     
                     // Si el usuario escribió puros conectores ("hola busco"), no filtramos todo
