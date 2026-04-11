@@ -59,6 +59,39 @@
 
     function normalizeStr(str) { return (str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
 
+    // Algoritmo de distancia para tolerar errores ortográficos (tipeos)
+    function levenshtein(a, b) {
+        if(a.length === 0) return b.length;
+        if(b.length === 0) return a.length;
+        const matrix = [];
+        for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+        for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+        for (let i = 1; i <= b.length; i++) {
+            for (let j = 1; j <= a.length; j++) {
+                if (b.charAt(i - 1) === a.charAt(j - 1)) {
+                    matrix[i][j] = matrix[i - 1][j - 1];
+                } else {
+                    matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 1, Math.min(matrix[i][j - 1] + 1, matrix[i - 1][j] + 1));
+                }
+            }
+        }
+        return matrix[b.length][a.length];
+    }
+
+    function isFuzzyMatch(word, target) {
+        if (target.includes(word)) return true;
+        if (word.length < 4) return false;
+        
+        const targetWords = target.split(/\s+/);
+        for (let tw of targetWords) {
+            if(tw.length < 4) continue;
+            // 1 typo para palabras cortas (4-5), 2 typos para 6+ letras
+            const maxTypos = word.length >= 6 ? 2 : 1;
+            if (levenshtein(word, tw) <= maxTypos) return true;
+        }
+        return false;
+    }
+
     // Interceptar la función global
     window.toggleBot = function (show) {
         const modal = document.getElementById('modalBot');
@@ -110,19 +143,19 @@
                     // Match sitepages
                     const matchedPages = sitePages.filter(p => {
                         const target = normalizeStr(p.t + " " + p.tags + " " + p.d);
-                        return words.every(w => target.includes(w)) || target.includes(val);
+                        return words.every(w => isFuzzyMatch(w, target)) || isFuzzyMatch(val, target);
                     });
                     
                     // Match Convenios
                     const matchedConv = botConvenios.filter(c => {
                         const target = normalizeStr(c.rubro + " " + c.titulo + " " + c.desc);
-                        return words.every(w => target.includes(w)) || target.includes(val);
+                        return words.every(w => isFuzzyMatch(w, target)) || isFuzzyMatch(val, target);
                     });
 
                     // Match Novedades
                     const matchedNews = botNews.filter(n => {
                         const target = normalizeStr(n.titulo + " " + n.desc);
-                        return words.every(w => target.includes(w)) || target.includes(val);
+                        return words.every(w => isFuzzyMatch(w, target)) || isFuzzyMatch(val, target);
                     });
 
                     if (matchedPages.length === 0 && matchedConv.length === 0 && matchedNews.length === 0) {
