@@ -41,10 +41,10 @@
             } catch (e) { console.warn("Bot: Error cargando Novedades dinámicas", e); }
         }
         
-        // Fetch Convenios GID: 0
+        // Fetch Convenios GID: 1025588963
         if(botConvenios.length === 0) {
             try {
-                const res = await fetch(`https://docs.google.com/spreadsheets/d/${BOT_SHEET_ID}/gviz/tq?tqx=out:json&gid=0`);
+                const res = await fetch(`https://docs.google.com/spreadsheets/d/${BOT_SHEET_ID}/gviz/tq?tqx=out:json&gid=1025588963`);
                 const text = await res.text();
                 const json = JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1));
                 botConvenios = (json.table.rows || []).map(r => ({
