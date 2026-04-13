@@ -148,26 +148,41 @@
             color: var(--stm-primary);
         }
 
-        /* --- BOTONERA PRINCIPAL --- */
+        /* --- BOTONERA PRINCIPAL EN 2 COLUMNAS --- */
         .main-grid {
-            padding: 20px 16px 120px;
+            padding: 20px 16px 140px;
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
+            grid-template-columns: 1fr 1fr; /* DOS COLUMNAS */
+            gap: 15px;
         }
 
         .action-card {
             background: white;
-            border-radius: 22px;
-            padding: 18px;
+            border-radius: 25px;
+            padding: 22px 15px;
             display: flex;
+            flex-direction: column; /* ICONO ARRIBA, TEXTO ABAJO */
             align-items: center;
-            gap: 15px;
+            text-align: center;
+            gap: 12px;
             text-decoration: none;
             color: inherit;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             animation: fadeIn 0.5s ease-out forwards;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid #f1f5f9;
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border-color: var(--stm-primary);
         }
 
         /* --- BLINKING ANIMATION FOR VIGENCIAS --- */
@@ -197,13 +212,15 @@
         }
 
         .action-card:active {
-            transform: scale(0.97);
-            background: #fdfdfd;
+            transform: translateY(4px) scale(0.98);
+            background: #f8fafc;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05), inset 0 3px 10px rgba(0, 0, 0, 0.05);
+            filter: brightness(0.98);
         }
 
         .res-item:active {
+            transform: translateY(2px);
             background: #f1f5f9;
-            transform: scale(0.98);
         }
 
         /* --- BOTÓN DE ALERTA EN HEADER --- */
@@ -493,7 +510,8 @@
         }
 
         .fab-credencial:active {
-            transform: scale(0.95);
+            transform: translateY(4px) scale(0.92);
+            filter: brightness(0.95);
         }
 
         /* --- FAB TELEFONO --- */
@@ -537,7 +555,13 @@
         }
 
         .fab-mensaje:active {
-            transform: scale(0.95);
+            transform: translateY(4px) scale(0.92);
+            filter: brightness(0.95);
+        }
+
+        .fab-telefono:active {
+            transform: translateY(4px) scale(0.92);
+            filter: brightness(0.95);
         }
 
         /* --- ASISTENTE OVERLAY --- */
@@ -1158,40 +1182,34 @@
                 Configuración</h2>
 
             <div style="display: flex; flex-direction: column; gap: 15px;">
-                <!-- MODO OSCURO -->
+                <!-- ACTIVIDADES -->
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 5px;">
-                    <span style="font-weight: 600;">Modo Oscuro</span>
-                    <input type="checkbox" id="checkDark" onchange="applyConfig('dark', this.checked)"
+                    <span style="font-weight: 600;">Ver actividades</span>
+                    <input type="checkbox" id="checkAct" onchange="applyConfig('act', this.checked)" checked
                         style="width: 20px; height: 20px; accent-color: var(--stm-primary);">
                 </div>
                 <!-- BOT ASISTENTE -->
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 5px;">
-                    <span style="font-weight: 600;">Ver Asistente Bot</span>
+                    <span style="font-weight: 600;">Ver asistente Bot</span>
                     <input type="checkbox" id="checkBot" onchange="applyConfig('bot', this.checked)" checked
                         style="width: 20px; height: 20px; accent-color: var(--stm-primary);">
                 </div>
-                <!-- GÉNERO Y DIVERSIDAD -->
+                <!-- ENVIAR MENSAJE -->
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 5px;">
-                    <span style="font-weight: 600;">Ver Género y Diversidad</span>
-                    <input type="checkbox" id="checkGen" onchange="applyConfig('gen', this.checked)" checked
-                        style="width: 20px; height: 20px; accent-color: var(--stm-primary);">
-                </div>
-                <!-- ACTIVIDADES -->
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 5px;">
-                    <span style="font-weight: 600;">Ver Actividades</span>
-                    <input type="checkbox" id="checkAct" onchange="applyConfig('act', this.checked)" checked
+                    <span style="font-weight: 600;">Ver botón mensaje</span>
+                    <input type="checkbox" id="checkMsg" onchange="applyConfig('msg', this.checked)" checked
                         style="width: 20px; height: 20px; accent-color: var(--stm-primary);">
                 </div>
                 <!-- CREDENCIAL DIGITAL -->
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 5px;">
-                    <span style="font-weight: 600;">Ver Credencial Digital</span>
+                    <span style="font-weight: 600;">Ver credencial Digital</span>
                     <input type="checkbox" id="checkCred" onchange="applyConfig('cred', this.checked)" checked
                         style="width: 20px; height: 20px; accent-color: var(--stm-primary);">
                 </div>
-                <!-- NOVEDADES -->
+                <!-- GENERO Y DIVERSIDAD -->
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 5px;">
-                    <span style="font-weight: 600;">Ver Novedades STM</span>
-                    <input type="checkbox" id="checkNov" onchange="applyConfig('nov', this.checked)" checked
+                    <span style="font-weight: 600;">Ver género y diversidad</span>
+                    <input type="checkbox" id="checkGen" onchange="applyConfig('gen', this.checked)" checked
                         style="width: 20px; height: 20px; accent-color: var(--stm-primary);">
                 </div>
                 <!-- MARCADOR TELEFONICO -->
@@ -1200,10 +1218,16 @@
                     <input type="checkbox" id="checkPhone" onchange="applyConfig('phone', this.checked)" checked
                         style="width: 20px; height: 20px; accent-color: var(--stm-primary);">
                 </div>
-                <!-- ENVIAR MENSAJE -->
+                <!-- MODO OSCURO -->
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 5px;">
-                    <span style="font-weight: 600;">Ver botón mensaje</span>
-                    <input type="checkbox" id="checkMsg" onchange="applyConfig('msg', this.checked)" checked
+                    <span style="font-weight: 600;">Modo oscuro</span>
+                    <input type="checkbox" id="checkDark" onchange="applyConfig('dark', this.checked)"
+                        style="width: 20px; height: 20px; accent-color: var(--stm-primary);">
+                </div>
+                <!-- NOVEDADES -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 5px;">
+                    <span style="font-weight: 600;">Ver novedades STM</span>
+                    <input type="checkbox" id="checkNov" onchange="applyConfig('nov', this.checked)" checked
                         style="width: 20px; height: 20px; accent-color: var(--stm-primary);">
                 </div>
             </div>
