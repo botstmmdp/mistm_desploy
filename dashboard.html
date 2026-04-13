@@ -509,6 +509,17 @@
         <div class="tab-content">
             <!-- TAB CONVENIOS -->
             <div class="tab-pane fade show active" id="convenios">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="m-0 fw-bold"><i class="fas fa-handshake me-2"></i>Lista de Convenios</h5>
+                    <div class="search-box-container" style="width: 280px; position: relative;">
+                        <i class="fas fa-search"
+                            style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.9rem;"></i>
+                        <input type="text" id="convenioSearchInput" class="form-control form-control-sm"
+                            placeholder="Buscar convenio o rubro..."
+                            style="padding-left: 35px; border-radius: 10px; border: 1px solid #e2e8f0;"
+                            onkeyup="filterConveniosTable()">
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table-premium" id="tableConvenios">
                         <thead>
@@ -527,6 +538,17 @@
 
             <!-- TAB NOVEDADES -->
             <div class="tab-pane fade" id="novedades">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="m-0 fw-bold"><i class="fas fa-newspaper me-2"></i>Lista de Novedades</h5>
+                    <div class="search-box-container" style="width: 280px; position: relative;">
+                        <i class="fas fa-search"
+                            style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.9rem;"></i>
+                        <input type="text" id="novedadSearchInput" class="form-control form-control-sm"
+                            placeholder="Buscar noticia..."
+                            style="padding-left: 35px; border-radius: 10px; border: 1px solid #e2e8f0;"
+                            onkeyup="filterNovedadesTable()">
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table-premium" id="tableNovedades">
                         <thead>
@@ -545,6 +567,17 @@
 
             <!-- TAB USUARIOS -->
             <div class="tab-pane fade" id="usuarios">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="m-0 fw-bold"><i class="fas fa-users me-2"></i>Lista de Usuarios</h5>
+                    <div class="search-box-container" style="width: 280px; position: relative;">
+                        <i class="fas fa-search"
+                            style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.9rem;"></i>
+                        <input type="text" id="userSearchInput" class="form-control form-control-sm"
+                            placeholder="Buscar por nombre o usuario..."
+                            style="padding-left: 35px; border-radius: 10px; border: 1px solid #e2e8f0;"
+                            onkeyup="filterUsersTable()">
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table-premium" id="tableUsers">
                         <thead>
@@ -704,7 +737,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // CONFIGURACIÓN DE BACKEND
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyTyLGp0MGUFZWPawzWB9qXb_TukjwmLcSf8CtaFbrgxCQdxKLWB3LuG6fNV5ravDf-/exec';
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzJ8oQUcCLGLA3RWGFBR3bjBvt-vzOF2_7H9ov8nSAcG9hDJvbBF29Ei0MgH3vJQjzh/exec';
 
         const SHEET_ID = '16Y723omF3l38Ntq0MUSh-ZMYnRIvYmctrscidox5ktc';
 
@@ -784,9 +817,10 @@
             renderMensajes();
         }
 
-        function renderConvenios() {
+        function renderConvenios(filteredList = null) {
             const tbody = document.querySelector('#tableConvenios tbody');
-            tbody.innerHTML = dataStore.Convenios.map(c => `
+            const list = filteredList || dataStore.Convenios;
+            tbody.innerHTML = list.map(c => `
                 <tr>
                     <td><span class="badge bg-light text-primary fw-bold px-2 py-1" style="font-size: 0.7rem;">${c.rubro}</span></td>
                     <td class="fw-bold text-[var(--primary)]">${c.titulo}</td>
@@ -800,6 +834,17 @@
                     </td>
                 </tr>
             `).join('');
+        }
+
+        function filterConveniosTable() {
+            const query = document.getElementById('convenioSearchInput').value.toLowerCase().trim();
+            if (!query) { renderConvenios(); return; }
+            const filtered = dataStore.Convenios.filter(c =>
+                (c.titulo || "").toLowerCase().includes(query) ||
+                (c.rubro || "").toLowerCase().includes(query) ||
+                (c.detalle || "").toLowerCase().includes(query)
+            );
+            renderConvenios(filtered);
         }
 
         function formatDisplayDate(dateStr) {
@@ -816,9 +861,10 @@
             }
         }
 
-        function renderNovedades() {
+        function renderNovedades(filteredList = null) {
             const tbody = document.querySelector('#tableNovedades tbody');
-            const sortedNovedades = [...dataStore.Novedades].sort((a, b) => {
+            const list = filteredList || dataStore.Novedades;
+            const sortedNovedades = [...list].sort((a, b) => {
                 const dateA = new Date(a.fecha_novedad || a.fecha);
                 const dateB = new Date(b.fecha_novedad || b.fecha);
                 return dateB - dateA;
@@ -839,9 +885,20 @@
             `).join('');
         }
 
-        function renderUsuarios() {
+        function filterNovedadesTable() {
+            const query = document.getElementById('novedadSearchInput').value.toLowerCase().trim();
+            if (!query) { renderNovedades(); return; }
+            const filtered = dataStore.Novedades.filter(n =>
+                (n.titulo || "").toLowerCase().includes(query) ||
+                (n.descripción || n.descripcion || "").toLowerCase().includes(query)
+            );
+            renderNovedades(filtered);
+        }
+
+        function renderUsuarios(filteredList = null) {
             const tbody = document.querySelector('#tableUsers tbody');
-            tbody.innerHTML = dataStore.Usuarios.map(u => `
+            const list = filteredList || dataStore.Usuarios;
+            tbody.innerHTML = list.map(u => `
                 <tr>
                     <td class="fw-bold text-[var(--primary)]">${u.apellido}, ${u.nombre}</td>
                     <td><span class="badge-user">${u.usuario || u.user || '-'}</span></td>
@@ -856,6 +913,17 @@
                     </td>
                 </tr>
             `).join('');
+        }
+
+        function filterUsersTable() {
+            const query = document.getElementById('userSearchInput').value.toLowerCase().trim();
+            if (!query) { renderUsuarios(); return; }
+            const filtered = dataStore.Usuarios.filter(u =>
+                (u.nombre + " " + u.apellido).toLowerCase().includes(query) ||
+                (u.apellido + " " + u.nombre).toLowerCase().includes(query) ||
+                (u.usuario || "").toLowerCase().includes(query)
+            );
+            renderUsuarios(filtered);
         }
 
         function sendMessageToUser(userId) {
