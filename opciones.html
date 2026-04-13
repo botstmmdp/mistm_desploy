@@ -500,6 +500,28 @@
         .fab-telefono {
             width: 60px;
             height: 60px;
+            background: linear-gradient(135deg, hsla(7, 100%, 50%, 0.835), hsla(7, 100%, 50%, 0.835)) !important;
+            color: white !important;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.4);
+            transition: 0.3s;
+            animation: bounceBot 3s infinite 1s;
+            text-decoration: none;
+        }
+
+        .fab-telefono:active {
+            transform: scale(0.95);
+        }
+
+        /* --- FAB MENSAJE --- */
+        .fab-mensaje {
+            width: 60px;
+            height: 60px;
             background: linear-gradient(135deg, #10b981, #059669) !important;
             color: white !important;
             border-radius: 50%;
@@ -508,13 +530,13 @@
             justify-content: center;
             font-size: 1.5rem;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
             transition: 0.3s;
-            animation: bounceBot 3s infinite 1s;
+            animation: bounceBot 3s infinite 1.5s;
             text-decoration: none;
         }
 
-        .fab-telefono:active {
+        .fab-mensaje:active {
             transform: scale(0.95);
         }
 
@@ -1097,6 +1119,13 @@
                 <i class="fa-solid fa-phone"></i>
             </a>
         </div>
+
+        <!-- MENSAJE -->
+        <div class="fab-item-wrapper" id="fabMsg">
+            <a href="https://wa.me/5492234723756" target="_blank" class="fab-mensaje">
+                <i class="fa-solid fa-comment-dots"></i>
+            </a>
+        </div>
     </div>
 
     <!-- MODAL ASISTENTE -->
@@ -1169,6 +1198,12 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 5px;">
                     <span style="font-weight: 600;">Ver marcador telefónico</span>
                     <input type="checkbox" id="checkPhone" onchange="applyConfig('phone', this.checked)" checked
+                        style="width: 20px; height: 20px; accent-color: var(--stm-primary);">
+                </div>
+                <!-- ENVIAR MENSAJE -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 5px;">
+                    <span style="font-weight: 600;">Ver botón mensaje</span>
+                    <input type="checkbox" id="checkMsg" onchange="applyConfig('msg', this.checked)" checked
                         style="width: 20px; height: 20px; accent-color: var(--stm-primary);">
                 </div>
             </div>
@@ -1361,7 +1396,7 @@
         ];
 
         // CAMBIAR POR EL URL DEL SCRIPT DE ADMINISTRACIÓN - esto se agrego con los mensajes campanita
-        const ADMIN_BACKEND_URL = 'https://script.google.com/macros/s/AKfycbyTyLGp0MGUFZWPawzWB9qXb_TukjwmLcSf8CtaFbrgxCQdxKLWB3LuG6fNV5ravDf-/exec';
+        const ADMIN_BACKEND_URL = 'https://script.google.com/macros/s/AKfycbzJ8oQUcCLGLA3RWGFBR3bjBvt-vzOF2_7H9ov8nSAcG9hDJvbBF29Ei0MgH3vJQjzh/exec';
 
 
         // CAMBIAR ESTE URL QUE ES EL QUE VA CON LA APP
@@ -1646,6 +1681,10 @@
                 const phone = document.getElementById('fabPhone');
                 if (phone) phone.classList.toggle('hidden', !value);
             }
+            if (type === 'msg') {
+                const msg = document.getElementById('fabMsg');
+                if (msg) msg.classList.toggle('hidden', !value);
+            }
         }
 
         // Carga inicial de configuración
@@ -1657,7 +1696,8 @@
                 act: localStorage.getItem('cfg_act') !== 'false',
                 cred: localStorage.getItem('cfg_cred') !== 'false',
                 nov: localStorage.getItem('cfg_nov') !== 'false',
-                phone: localStorage.getItem('cfg_phone') !== 'false'
+                phone: localStorage.getItem('cfg_phone') !== 'false',
+                msg: localStorage.getItem('cfg_msg') !== 'false'
             };
 
             document.body.classList.toggle('dark-mode', cfg.dark);
@@ -1677,6 +1717,12 @@
             if (act) {
                 act.classList.toggle('hidden', !cfg.act);
                 if (document.getElementById('checkAct')) document.getElementById('checkAct').checked = cfg.act;
+            }
+
+            const msg = document.getElementById('fabMsg');
+            if (msg) {
+                msg.classList.toggle('hidden', !cfg.msg);
+                if (document.getElementById('checkMsg')) document.getElementById('checkMsg').checked = cfg.msg;
             }
 
             const cred = document.getElementById('fabCred');
