@@ -184,7 +184,6 @@
         .action-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            border-color: var(--stm-primary);
         }
 
         /* --- BLINKING ANIMATION FOR VIGENCIAS --- */
@@ -1155,10 +1154,10 @@
         </div>
 
         <!-- MENSAJE -->
-        <div class="fab-item-wrapper" id="fabMsg">
-            <a href="https://wa.me/5492234723756" target="_blank" class="fab-mensaje">
+        <div class="fab-item-wrapper" id="fabMsg" onclick="toggleSendMsg(true)">
+            <div class="fab-mensaje">
                 <i class="fa-solid fa-comment-dots"></i>
-            </a>
+            </div>
         </div>
     </div>
 
@@ -1192,10 +1191,9 @@
                 Configuración</h2>
 
             <div style="display: flex; flex-direction: column; gap: 15px;">
-                <!-- ACTIVIDADES -->
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 5px;">
                     <span style="font-weight: 600;">Ver actividades</span>
-                    <input type="checkbox" id="checkAct" onchange="applyConfig('act', this.checked)" checked
+                    <input type="checkbox" id="checkAct" onchange="applyConfig('act', this.checked)"
                         style="width: 20px; height: 20px; accent-color: var(--stm-primary);">
                 </div>
                 <!-- BOT ASISTENTE -->
@@ -1408,6 +1406,31 @@
         </div>
     </div>
 
+    <!-- MODAL ENVIAR MENSAJE AL STM -->
+    <div class="search-modal" id="modalSendMsg" onclick="if(event.target == this) toggleSendMsg(false)">
+        <div class="search-content">
+            <div
+                style="width: 70px; height: 70px; background: rgba(16, 185, 129, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                <i class="fa-solid fa-paper-plane" style="font-size: 1.8rem; color: #10b981;"></i>
+            </div>
+            <h2 style="font-weight: 900; font-size: 1.5rem; margin-bottom: 5px; color: inherit;">Enviar Mensaje</h2>
+            <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 25px;">Escribe tu consulta al sindicato</p>
+
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <textarea id="msgBody" class="search-input" placeholder="Escribe tu mensaje aquí..."
+                    style="height: 150px; padding-top: 15px; resize: none;"></textarea>
+
+                <button onclick="sendUserMessage()" id="btnSendMsg"
+                    style="margin-top: 10px; width: 100%; padding: 18px; border-radius: 20px; border: none; background: #10b981; color: white; font-weight: 800; font-family: inherit; font-size: 1.1rem; cursor: pointer; box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);">
+                    Enviar Consulta
+                </button>
+            </div>
+
+            <button onclick="toggleSendMsg(false)"
+                style="width: 100%; padding: 10px; border: none; background: transparent; color: #94a3b8; font-weight: 600; font-family: inherit; font-size: 0.9rem; cursor: pointer; margin-top: 15px;">Cancelar</button>
+        </div>
+    </div>
+
     <script>
         // Verificación de Acceso
         if (localStorage.getItem('isLogged') !== 'true') { window.location.href = 'index.html'; }
@@ -1430,7 +1453,7 @@
         ];
 
         // CAMBIAR POR EL URL DEL SCRIPT DE ADMINISTRACIÓN - esto se agrego con los mensajes campanita
-        const ADMIN_BACKEND_URL = 'https://script.google.com/macros/s/AKfycbzJ8oQUcCLGLA3RWGFBR3bjBvt-vzOF2_7H9ov8nSAcG9hDJvbBF29Ei0MgH3vJQjzh/exec';
+        const ADMIN_BACKEND_URL = 'https://script.google.com/macros/s/AKfycbyMIsCzYZw0CK2e2kGiRD8FUNzPys4U5yqFRF_peOqvp1OBiGWd0LMI6WQbQ9HfcZOz/exec';
 
 
         // CAMBIAR ESTE URL QUE ES EL QUE VA CON LA APP
@@ -1727,7 +1750,7 @@
                 dark: localStorage.getItem('cfg_dark') === 'true',
                 bot: localStorage.getItem('cfg_bot') !== 'false',
                 gen: localStorage.getItem('cfg_gen') !== 'false',
-                act: localStorage.getItem('cfg_act') !== 'false',
+                act: localStorage.getItem('cfg_act') === 'true',
                 cred: localStorage.getItem('cfg_cred') !== 'false',
                 nov: localStorage.getItem('cfg_nov') !== 'false',
                 phone: localStorage.getItem('cfg_phone') !== 'false',
@@ -1937,6 +1960,83 @@
             }
         }
 
+        function toggleSendMsg(show) {
+            const modal = document.getElementById('modalSendMsg');
+            if (show) {
+                modal.style.display = 'flex';
+                setTimeout(() => {
+                    modal.classList.add('active');
+                    const inner = modal.querySelector('.search-content');
+                    if (inner) { inner.style.transform = 'scale(1)'; inner.style.opacity = '1'; }
+                }, 50);
+            } else {
+                modal.classList.remove('active');
+                const inner = modal.querySelector('.search-content');
+                if (inner) { inner.style.transform = 'scale(0.5)'; inner.style.opacity = '0'; }
+                setTimeout(() => { modal.style.display = 'none'; }, 400);
+            }
+        }
+
+        async function sendUserMessage() {
+            const body = document.getElementById('msgBody').value.trim();
+            const btn = document.getElementById('btnSendMsg');
+            const usrID = localStorage.getItem('usrID');
+
+            if (!body) { showNotify("Por favor, escribe un mensaje", "error"); return; }
+
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = `<span>Enviando...</span>`;
+            btn.style.pointerEvents = "none";
+            btn.style.opacity = "0.7";
+
+            try {
+                // Generamos ID Aleatorio
+                const randomId = Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 1000);
+                const fechaActual = new Date().toLocaleString('es-ES', {
+                    day: '2-digit', month: '2-digit', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit'
+                });
+
+                // Enviamos al backend de administración para crear un registro en tabla_mensaje_recibido
+                await fetch(ADMIN_BACKEND_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify({
+                        action: 'CREATE',
+                        sheet: 'MENSAJES_RECIBIDOS',
+                        data: {
+                            id: randomId,
+                            id_user: usrID,
+                            mensaje: body,
+                            fecha_mensaje: fechaActual,
+                            visto: 'NO'
+                        }
+                    })
+                });
+
+                showNotify("¡Mensaje enviado con éxito!", "success");
+                btn.innerHTML = `<span>¡Enviado! ✓</span>`;
+                btn.style.background = "#059669";
+
+                setTimeout(() => {
+                    toggleSendMsg(false);
+                    btn.innerHTML = originalHTML;
+                    btn.style.background = "#10b981";
+                    btn.style.pointerEvents = "auto";
+                    btn.style.opacity = "1";
+                    document.getElementById('msgBody').value = "";
+                }, 2000);
+
+            } catch (err) {
+                console.error(err);
+                showNotify("Error al enviar el mensaje", "error");
+                btn.innerHTML = `Reintentar`;
+                btn.style.pointerEvents = "auto";
+                btn.style.opacity = "1";
+            }
+        }
+
         function closeVigencias() {
             document.getElementById('modalVigencias').classList.remove('active');
             setTimeout(() => {
@@ -1958,7 +2058,7 @@
             checkUserMessages(); // Verificar mensajes del usuario al entrar
 
             // Lógica para mostrar recordatorio siempre que Actividades esté activo en config
-            const isActEnabled = localStorage.getItem('cfg_act') !== 'false';
+            const isActEnabled = localStorage.getItem('cfg_act') === 'true';
             if (isActEnabled) {
                 setTimeout(() => {
                     const modal = document.getElementById('modalVigencias');

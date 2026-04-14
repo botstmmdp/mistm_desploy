@@ -114,9 +114,20 @@
         }
 
         @keyframes soft-blink {
-            0% { opacity: 1; box-shadow: 0 8px 15px -3px rgba(16, 185, 129, 0.3); }
-            50% { opacity: 0.8; box-shadow: 0 4px 10px -3px rgba(16, 185, 129, 0.2); }
-            100% { opacity: 1; box-shadow: 0 8px 15px -3px rgba(16, 185, 129, 0.3); }
+            0% {
+                opacity: 1;
+                box-shadow: 0 8px 15px -3px rgba(16, 185, 129, 0.3);
+            }
+
+            50% {
+                opacity: 0.8;
+                box-shadow: 0 4px 10px -3px rgba(16, 185, 129, 0.2);
+            }
+
+            100% {
+                opacity: 1;
+                box-shadow: 0 8px 15px -3px rgba(16, 185, 129, 0.3);
+            }
         }
 
         .nav-link-dashboard.active {
@@ -197,6 +208,27 @@
             color: #a855f7;
         }
 
+        .bg-red-soft {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .stat-card-disabled {
+            opacity: 0.6;
+            filter: grayscale(1);
+            pointer-events: none;
+        }
+
+        .blink-btn {
+            animation: blinker 1s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0.4;
+            }
+        }
+
         /* Tables & UI */
         .table-container {
             background: white;
@@ -229,6 +261,24 @@
         .status-inactive {
             background: #fef2f2;
             color: #dc2626;
+        }
+
+        .badge-user {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 0.3rem 0.6rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-permiso {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 0.3rem 0.6rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
         }
 
         /* Loader */
@@ -394,7 +444,7 @@
     <div class="loading-overlay" id="loadingOverlay">
         <div class="text-center">
             <img src="../logo nuevo.png" class="loader-logo-spin" alt="Cargando...">
-            <div class="loading-text mt-3 fw-bold">SINCRONIZANDO STM...</div>
+            <div class="loading-text mt-3 fw-bold">Aguarde un instante...</div>
         </div>
     </div>
 
@@ -425,6 +475,11 @@
             <div class="nav-item-dashboard">
                 <button class="nav-link-dashboard" onclick="switchModule('usuarios', this)">
                     <i class="fas fa-user-shield"></i> Usuarios
+                </button>
+            </div>
+            <div class="nav-item-dashboard">
+                <button id="nav-mensajes-recibidos" class="nav-link-dashboard" onclick="switchModule('mensajes-recibidos', this)">
+                    <i class="fas fa-comment-dots"></i> Mensajes Recibidos
                 </button>
             </div>
             <div class="nav-item-dashboard">
@@ -484,24 +539,27 @@
             <div id="module-inicio" class="module animate__animated animate__fadeIn">
                 <h3 class="fw-black mb-4">Vista General</h3>
 
-                <h5 class="fw-black mb-4">Acciones Rápidas</h5>
+                <h5 class="fw-black mb-4">Accesos directos</h5>
                 <div class="row g-4 mb-5">
                     <div class="col-md-4">
-                        <div class="stat-card p-4 text-center d-block cursor-pointer hover-scale" onclick="quickAction('novedades')">
+                        <div class="stat-card p-4 text-center d-block cursor-pointer hover-scale"
+                            onclick="quickAction('novedades')">
                             <div class="stat-icon bg-blue-soft mx-auto mb-3"><i class="fas fa-newspaper"></i></div>
                             <h6 class="fw-bold mb-1">Publicar Novedad</h6>
-                            <p class="text-xs text-muted mb-0">Crear noticia para la web</p>
+                            <p class="text-xs text-muted mb-0">Nueva novedad</p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="stat-card p-4 text-center d-block cursor-pointer hover-scale" onclick="quickAction('mensajes')">
+                        <div class="stat-card p-4 text-center d-block cursor-pointer hover-scale"
+                            onclick="quickAction('mensajes')">
                             <div class="stat-icon bg-purple-soft mx-auto mb-3"><i class="fas fa-paper-plane"></i></div>
                             <h6 class="fw-bold mb-1">Enviar Mensaje</h6>
                             <p class="text-xs text-muted mb-0">Comunicación con usuarios</p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="stat-card p-4 text-center d-block cursor-pointer hover-scale" onclick="quickAction('convenios')">
+                        <div class="stat-card p-4 text-center d-block cursor-pointer hover-scale"
+                            onclick="quickAction('convenios')">
                             <div class="stat-icon bg-accent-soft mx-auto mb-3"><i class="fas fa-handshake"></i></div>
                             <h6 class="fw-bold mb-1">Nuevo Convenio</h6>
                             <p class="text-xs text-muted mb-0">Añadir beneficio sindical</p>
@@ -520,14 +578,21 @@
                         <div class="stat-icon bg-blue-soft"><i class="fas fa-handshake"></i></div>
                         <div>
                             <h3 class="mb-0 fw-black" id="stat-convenios">0</h3>
-                            <p class="mb-0 text-muted small fw-bold">Convenios Activos</p>
+                            <p class="mb-0 text-muted small fw-bold">Convenios activos</p>
                         </div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon bg-purple-soft"><i class="fas fa-newspaper"></i></div>
                         <div>
                             <h3 class="mb-0 fw-black" id="stat-novedades">0</h3>
-                            <p class="mb-0 text-muted small fw-bold">Noticias</p>
+                            <p class="mb-0 text-muted small fw-bold">Noticias activas</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-red-soft"><i class="fas fa-comment-dots"></i></div>
+                        <div>
+                            <h3 class="mb-0 fw-black" id="stat-recibidos">0</h3>
+                            <p class="mb-0 text-muted small fw-bold">Mensajes Web</p>
                         </div>
                     </div>
                 </div>
@@ -568,7 +633,6 @@
                 </div>
             </div>
 
-            <!-- NOVEDADES -->
             <div id="module-novedades" class="module d-none animate__animated animate__fadeIn">
                 <div class="module-header">
                     <h4 class="fw-black m-0">Novedades</h4>
@@ -577,6 +641,10 @@
                     </button>
                 </div>
                 <div class="table-container">
+                    <div class="mb-4 d-flex">
+                        <input type="text" id="novedadSearchInput" class="form-control w-25"
+                            placeholder="Buscar noticia..." onkeyup="filterNovedadesTable()">
+                    </div>
                     <div class="table-responsive">
                         <table class="table-premium w-100" id="tableNovedades">
                             <thead>
@@ -598,8 +666,15 @@
             <div id="module-usuarios" class="module d-none animate__animated animate__fadeIn">
                 <div class="module-header">
                     <h4 class="fw-black m-0">Control de Usuarios</h4>
+                    <button class="btn-premium btn-accent-p" onclick="showNewModal()">
+                        <i class="fas fa-plus-circle"></i> Nuevo Usuario
+                    </button>
                 </div>
                 <div class="table-container">
+                    <div class="mb-4 d-flex">
+                        <input type="text" id="userSearchInput" class="form-control w-25"
+                            placeholder="Buscar usuario..." onkeyup="filterUsersTable()">
+                    </div>
                     <div class="table-responsive">
                         <table class="table-premium w-100" id="tableUsers">
                             <thead>
@@ -630,7 +705,36 @@
                     <div class="table-responsive">
                         <table class="table-premium w-100" id="tableMensajes">
                             <thead>
-                                <tr><th>Destinatario</th><th>Asunto</th><th>Mensaje</th><th>Fecha</th><th class="text-center">Acciones</th></tr>
+                                <tr>
+                                    <th>Destinatario</th>
+                                    <th>Asunto</th>
+                                    <th>Mensaje</th>
+                                    <th>Fecha</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODULE: MENSAJES RECIBIDOS (WEB/APP) -->
+            <div id="module-mensajes-recibidos" class="module d-none animate__animated animate__fadeIn">
+                <div class="module-header">
+                    <h4 class="fw-black m-0">Mensajes Recibidos (Web/App)</h4>
+                </div>
+                <div class="table-container">
+                    <div class="table-responsive">
+                        <table class="table-premium w-100" id="tableRecibidos">
+                            <thead>
+                                <tr>
+                                    <th>Remitente</th>
+                                    <th>Mensaje</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
                             </thead>
                             <tbody></tbody>
                         </table>
@@ -645,8 +749,7 @@
                         <i class="fas fa-home fa-4x text-slate-300"></i>
                     </div>
                     <h3 class="fw-black text-slate-400">Módulo Quincho</h3>
-                    <p class="text-muted fw-medium max-w-md mx-auto">Estamos trabajando para integrar el sistema de
-                        reservas de salones y quinchos directamente en este panel.</p>
+                    <p class="text-muted fw-medium max-w-md mx-auto">Próximamente.</p>
                     <span class="badge rounded-pill bg-slate-200 text-slate-500 px-3 py-2">PRÓXIMAMENTE</span>
                 </div>
             </div>
@@ -657,8 +760,7 @@
                         <i class="fas fa-volleyball-ball fa-4x text-slate-300"></i>
                     </div>
                     <h3 class="fw-black text-slate-400">Módulo Deportes</h3>
-                    <p class="text-muted fw-medium max-w-md mx-auto">Próximamente podrás gestionar inscripciones a
-                        torneos y actividades deportivas del sindicato.</p>
+                    <p class="text-muted fw-medium max-w-md mx-auto">Próximamente.</p>
                     <span class="badge rounded-pill bg-slate-200 text-slate-500 px-3 py-2">EN DESARROLLO</span>
                 </div>
             </div>
@@ -669,8 +771,7 @@
                         <i class="fas fa-shopping-basket fa-4x text-slate-300"></i>
                     </div>
                     <h3 class="fw-black text-slate-400">Módulo Proveduría</h3>
-                    <p class="text-muted fw-medium max-w-md mx-auto">La gestión de stock y pedidos de proveduría se
-                        habilitará en la próxima actualización.</p>
+                    <p class="text-muted fw-medium max-w-md mx-auto">Próximamente.</p>
                     <span class="badge rounded-pill bg-slate-200 text-slate-500 px-3 py-2">PRÓXIMAMENTE</span>
                 </div>
             </div>
@@ -681,9 +782,8 @@
                         <i class="fas fa-medkit fa-4x text-slate-300"></i>
                     </div>
                     <h3 class="fw-black text-slate-400">Módulo Farmacia</h3>
-                    <p class="text-muted fw-medium max-w-md mx-auto">Panel para la administración de beneficios
-                        farmacéuticos y vademécum sindical.</p>
-                    <span class="badge rounded-pill bg-slate-200 text-slate-500 px-3 py-2">EN DESARROLLO</span>
+                    <p class="text-muted fw-medium max-w-md mx-auto">Próximamente.</p>
+                    <span class="badge rounded-pill bg-slate-200 text-slate-500 px-3 py-2">PRÓXIMAMENTE</span>
                 </div>
             </div>
 
@@ -693,8 +793,7 @@
                         <i class="fas fa-chalkboard-teacher fa-4x text-slate-300"></i>
                     </div>
                     <h3 class="fw-black text-slate-400">Módulo Capacitación</h3>
-                    <p class="text-muted fw-medium max-w-md mx-auto">Estamos trabajando en la plataforma para gestionar
-                        cursos, talleres y certificados.</p>
+                    <p class="text-muted fw-medium max-w-md mx-auto">Próximamente.</p>
                     <span class="badge rounded-pill bg-slate-200 text-slate-500 px-3 py-2">PRÓXIMAMENTE</span>
                 </div>
             </div>
@@ -705,8 +804,7 @@
                         <i class="fas fa-user-plus fa-4x text-slate-300"></i>
                     </div>
                     <h3 class="fw-black text-slate-400">Módulo Afiliación</h3>
-                    <p class="text-muted fw-medium max-w-md mx-auto">Sistema centralizado para el procesamiento y
-                        aprobación de nuevas solicitudes de afiliación.</p>
+                    <p class="text-muted fw-medium max-w-md mx-auto">Próximamente.</p>
                     <span class="badge rounded-pill bg-slate-200 text-slate-500 px-3 py-2">EN DESARROLLO</span>
                 </div>
             </div>
@@ -752,6 +850,8 @@
         </div>
     </div>
 
+    </div>
+
     <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content text-center p-4">
@@ -766,10 +866,40 @@
         </div>
     </div>
 
+    <!-- MODAL MENSAJE RECIBIDO (PROCESO DE ALERTA) -->
+    <div class="modal fade" id="modalRecibidoMsg" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg border-0" style="border-radius: 1.5rem;">
+                <div class="modal-body p-4 text-center">
+                    <div class="stat-icon bg-red-soft mx-auto mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
+                        <i class="fas fa-envelope-open-text animate__animated animate__bounce animate__infinite"></i>
+                    </div>
+                    <h4 class="fw-black mb-1">¡Nuevo Mensaje Recibido!</h4>
+                    <p class="text-muted small mb-4">Un usuario ha enviado una consulta desde la Web/App</p>
+
+                    <div class="p-3 bg-light rounded-4 text-start mb-4 border">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <img id="alertUserImg" src="" class="rounded-circle" width="30">
+                            <span id="alertUserName" class="fw-bold small text-slate-700">Usuario...</span>
+                        </div>
+                        <p id="alertUserMsg" class="mb-0 small text-slate-600" style="font-style: italic;">"Cargando
+                            mensaje..."</p>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn-premium btn-accent-p" onclick="markAsReadAndClose()">
+                            <i class="fas fa-check-circle me-2"></i> Marcar como visto
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzJ8oQUcCLGLA3RWGFBR3bjBvt-vzOF2_7H9ov8nSAcG9hDJvbBF29Ei0MgH3vJQjzh/exec';
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyMIsCzYZw0CK2e2kGiRD8FUNzPys4U5yqFRF_peOqvp1OBiGWd0LMI6WQbQ9HfcZOz/exec';
 
         let activeTab = 'Convenios';
         let activeModule = 'inicio';
@@ -778,7 +908,8 @@
             Convenios: [],
             Novedades: [],
             Usuarios: [],
-            Mensajes: []
+            Mensajes: [],
+            MensajesRecibidos: []
         };
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -816,6 +947,7 @@
                 'novedades': 'Novedades',
                 'usuarios': 'Usuarios',
                 'mensajes': 'Mensajes',
+                'mensajes-recibidos': 'MensajesRecibidos',
                 'afiliacion': 'Afiliación',
                 'capacitacion': 'Capacitación'
             };
@@ -827,7 +959,7 @@
             try {
                 console.log("Conectando con URL:", WEB_APP_URL);
                 const response = await fetch(WEB_APP_URL);
-                
+
                 if (!response.ok) {
                     throw new Error(`Servidor fuera de línea o URL incorrecta (${response.status})`);
                 }
@@ -851,11 +983,13 @@
                 dataStore.Novedades = result.NOVEDADES || [];
                 dataStore.Usuarios = result.USUARIOS || [];
                 dataStore.Mensajes = result.MENSAJES || [];
+                dataStore.MensajesRecibidos = result.MENSAJES_RECIBIDOS || [];
 
                 updateRubrosDatalist();
                 updateStats();
                 renderAll();
-                
+                checkIncomingMessages();
+
             } catch (err) {
                 console.error("❌ ERROR TÉCNICO:", err.message);
                 showFeedback(`Error: ${err.message}`, false);
@@ -866,7 +1000,112 @@
         function updateStats() {
             document.getElementById('stat-users').innerText = dataStore.Usuarios.length;
             document.getElementById('stat-convenios').innerText = dataStore.Convenios.filter(c => c.activo === 'SI').length;
-            document.getElementById('stat-novedades').innerText = dataStore.Novedades.length;
+            document.getElementById('stat-novedades').innerText = dataStore.Novedades.filter(n => n.activo === 'SI').length;
+
+            // Lógica robusta para contar NO LEÍDOS (incluyendo vacíos)
+            const unreadCount = dataStore.MensajesRecibidos.filter(m => {
+                const v = (m.visto || "NO").toString().trim().toUpperCase();
+                return v === 'NO' || v === '';
+            }).length;
+
+            const statRecibidos = document.getElementById('stat-recibidos');
+            const navRecibidos = document.getElementById('nav-mensajes-recibidos');
+            statRecibidos.innerText = unreadCount;
+
+            if (unreadCount > 0) {
+                statRecibidos.parentElement.parentElement.classList.add('blink-btn');
+                statRecibidos.parentElement.parentElement.classList.remove('stat-card-disabled');
+                if (navRecibidos) navRecibidos.classList.add('blink-btn');
+            } else {
+                statRecibidos.parentElement.parentElement.classList.remove('blink-btn');
+                statRecibidos.parentElement.parentElement.classList.add('stat-card-disabled');
+                if (navRecibidos) navRecibidos.classList.remove('blink-btn');
+            }
+        }
+
+        function checkIncomingMessages() {
+            const today = new Date().toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            // Buscamos mensajes de hoy no vistos
+            const unreadToday = dataStore.MensajesRecibidos.filter(m => {
+                const v = (m.visto || "NO").toString().trim().toUpperCase();
+                const isUnread = v === 'NO' || v === '';
+                return isUnread && (m.fecha_mensaje || "").includes(today);
+            });
+
+            if (unreadToday.length > 0) {
+                const msg = unreadToday[0];
+                const sender = dataStore.Usuarios.find(u => u.id.toString() === msg.id_user.toString());
+                const senderName = sender ? `${sender.apellido}, ${sender.nombre}` : `Usuario ID: ${msg.id_user}`;
+
+                const img = document.getElementById('alertUserImg');
+                const name = document.getElementById('alertUserName');
+                const body = document.getElementById('alertUserMsg');
+
+                if (name) name.innerText = senderName;
+                if (body) body.innerText = `"${msg.mensaje}"`;
+                if (img) img.src = `https://ui-avatars.com/api/?name=${senderName}&background=ef4444&color=fff`;
+
+                window.currentPendingMsgId = msg.id;
+
+                const alertModalElem = document.getElementById('modalRecibidoMsg');
+                if (alertModalElem) {
+                    const alertModal = new bootstrap.Modal(alertModalElem);
+                    alertModal.show();
+                }
+            }
+        }
+
+        async function markManualAsRead(id) {
+            try {
+                toggleLoader(true);
+                await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({
+                        action: 'UPDATE',
+                        sheet: 'MENSAJES_RECIBIDOS',
+                        id: id,
+                        data: { visto: 'SI' }
+                    })
+                });
+                loadData();
+            } catch (e) {
+                console.error(e);
+                showFeedback("Error al actualizar", false);
+            } finally {
+                toggleLoader(false);
+            }
+        }
+
+        async function markAsReadAndClose() {
+            if (!window.currentPendingMsgId) return;
+
+            const btn = event.target.closest('button');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span> Procesando...`;
+
+            try {
+                await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({
+                        action: 'UPDATE',
+                        sheet: 'MENSAJES_RECIBIDOS',
+                        id: window.currentPendingMsgId,
+                        data: { visto: 'SI' }
+                    })
+                });
+
+                // Cerramos modal y recargamos datos para actualizar contadores
+                const alertModal = bootstrap.Modal.getInstance(document.getElementById('modalRecibidoMsg'));
+                alertModal.hide();
+                loadData();
+
+            } catch (err) {
+                console.error(err);
+                alert("Error al actualizar estado");
+                btn.innerHTML = originalHTML;
+            }
         }
 
         function updateRubrosDatalist() {
@@ -875,17 +1114,48 @@
             if (datalist) datalist.innerHTML = rubrosExistentes.map(r => `<option value="${r}">`).join('');
         }
 
-        function renderAll() { renderConvenios(); renderNovedades(); renderUsuarios(); renderMensajes(); }
+        function renderAll() {
+            renderConvenios();
+            renderNovedades();
+            renderUsuarios();
+            renderMensajes();
+            renderMensajesRecibidos();
+        }
+
+        function renderMensajesRecibidos() {
+            const tbody = document.querySelector('#tableRecibidos tbody');
+            if (!tbody) return;
+            const sorted = [...dataStore.MensajesRecibidos].sort((a, b) => (b.id || 0) - (a.id || 0));
+            tbody.innerHTML = sorted.map(m => {
+                const sender = dataStore.Usuarios.find(u => u.id.toString() === m.id_user.toString());
+                const senderName = sender ? `${sender.apellido}, ${sender.nombre}` : `Usuario ID: ${m.id_user}`;
+                const v = (m.visto || "NO").toString().trim().toUpperCase();
+                const isUnread = v === 'NO' || v === '';
+
+                return `<tr style="${isUnread ? 'background: rgba(239, 68, 68, 0.03);' : ''}">
+                    <td><div class="fw-bold text-slate-700 small">${senderName}</div></td>
+                    <td><div class="small fw-medium ${isUnread ? 'text-danger' : 'text-slate-600'}">${m.mensaje}</div></td>
+                    <td><div class="small opacity-75">${m.fecha_mensaje || '---'}</div></td>
+                    <td><span class="badge-status ${isUnread ? 'status-inactive' : 'status-active'}">${isUnread ? 'PENDIENTE' : 'VISTO'}</span></td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center gap-2">
+                             ${isUnread ? `<div class="action-btn btn-edit" style="background: rgba(16, 185, 129, 0.1); color: #10b981;" onclick="markManualAsRead('${m.id}')" title="Marcar como visto"><i class="fas fa-check"></i></div>` : ''}
+                             <div class="action-btn btn-delete" onclick="deleteEntry('MENSAJES_RECIBIDOS', ${m.id})"><i class="fas fa-trash"></i></div>
+                        </div>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
 
         function renderMensajes() {
             const tbody = document.querySelector('#tableMensajes tbody');
-            if(!tbody) return;
+            if (!tbody) return;
             tbody.innerHTML = dataStore.Mensajes.map(m => {
                 const fecha = m.fecha ? new Date(m.fecha).toLocaleString() : '---';
                 // Buscar nombre del destinatario
                 const user = dataStore.Usuarios.find(u => u.id.toString() === m.id_user.toString());
                 const dest = user ? `${user.apellido}, ${user.nombre}` : `ID: ${m.id_user}`;
-                
+
                 return `<tr>
                     <td><div class="fw-bold text-slate-700">${dest}</div></td>
                     <td><div class="fw-medium">${m.titulo || 'Sin Asunto'}</div></td>
@@ -960,9 +1230,10 @@
             } catch (e) { return dateStr; }
         }
 
-        function renderUsuarios() {
+        function renderUsuarios(filteredList = null) {
             const tbody = document.querySelector('#tableUsers tbody');
-            tbody.innerHTML = dataStore.Usuarios.map(u => `
+            const list = filteredList || dataStore.Usuarios;
+            tbody.innerHTML = list.map(u => `
                 <tr>
                     <td class="fw-bold text-slate-700">${u.apellido}, ${u.nombre}</td>
                     <td><span class="badge-user">${u.usuario || u.user}</span></td>
@@ -979,13 +1250,48 @@
             `).join('');
         }
 
+        function filterNovedadesTable() {
+            const query = document.getElementById('novedadSearchInput').value.toLowerCase().trim();
+            const filtered = dataStore.Novedades.filter(n => (n.titulo || "").toLowerCase().includes(query) || (n.descripcion || n.descripción || "").toLowerCase().includes(query));
+            renderNovedadesFiltered(filtered);
+        }
+
+        function renderNovedadesFiltered(list) {
+            const tbody = document.querySelector('#tableNovedades tbody');
+            tbody.innerHTML = list.map(n => `
+                <tr>
+                    <td><small class="fw-bold text-slate-400">${formatDisplayDate(n.fecha_novedad || n.fecha)}</small></td>
+                    <td class="fw-bold text-slate-700">${n.titulo}</td>
+                    <td><small class="text-muted">${(n.descripcion || n.descripción || "").toString().substring(0, 80)}...</small></td>
+                    <td><span class="badge-status ${n.activo === 'SI' ? 'status-active' : 'status-inactive'}">${n.activo}</span></td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center gap-2">
+                            <div class="action-btn btn-edit" onclick='editEntry("Novedades", ${JSON.stringify(n)})'><i class="fas fa-edit"></i></div>
+                            <div class="action-btn btn-delete" onclick='deleteEntry("Novedades", ${n.id})'><i class="fas fa-trash"></i></div>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterUsersTable() {
+            const query = document.getElementById('userSearchInput').value.toLowerCase().trim();
+            const filtered = dataStore.Usuarios.filter(u =>
+                (u.nombre || "").toLowerCase().includes(query) ||
+                (u.apellido || "").toLowerCase().includes(query) ||
+                (u.usuario || u.user || "").toLowerCase().includes(query) ||
+                (u.email || "").toLowerCase().includes(query)
+            );
+            renderUsuarios(filtered);
+        }
+
 
         function renderDynamicFields(data = null) {
             const container = document.getElementById('dynamicForm');
             const statusSec = document.getElementById('statusSection');
             const btnSubmit = document.getElementById('btnSubmitForm');
             let html = "";
-            
+
             // Adaptar UI según el módulo
             if (activeTab === 'Mensajes') {
                 statusSec.style.display = 'none';
@@ -1004,10 +1310,10 @@
                         <div class="mb-3"><label class="form-label fw-bold small">Contenido</label><textarea class="form-control" name="descripción" rows="4" required>${data?.descripción || data?.descripcion || ''}</textarea></div>
                         <div class="mb-3"><label class="form-label fw-bold small">Fecha</label><input type="date" class="form-control" name="fecha_novedad" value="${formatDateForInput(data?.fecha_novedad || data?.fecha)}" required></div>`;
             } else if (activeTab === 'Usuarios') {
-                html = `<div class="row"><div class="col-6 mb-3"><label class="form-label fw-bold small">Apellido</label><input type="text" class="form-control" name="apellido" value="${data?.apellido || ''}" required></div>
-                        <div class="col-6 mb-3"><label class="form-label fw-bold small">Nombre</label><input type="text" class="form-control" name="nombre" value="${data?.nombre || ''}" required></div></div>
-                        <div class="row"><div class="col-6 mb-3"><label class="form-label fw-bold small">Usuario</label><input type="text" class="form-control" name="usuario" value="${data?.usuario || data?.user || ''}" required></div>
-                        <div class="col-6 mb-3"><label class="form-label fw-bold small">Clave</label><input type="text" class="form-control" name="password" value="${data?.password || ''}" required></div></div>
+                html = `<div class="row"><div class="col-6 mb-3"><label class="form-label fw-bold small">Apellido</label><input type="text" class="form-control" name="apellido" id="inputApellido" value="${data?.apellido || ''}" oninput="generateUsername()" required></div>
+                        <div class="col-6 mb-3"><label class="form-label fw-bold small">Nombre</label><input type="text" class="form-control" name="nombre" id="inputNombre" value="${data?.nombre || ''}" oninput="generateUsername()" required></div></div>
+                        <div class="row"><div class="col-6 mb-3"><label class="form-label fw-bold small">Usuario</label><input type="text" class="form-control" name="usuario" id="inputUsuario" value="${data?.usuario || data?.user || ''}" required></div>
+                        <div class="col-6 mb-3"><label class="form-label fw-bold small">Clave</label><input type="text" class="form-control" name="password" id="inputPassword" value="${data?.password || ''}" placeholder="${generateRandomString(8)}" required></div></div>
                         <div class="mb-3"><label class="form-label fw-bold small">Permiso</label><select class="form-select" name="permiso"><option value="USER">USER</option><option value="ADMIN" ${data?.permiso === 'ADMIN' ? 'selected' : ''}>ADMIN</option></select></div>`;
             } else if (activeTab === 'Mensajes') {
                 const opts = dataStore.Usuarios.map(u => `<option value="${u.id}">${u.apellido}, ${u.nombre}</option>`).join('');
@@ -1018,11 +1324,48 @@
             container.innerHTML = html;
         }
 
+        function generateUsername() {
+            const isEdit = document.getElementById('entityId').value;
+            if (isEdit) return;
+
+            const nom = document.getElementById('inputNombre').value.trim().toLowerCase();
+            const ape = document.getElementById('inputApellido').value.trim().toLowerCase();
+            const userInput = document.getElementById('inputUsuario');
+            const passInput = document.getElementById('inputPassword');
+
+            if (nom && ape) {
+                // Primera letra del nombre + Apellido completo (sin espacios)
+                const generated = nom.charAt(0) + ape.split(" ")[0];
+                userInput.value = generated;
+
+                // Opcional: Sugerir el mismo usuario como password inicial si está vacío
+                if (!passInput.value) passInput.value = generated;
+            }
+        }
+
+        function generateRandomString(length) {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";
+            let result = "";
+            for (let i = 0; i < length; i++) result += chars.charAt(Math.floor(Math.random() * chars.length));
+            return result;
+        }
+
         async function saveEntry() {
             toggleLoader(true);
             const formData = new FormData(document.getElementById('entityForm'));
             const data = Object.fromEntries(formData.entries());
             data.id = document.getElementById('entityId').value;
+
+            // Validación: Usuario repetido (solo para nuevos registros)
+            if (activeTab === 'Usuarios' && !data.id) {
+                const existingUser = dataStore.Usuarios.find(u => (u.usuario || u.user || "").toLowerCase() === data.usuario.toLowerCase());
+                if (existingUser) {
+                    showFeedback(`Error: El usuario '${data.usuario}' ya pertenece a ${existingUser.apellido}, ${existingUser.nombre}`, false);
+                    toggleLoader(false);
+                    return;
+                }
+            }
+
             try {
                 const response = await fetch(WEB_APP_URL, {
                     method: 'POST',
@@ -1060,16 +1403,16 @@
 
         function openDirectMessage(userId) {
             const user = dataStore.Usuarios.find(u => u.id.toString() === userId.toString());
-            if(!user) return;
-            
+            if (!user) return;
+
             activeModule = 'mensajes';
             activeTab = 'Mensajes';
-            
+
             document.getElementById('statusSection').style.display = 'none';
             document.getElementById('btnSubmitForm').innerHTML = `<i class="fas fa-paper-plane me-2"></i> Enviar`;
             document.getElementById('entityId').value = "";
             document.getElementById('modalTitle').innerText = `Mensaje para: ${user.apellido}, ${user.nombre}`;
-            
+
             const container = document.getElementById('dynamicForm');
             container.innerHTML = `
                 <input type="hidden" name="id_user" value="${userId}">
@@ -1086,14 +1429,14 @@
             document.querySelectorAll('.module').forEach(m => m.classList.add('d-none'));
             const targetMod = document.getElementById(`module-${module}`);
             if (targetMod) targetMod.classList.remove('d-none');
-            
+
             document.querySelectorAll('.nav-link-dashboard').forEach(b => b.classList.remove('active'));
             const btn = document.querySelector(`button[onclick*="'${module}'"]`);
             if (btn) btn.classList.add('active');
 
             activeModule = module;
             activeTab = module.charAt(0).toUpperCase() + module.slice(1);
-            
+
             setTimeout(showNewModal, 300);
         }
 
