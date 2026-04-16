@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Autoridades STM - Cuerpo Directivo</title>
     <link rel="icon" type="image/png" href="logo nuevo.png">
 
@@ -36,7 +37,7 @@
 
         .nav-footer,
         .nav-bar,
-        
+
 
         .nav-home-pulse i {
             animation: home-blink 2s infinite ease-in-out;
@@ -71,7 +72,9 @@
             overflow-x: hidden;
         }
 
-        html { height: 100%; }
+        html {
+            height: 100%;
+        }
 
         header {
             padding: 40px 20px 20px;
@@ -219,14 +222,21 @@
 
         /* --- BOT STYLES --- */
         .fab-bot {
-            position: fixed; 
+            position: fixed;
             bottom: 20px;
             bottom: calc(env(safe-area-inset-bottom, 0px) + 98px);
             right: 20px;
-            width: 60px; height: 60px;
-            background: #6366f1 !important; color: white !important;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; cursor: pointer; z-index: 1001; 
+            width: 60px;
+            height: 60px;
+            background: #6366f1 !important;
+            color: white !important;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
             box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
             animation: bounceBot 3s infinite;
         }
@@ -266,22 +276,34 @@
             opacity: 1;
         }
 
-        
 
-        .res-item-bot { background: #f8fafc; border: 1px solid #f1f5f9; transition: 0.3s; }
-        body.dark-mode .res-item-bot { background: #0f172a !important; border-color: #334155 !important; color: white !important; }
-        body.dark-mode .res-item-bot p { color: #94a3b8 !important; }
 
-        
+        .res-item-bot {
+            background: #f8fafc;
+            border: 1px solid #f1f5f9;
+            transition: 0.3s;
+        }
 
-        
+        body.dark-mode .res-item-bot {
+            background: #0f172a !important;
+            border-color: #334155 !important;
+            color: white !important;
+        }
+
+        body.dark-mode .res-item-bot p {
+            color: #94a3b8 !important;
+        }
+
+
+
+
 
         /* --- NAVIGATION --- */
-        
 
-        
 
-        
+
+
+
 
         /* --- NOTIFICATION & UTILS --- */
         .stm-notify {
@@ -353,6 +375,7 @@
                 transform: rotate(360deg);
             }
         }
+
         .bot-input {
             width: 100%;
             padding: 15px 20px 15px 50px;
@@ -366,25 +389,30 @@
             outline: none;
             transition: 0.3s;
         }
+
         .bot-input:focus {
             border-color: var(--stm-primary);
             background: white;
             box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
         }
+
         body.dark-mode .bot-input {
             background: #0f172a;
             border-color: #334155;
             color: #f1f5f9;
         }
+
         body.dark-mode .bot-input:focus {
             border-color: var(--stm-primary);
             background: #0f172a;
         }
+
         .bot-search-box {
             position: relative;
             margin-bottom: 15px;
         }
-        .bot-search-box > i {
+
+        .bot-search-box>i {
             position: absolute;
             left: 18px;
             top: 50%;
@@ -392,6 +420,7 @@
             color: var(--stm-primary);
             font-size: 1.1rem;
         }
+
         .bot-content {
             position: absolute;
             bottom: 0;
@@ -405,13 +434,16 @@
             max-height: 85vh;
             overflow-y: auto;
         }
+
         body.dark-mode .bot-content {
             background: #1e293b;
             color: #f1f5f9;
         }
+
         .bot-modal.active .bot-content {
             transform: translateY(0);
         }
+
         .bot-results-title {
             font-size: 0.72rem;
             font-weight: 800;
@@ -420,7 +452,7 @@
             letter-spacing: 0.5px;
             margin: 0 0 10px;
         }
-    
+
         .bottom-nav {
             position: fixed;
             bottom: 25px;
@@ -441,6 +473,7 @@
             padding: 0 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+
         .nav-btn {
             text-decoration: none;
             color: #64748b;
@@ -509,7 +542,7 @@
             <div class="auth-ico"><i class="fa-solid fa-user"></i></div>
             <div class="auth-info">
                 <div class="auth-pos">Finanzas</div>
-                <h3 class="auth-name">Gaston Ignacio ARMENDARIZ</h3>
+                <h3 class="auth-name">Carolina Inda</h3>
             </div>
         </div>
 
@@ -618,12 +651,13 @@
             </div>
             <div style="position:relative; margin-bottom:15px; box-sizing: border-box;"><i class="fa-solid fa-robot"
                     style="position:absolute; left:18px; top:50%; transform:translateY(-50%); color:var(--stm-primary)"></i><input
-                    type="text" class="bot-input" placeholder="¿En qué puedo ayudarte?" id="botSearch" style="box-sizing: border-box; width: 100%;"></div>
+                    type="text" class="bot-input" placeholder="¿En qué puedo ayudarte?" id="botSearch"
+                    style="box-sizing: border-box; width: 100%;"></div>
             <div id="botRes" style="margin-top: 15px; max-height: 40vh; overflow-y:auto; box-sizing: border-box;"></div>
         </div>
     </div>
 
-        <nav class="bottom-nav">
+    <nav class="bottom-nav">
         <a href="opciones.html" class="nav-btn nav-home-pulse"><i class="fa-solid fa-house"></i></a>
         <a href="contactos.html" class="nav-btn"><i class="fa-solid fa-phone"></i></a>
         <a href="#" class="nav-btn" onclick="toggleUser(true)"><i class="fa-solid fa-user"></i></a>
@@ -666,8 +700,11 @@
                     Contraseña</button>
             </div>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top:20px;">
-                <button onclick="logout()" style="padding: 15px; border-radius: 18px; border: 2px solid #ef4444; background: transparent; color: #ef4444; font-weight: 800; cursor: pointer;">Cerrar Sesión</button>
-                <button onclick="toggleUser(false)" style="padding: 15px; border: none; background: transparent; color: #64748b; font-weight: 600; cursor: pointer;">Cancelar</button>
+                <button onclick="logout()"
+                    style="padding: 15px; border-radius: 18px; border: 2px solid #ef4444; background: transparent; color: #ef4444; font-weight: 800; cursor: pointer;">Cerrar
+                    Sesión</button>
+                <button onclick="toggleUser(false)"
+                    style="padding: 15px; border: none; background: transparent; color: #64748b; font-weight: 600; cursor: pointer;">Cancelar</button>
             </div>
         </div>
     </div>
@@ -689,13 +726,13 @@
             { t: "Género y Diversidad", d: "Protección y bienestar integral", f: "generoydiversidad.html", tags: "ayuda derechos protección género diversidad violencia bienestar", ico: "fa-hand-holding-heart" },
             { t: "Mini Turismo", d: "Viajes y escapadas para afiliados", f: "miniturismo.html", tags: "viaje turismo miramar escapada fin de semana costa hotel", ico: "fa-umbrella-beach" },
             { t: "Capacitación", d: "Formación y becas para estudiantes", f: "capacitacion.html", tags: "estudio terciario universitario beca kit utiles voucher formacion", ico: "fa-graduation-cap" },
-                        { t: "Novedades STM", d: "Últimas noticias y comunicados", f: "novedades.html", tags: "noticias novedad aviso boletin comunicado sorteos informacion ultimo", ico: "fa-newspaper" },
+            { t: "Novedades STM", d: "Últimas noticias y comunicados", f: "novedades.html", tags: "noticias novedad aviso boletin comunicado sorteos informacion ultimo", ico: "fa-newspaper" },
             { t: "Inicio", d: "Panel principal de opciones", f: "opciones.html", tags: "inicio dashboard panel principal volver", ico: "fa-house" }
         ];
 
         const USER_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbznHgKBFeFZMc8IVRHLrTr9RcRROqB4DasbNFPyD3XDxFt9JYT9uzN0tqKNfRTTpOlqBg/exec';
 
-        
+
         // --- NOVEDADES PARA EL BOT ---
         const NEWS_SHEET_ID = "16Y723omF3l38Ntq0MUSh-ZMYnRIvYmctrscidox5ktc";
         const NEWS_GID = "195669740";
@@ -710,16 +747,18 @@
                 const json = JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1));
                 allNews = (json.table.rows || []).map(r => ({
                     titulo: (r.c[1]?.v || "").toString(),
-                    desc:   (r.c[2]?.v || "").toString(),
-                    fecha:  (r.c[3]?.f || r.c[3]?.v || "").toString(),
+                    desc: (r.c[2]?.v || "").toString(),
+                    fecha: (r.c[3]?.f || r.c[3]?.v || "").toString(),
                     activo: (r.c[4]?.v || "").toString().trim().toUpperCase() === "SI"
                 })).filter(n => n.activo).reverse();
             } catch (e) { console.warn("Bot: no se pudieron cargar novedades", e); }
         }
 
         function normalize(str) { return (str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
-        function toggleBot(show) { document.getElementById('modalBot').classList.toggle('active', show); if (show) document.getElementById('botSearch').focus();
-            fetchNews(); }
+        function toggleBot(show) {
+            document.getElementById('modalBot').classList.toggle('active', show); if (show) document.getElementById('botSearch').focus();
+            fetchNews();
+        }
         function toggleSettings(show) { document.getElementById('modalConfig').classList.toggle('active', show); }
         function toggleUser(show) { document.getElementById('modalUser').classList.toggle('active', show); if (show) document.getElementById('newPass').focus(); }
 
@@ -743,9 +782,9 @@
             const p2 = document.getElementById('confirmPass').value;
             const btn = document.querySelector('#modalUser button[onclick="changePassword()"]');
             const usrID = localStorage.getItem('usrID');
-            
-            if(!p1 || !p2) { showNotify("Completa todos los campos.", "error"); return; }
-            if(p1 !== p2) { showNotify("Las contraseñas no coinciden.", "error"); return; }
+
+            if (!p1 || !p2) { showNotify("Completa todos los campos.", "error"); return; }
+            if (p1 !== p2) { showNotify("Las contraseñas no coinciden.", "error"); return; }
             if (!usrID) { showNotify("Sesión inválida, reingresa", "error"); return; }
 
             const originalText = btn.innerText;
@@ -804,7 +843,7 @@
         });
 
         function logout() {
-            localStorage.clear();
+            sessionStorage.clear(); localStorage.clear();
             window.location.href = 'index.html';
         }
 

@@ -559,7 +559,7 @@ async function changePassword() {
             }, 500);
         });
 
-        function logout() { localStorage.clear(); window.location.href = 'index.html'; }
+        function logout() { sessionStorage.clear(); localStorage.clear(); window.location.href = 'index.html'; }
 
         window.addEventListener('load', () => {
             const cfg = { dark: localStorage.getItem('cfg_dark') === 'true', bot: localStorage.getItem('cfg_bot') !== 'false' };

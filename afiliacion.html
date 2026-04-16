@@ -503,9 +503,11 @@
             </div>
             <h3 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 15px;">¡Solicitud Recibida!</h3>
             <p id="successMsg" style="margin-bottom: 25px; line-height: 1.6; text-align: left;">
-                Luego de recibida la solicitud de afiliación, en breve nos pondremos en contacto con usted al número telefónico que nos indicó.
+                Luego de recibida la solicitud de afiliación, en breve nos pondremos en contacto con usted al número
+                telefónico que nos indicó.
                 <br><br>
-                <b>Recordatorio:</b> El trámite requiere la presentación del <b>Decreto de Designación</b> (si no es planta permanente). La Comisión Directiva evaluará y aprobará la solicitud.
+                <b>Recordatorio:</b> El trámite requiere la presentación del <b>Decreto de Designación</b> (si no es
+                planta permanente). La Comisión Directiva evaluará y aprobará la solicitud.
             </p>
             <button class="btn-stm btn-send" onclick="cerrarExito()">Entendido, Finalizar</button>
         </div>
@@ -521,7 +523,7 @@
         const today = new Date().toISOString().split('T')[0];
         inputFecha.value = today;
 
-        const APPSSCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwmVdAygrNxgZBLitX9Dy6oMT_ngmpJNqWoyJwIBMR9afRtOb-1TIZjfFMkexQWqpsEng/exec';
+        const APPSSCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwlfCFizhOOU3Tu3bYa93cNiS6kQJt_cZOHzz3tLY2q-xIh01CgWfvEcFt_U0NX5LmnRg/exec';
         const DESTINATARIO_STM = 'bot.stmmdp@gmail.com';
 
         form.onsubmit = async (e) => {

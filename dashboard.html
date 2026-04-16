@@ -978,14 +978,28 @@
             Afiliaciones: []
         };
 
-        // Protección de Ruta
-        const isLogged = sessionStorage.getItem('isLogged') === 'true';
-        const userPerm = sessionStorage.getItem('usrPermiso');
-        const allowedRoles = ['ADMIN', 'PROVEEDURIA', 'FARMACIA', 'DEPORTE', 'CAPACITACION'];
-        
-        if (!isLogged || !allowedRoles.includes(userPerm)) {
-            window.location.href = 'index-dashboard.html';
+        // Protección de Ruta (Se ejecuta al cargar)
+        function verificarAcceso() {
+            const isLogged = sessionStorage.getItem('isLogged') === 'true';
+            const userPerm = sessionStorage.getItem('usrPermiso');
+            const allowedRoles = ['ADMIN', 'PROVEEDURIA', 'FARMACIA', 'DEPORTE', 'CAPACITACION'];
+            
+            if (!isLogged || !allowedRoles.includes(userPerm)) {
+                window.location.replace('index-dashboard.html');
+                return false;
+            }
+            return true;
         }
+
+        // Validación inicial
+        verificarAcceso();
+
+        // Validación continua de seguridad (cada 2 segundos)
+        setInterval(() => {
+            if (!sessionStorage.getItem('isLogged')) {
+                window.location.replace('index-dashboard.html');
+            }
+        }, 2000);
 
         document.addEventListener('DOMContentLoaded', () => {
             updateClock();
@@ -1051,6 +1065,8 @@
         }
 
         function switchModule(moduleId, element) {
+            if (!verificarAcceso()) return; // Validar antes de cambiar de módulo
+
             document.querySelectorAll('.nav-link-dashboard').forEach(link => link.classList.remove('active'));
             element.classList.add('active');
 
