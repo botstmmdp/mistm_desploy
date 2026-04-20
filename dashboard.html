@@ -961,6 +961,24 @@
         </div>
     </div>
 
+    <!-- MODAL INFO AFILIACION -->
+    <div class="modal fade" id="modalAfiliacionInfo" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg border-0" style="border-radius: 1.5rem;">
+                <div class="modal-header border-0 p-4">
+                    <h5 class="modal-title fw-black"><i class="fas fa-id-card me-2" style="color: var(--accent);"></i> Datos de Afiliación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 pt-0" id="afiliacionInfoBody">
+                    <!-- Contenido dinámico -->
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0 d-flex justify-content-center">
+                    <button type="button" class="btn-premium bg-slate-100 text-slate-600 px-5" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -1298,6 +1316,7 @@
                     <td><small class="text-muted">${af.email || '-'}</small></td>
                     <td class="text-center">
                         <div class="d-flex justify-content-center gap-2">
+                             <div class="action-btn btn-msg" onclick="showAfiliacionInfo('${af.id}')" title="Ver detalle"><i class="fas fa-eye"></i></div>
                              <div class="action-btn btn-delete" onclick="deleteEntry('AFILIACIONES', ${af.id})"><i class="fas fa-trash"></i></div>
                         </div>
                     </td>
@@ -1648,6 +1667,72 @@
             window.location.href = 'index-dashboard.html'; 
         }
         function formatDateForInput(ds) { if (!ds) return ""; const d = new Date(ds); return isNaN(d.getTime()) ? "" : d.toISOString().split('T')[0]; }
+
+        function showAfiliacionInfo(id) {
+            const af = dataStore.Afiliaciones.find(a => a.id.toString() === id.toString());
+            if (!af) return;
+            
+            const body = document.getElementById('afiliacionInfoBody');
+            body.innerHTML = `
+                <div class="mb-3">
+                    <label class="text-muted small fw-bold mb-1 text-uppercase">Nombre y Apellido</label>
+                    <div class="fw-bold text-slate-700 fs-5">${af.nom_ap || '-'}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label class="text-muted small fw-bold mb-1 text-uppercase">DNI</label>
+                        <div class="fw-bold text-slate-700">${af.dni || '-'}</div>
+                    </div>
+                    <div class="col-6">
+                        <label class="text-muted small fw-bold mb-1 text-uppercase">Legajo</label>
+                        <div class="fw-bold text-slate-700">${af.legajo || '-'}</div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label class="text-muted small fw-bold mb-1 text-uppercase">Celular / WhatsApp</label>
+                        <div class="fw-bold text-slate-700">${af.telefono || '-'}</div>
+                    </div>
+                    <div class="col-6">
+                        <label class="text-muted small fw-bold mb-1 text-uppercase">Email</label>
+                        <div class="fw-bold text-slate-700" style="word-break: break-all;">${af.email || '-'}</div>
+                    </div>
+                </div>
+
+                <hr class="text-muted my-4">
+                <h6 class="fw-black text-slate-800 mb-3"><i class="fas fa-briefcase me-2" style="color: var(--accent);"></i> Información Laboral</h6>
+                
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label class="text-muted small fw-bold mb-1 text-uppercase">Ente / Sec.</label>
+                        <div class="fw-bold text-slate-700">${af.ente_sec || '-'}</div>
+                    </div>
+                    <div class="col-6">
+                        <label class="text-muted small fw-bold mb-1 text-uppercase">Dependencia</label>
+                        <div class="fw-bold text-slate-700">${af.dependencia || '-'}</div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label class="text-muted small fw-bold mb-1 text-uppercase">Cargo</label>
+                        <div class="fw-bold text-slate-700">${af.cargo || '-'}</div>
+                    </div>
+                    <div class="col-6">
+                        <label class="text-muted small fw-bold mb-1 text-uppercase">Tipo de Planta</label>
+                        <div class="fw-bold text-slate-700">${af.planta || '-'}</div>
+                    </div>
+                </div>
+
+                <hr class="text-muted my-4">
+
+                <div class="mb-2 text-center">
+                    <label class="text-muted small fw-bold mb-1 text-uppercase">Fecha de Solicitud</label>
+                    <div class="fw-bold text-slate-700">${formatDisplayDate(af.fecha_solicitud || af.fecha)}</div>
+                </div>
+            `;
+            const infoModal = new bootstrap.Modal(document.getElementById('modalAfiliacionInfo'));
+            infoModal.show();
+        }
     </script>
 </body>
 
