@@ -138,20 +138,52 @@
         body.dark-mode .highlight-box { background: linear-gradient(135deg, #78350f 0%, #451a03 100%); border-color: #92400e; color: #fef3c7; }
 
         .form-btn {
-            display: block; width: 100%; background: var(--stm-primary); color: white;
-            text-align: center; padding: 18px; border-radius: 18px; text-decoration: none;
-            font-weight: 800; font-size: 1rem; box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3); margin-top: 15px;
-            transition: all 0.3s ease;
+            display: block; 
+            width: 100%; 
+            background: #d3e27e; 
+            color: #4338ca;
+            text-align: center; 
+            padding: 18px; 
+            border-radius: 22px; 
+            text-decoration: none;
+            font-weight: 800; 
+            font-size: 1rem; 
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.05); 
+            margin-top: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(79, 70, 229, 0.15);
         }
 
-        .btn-blink {
-            animation: btn-pulse 2s infinite ease-in-out;
+        .form-btn:active {
+            transform: scale(0.96);
+            background: #e0e7ff;
         }
 
-        @keyframes btn-pulse {
-            0% { transform: scale(1); box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3); }
-            50% { transform: scale(1.02); box-shadow: 0 15px 35px rgba(79, 70, 229, 0.5); opacity: 0.9; }
-            100% { transform: scale(1); box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3); }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-group .form-btn {
+            margin-top: 0;
+            flex: 1;
+            padding: 15px 10px;
+            font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            line-height: 1.1;
+        }
+
+        .btn-disabled {
+            background: #f1f5f9 !important;
+            color: #94a3b8 !important;
+            border-color: #e2e8f0 !important;
+            box-shadow: none !important;
+            cursor: default;
         }
 
         /* --- BOT & NAV (STRICT) --- */
@@ -328,9 +360,17 @@
                 <strong>Importante:</strong> Pensado para reuniones familiares. No se permite música fuerte, ni fiestas infantiles.
             </p>
 
-            <a href="turno_quincho.html" class="form-btn btn-blink">
-                <i class="fa-solid fa-utensils" style="margin-right: 10px;"></i>RESERVAR QUINCHO
-            </a>
+            <div class="btn-group">
+                <a href="turno_quincho_sede.html" class="form-btn">
+                    <i class="fa-solid fa-building"></i>
+                    <span>RESERVA EN<br>SEDE</span>
+                </a>
+                <div class="form-btn btn-disabled">
+                    <i class="fa-solid fa-tree-city"></i>
+                    <span>RESERVA EN<br>COMPLEJO</span>
+                    <span style="font-size: 0.6rem; opacity: 0.8;">PRÓXIMAMENTE</span>
+                </div>
+            </div>
             
         </div>
 
