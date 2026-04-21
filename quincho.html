@@ -75,8 +75,25 @@
 
         .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-        .header-text h1 { font-size: 1.2rem; font-weight: 800; margin: 0; color: var(--stm-primary); }
-        .header-text p { font-size: 0.8rem; font-weight: 500; margin: 0; opacity: 0.7; }
+        .welcome-msg h1 { margin: 0; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px; }
+        .welcome-msg p { margin: 0; font-size: 1.05rem; opacity: 0.8; font-weight: 600; color: var(--stm-primary); }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            background: rgba(79, 70, 229, 0.08);
+            padding: 12px 20px;
+            border-radius: 15px;
+            color: var(--stm-primary);
+            font-weight: 800;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+
+        .back-btn:active { transform: scale(0.95); background: rgba(79, 70, 229, 0.15); }
 
         .container { padding: 25px 20px 145px; max-width: 600px; margin: 0 auto; }
 
@@ -345,13 +362,16 @@
     <header>
         <div class="header-box">
             <div class="logo-box">
-                <img src="logo nuevo.png" alt="STM Logo">
+                <img src="logo nuevo.png" alt="STM">
             </div>
-            <div class="header-text">
-                <h1>Reserva de Quincho</h1>
-                <p id="usrDisplayName">Afiliado STM</p>
+            <div class="welcome-msg">
+                <h1 id="usrGreeting">¡Hola!</h1>
+                <p id="usrDisplayName">Cargando...</p>
             </div>
         </div>
+        <a href="opciones.html" class="back-btn">
+            <i class="fa-solid fa-arrow-left"></i> VOLVER ATRÁS
+        </a>
     </header>
 
     <main class="container animate__animated animate__fadeIn">
@@ -576,6 +596,9 @@
             if(document.getElementById('fabBotIcon')) document.getElementById('fabBotIcon').classList.toggle('hidden', !cfg.bot);
             const savedName = localStorage.getItem('usrName') || "Afiliado STM";
             document.getElementById('usrDisplayName').innerText = savedName;
+            const h = new Date().getHours();
+            const greet = h < 12 ? "¡Buen día!" : h < 20 ? "¡Buenas tardes!" : "¡Buenas noches!";
+            if (document.getElementById('usrGreeting')) document.getElementById('usrGreeting').innerText = greet;
             setTimeout(() => { document.getElementById('loader-wrapper').style.opacity = '0'; setTimeout(() => document.getElementById('loader-wrapper').style.display = 'none', 500); }, 600);
         });
     </script>
