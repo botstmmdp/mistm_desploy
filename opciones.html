@@ -1217,13 +1217,13 @@
                 <!-- GENERO Y DIVERSIDAD -->
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 5px;">
                     <span style="font-weight: 600;">Ver género y diversidad</span>
-                    <input type="checkbox" id="checkGen" onchange="applyConfig('gen', this.checked)" checked
+                    <input type="checkbox" id="checkGen" onchange="applyConfig('gen', this.checked)"
                         style="width: 20px; height: 20px; accent-color: var(--stm-primary);">
                 </div>
                 <!-- MARCADOR TELEFONICO -->
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 5px;">
                     <span style="font-weight: 600;">Ver marcador telefónico</span>
-                    <input type="checkbox" id="checkPhone" onchange="applyConfig('phone', this.checked)" checked
+                    <input type="checkbox" id="checkPhone" onchange="applyConfig('phone', this.checked)"
                         style="width: 20px; height: 20px; accent-color: var(--stm-primary);">
                 </div>
                 <!-- MODO OSCURO -->
@@ -1750,11 +1750,11 @@
             const cfg = {
                 dark: localStorage.getItem('cfg_dark') === 'true',
                 bot: localStorage.getItem('cfg_bot') !== 'false',
-                gen: localStorage.getItem('cfg_gen') !== 'false',
+                gen: localStorage.getItem('cfg_gen') === 'true',
                 act: localStorage.getItem('cfg_act') === 'true',
                 cred: localStorage.getItem('cfg_cred') !== 'false',
                 nov: localStorage.getItem('cfg_nov') !== 'false',
-                phone: localStorage.getItem('cfg_phone') !== 'false',
+                phone: localStorage.getItem('cfg_phone') === 'true',
                 msg: localStorage.getItem('cfg_msg') !== 'false'
             };
 
