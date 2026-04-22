@@ -984,12 +984,13 @@
             <div id="module-quincho" class="module d-none animate__animated animate__fadeIn">
                 <div class="module-header">
                     <h4 class="fw-black m-0">Gestión de Solicitudes: Quincho</h4>
-                    <div class="d-flex gap-2">
-                        <select id="quinchoFilter" class="form-select bg-slate-100 border-0 fw-bold text-slate-600" onchange="qInit()" style="min-width: 130px;">
+                    <div class="d-flex gap-2 align-items-center flex-shrink-0">
+                        <span class="fw-bold text-nowrap blink-btn" style="border: 2px solid #ef4444; color: #ef4444; padding: 6px 12px; border-radius: 12px; font-size: 0.85rem;"><i class="fa-solid fa-eye me-2"></i> Vista Actual:</span>
+                        <select id="quinchoFilter" class="form-select bg-slate-100 border-0 fw-bold text-slate-700 shadow-sm" onchange="qInit()" style="min-width: 140px; cursor: pointer;">
                             <option value="Sede">Sede</option>
                             <option value="Complejo">Complejo</option>
                         </select>
-                        <button class="btn-premium bg-slate-100 text-slate-600" onclick="goToToday()">
+                        <button class="btn-premium bg-slate-100 text-slate-600 shadow-sm" onclick="goToToday()">
                             Hoy
                         </button>
                     </div>
