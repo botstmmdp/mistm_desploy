@@ -723,7 +723,7 @@
                     card.style.animationDelay = `${index * 0.05}s`;
                     
                     if (!isOccupied) {
-                        card.onclick = () => handleDaySelection(iso, name, dateFormatted);
+                        card.onclick = () => handleDaySelection(iso, name, dateFormatted, config[iso].backend_id);
                     }
 
                     card.innerHTML = `
@@ -746,7 +746,7 @@
             setTimeout(() => loader.style.display = 'none', 500);
         }
 
-        function handleDaySelection(iso, name, date) {
+        function handleDaySelection(iso, name, date, backendId) {
             const activeBookingStr = localStorage.getItem('my_active_booking');
             const title = document.getElementById('modalActionTitle');
             const body = document.getElementById('modalActionBody');
@@ -754,7 +754,7 @@
 
             if (activeBookingStr) {
                 const b = JSON.parse(activeBookingStr);
-                title.innerText = b.status === 'CONFIRMADA' ? "¡Reserva Confirmada!" : "Trámite en proceso";
+                title.innerText = "¡Reserva Confirmada!";
 
                 body.innerHTML = `
                     <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
@@ -764,7 +764,7 @@
                         </div>
                     </div>
                     <div style="text-align: center;">
-                        <p style="font-size: 1.1rem; color: var(--text-dark);">Ya tienes una solicitud <b class="${b.status === 'CONFIRMADA' ? 'text-success' : 'text-warning'}">${b.status}</b> para el día <b>${b.date}</b> para el lugar <b>${b.lugar || 'SEDE'}</b>.</p>
+                        <p style="font-size: 1.1rem; color: var(--text-dark);">Ya tienes una reserva <b>CONFIRMADA</b> para el día <b>${b.date}</b> para el lugar <b>${b.lugar || 'SEDE'}</b>.</p>
                         <p class="text-muted small">Para elegir una nueva fecha o realizar otro trámite, primero debes gestionar tu solicitud actual.</p>
                     </div>
                 `;
@@ -775,17 +775,17 @@
                             <i class="fa-solid fa-shield-halved fs-5"></i> MANTENER RESERVA
                         </button>
                         <button class="btn-danger-outline" onclick="cancelMyBooking('${b.id}')">
-                            <i class="fa-solid fa-triangle-exclamation fs-5"></i> ANULAR SOLICITUD
+                            <i class="fa-solid fa-triangle-exclamation fs-5"></i> ANULAR RESERVA
                         </button>
                     </div>
                 `;
             } else {
-                title.innerText = "Solicitar Reserva";
-                body.innerHTML = `<p class="text-center" style="font-size: 1.1rem;">¿Deseas solicitar tu reserva para el quincho el día <b>${name} ${date}</b>?</p>`;
+                title.innerText = "Confirmar Reserva";
+                body.innerHTML = `<p class="text-center" style="font-size: 1.1rem;">¿Deseas confirmar tu reserva para el quincho el día <b>${name} ${date}</b>?</p>`;
                 footer.innerHTML = `
                     <div class="footer-action-buttons">
-                        <button class="btn-confirm" onclick="confirmMyBooking('${iso}', '${date}')">
-                            <i class="fa-solid fa-calendar-check fs-5"></i> SOLICITAR RESERVA
+                        <button class="btn-confirm" onclick="confirmMyBooking('${iso}', '${date}', '${backendId}')">
+                            <i class="fa-solid fa-calendar-check fs-5"></i> CONFIRMAR RESERVA
                         </button>
                     </div>
                 `;
@@ -793,7 +793,7 @@
             toggleAction(true);
         }
 
-        async function confirmMyBooking(iso, date) {
+        async function confirmMyBooking(iso, date, backendId) {
             const userId = localStorage.getItem('usrID');
             const fullName = localStorage.getItem('usrFullName') || "";
             const parts = fullName.split(' ');
@@ -804,7 +804,7 @@
             const userSede = urlParams.get('sede') || 'Sede';
 
             Swal.fire({
-                title: 'Enviando solicitud...',
+                title: 'Procesando reserva...',
                 allowOutsideClick: false,
                 didOpen: () => Swal.showLoading()
             });
@@ -819,7 +819,7 @@
                     fecha_solicitada: date,
                     fecha_actual: qFormatSheetDate(new Date()),
                     lugar: userSede,
-                    pendiente: 'SI'
+                    pendiente: 'NO'
                 };
 
                 const res = await fetch(URL_SCRIPT, {
@@ -832,9 +832,22 @@
                 });
 
                 const result = await res.json();
-
+ 
                 if (result.status === 'SUCCESS') {
-                    // 2. Enviar mensaje de confirmación de recepción al usuario
+                    // Actualizar estado de la fecha a OCUPADO en FECHAS_QUINCHO
+                    if (backendId) {
+                        await fetch(URL_SCRIPT, {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                action: 'UPDATE',
+                                sheet: 'FECHAS_QUINCHO',
+                                id: backendId,
+                                data: { estado: 'OCUPADO' }
+                            })
+                        });
+                    }
+
+                    // Enviar notificación persistente al usuario
                     await fetch(URL_SCRIPT, {
                         method: 'POST',
                         body: JSON.stringify({
@@ -842,8 +855,8 @@
                             sheet: 'MENSAJES',
                             data: {
                                 id_user: userId,
-                                titulo: "Solicitud de Quincho Recibida",
-                                mensaje: "Nos estaremos comunicando por este medio el resultado de la solicitud de la reserva del quincho.",
+                                titulo: "Reserva de Quincho Recibida",
+                                mensaje: "Su trámite de reserva para el quincho ha sido recibido y confirmado.",
                                 fecha: new Date().toLocaleString()
                             }
                         })
@@ -852,8 +865,8 @@
                     toggleAction(false);
                     Swal.fire({
                         icon: 'success',
-                        title: '¡Solicitud Enviada!',
-                        text: 'Hemos recibido la solicitud y nos estaremos comunicando a la brevedad posible de la gestión solicitada.',
+                        title: '¡Reserva Confirmada!',
+                        text: 'Tu reserva para el quincho ha sido procesada con éxito.',
                         confirmButtonColor: 'var(--stm-primary)'
                     });
                     loadAvailableDays();
@@ -891,6 +904,23 @@
                 const result = await res.json();
 
                 if (result.status === 'SUCCESS') {
+                    // Enviar mensaje de anulación al usuario
+                    if (userId && userId != 0) {
+                        await fetch(URL_SCRIPT, {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                action: 'CREATE',
+                                sheet: 'MENSAJES',
+                                data: {
+                                    id_user: userId,
+                                    titulo: "Reserva Anulada",
+                                    mensaje: `Su reserva para el día ${b.date} ha sido anulada exitosamente. Deberá volver a solicitar la reserva nuevamente si así lo desea.`,
+                                    fecha: new Date().toLocaleString()
+                                }
+                            })
+                        });
+                    }
+
                     localStorage.removeItem('my_active_booking');
                     toggleAction(false);
                     Swal.fire({

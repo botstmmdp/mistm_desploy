@@ -985,7 +985,7 @@
                 <div class="module-header">
                     <h4 class="fw-black m-0">Gestión de Solicitudes: Quincho</h4>
                     <div class="d-flex gap-2 align-items-center flex-shrink-0">
-                        <span class="fw-bold text-nowrap blink-btn" style="border: 2px solid #ef4444; color: #ef4444; padding: 6px 12px; border-radius: 12px; font-size: 0.85rem;"><i class="fa-solid fa-eye me-2"></i> Vista Actual:</span>
+                        <span id="qVistaActualLabel" class="fw-bold text-nowrap" style="border: 2px solid #ef4444; color: #ef4444; padding: 6px 12px; border-radius: 12px; font-size: 0.85rem;"><i class="fa-solid fa-eye me-2"></i> Vista Actual:</span>
                         <select id="quinchoFilter" class="form-select bg-slate-100 border-0 fw-bold text-slate-700 shadow-sm" onchange="qInit()" style="min-width: 140px; cursor: pointer;">
                             <option value="Sede">Sede</option>
                             <option value="Complejo">Complejo</option>
@@ -1451,23 +1451,25 @@
                 if (navAfiliaciones) navAfiliaciones.classList.remove('blink-red');
             }
 
-            // Quincho Stats - Contador enfocado SOLO en solicitudes PENDIENTES de aprobar (de la app)
-            const unreadQuincho = dataStore.SolicitudesQuincho.filter(s => (s.pendiente || "").toString().toUpperCase() === 'SI').length;
+            // Quincho Stats - Mostrar siempre activo y parpadear si hay solicitudes de hoy
+            const todayStr = qToSheet(new Date());
+            const hasNewQuinchoToday = dataStore.SolicitudesQuincho.some(s => qToSheet(s.fecha_actual) === todayStr);
 
-            // Se muestra solo lo PENDIENTE en el número principal
-            document.getElementById('stat-quincho').innerText = unreadQuincho;
-
+            document.getElementById('stat-quincho').innerText = dataStore.SolicitudesQuincho.length;
             const statQuincho = document.getElementById('stat-card-quincho');
             const navQuincho = document.getElementById('nav-quincho');
-
-            if (unreadQuincho > 0) {
-                statQuincho.classList.remove('stat-card-disabled');
+            const labelVista = document.getElementById('qVistaActualLabel');
+            
+            statQuincho.classList.remove('stat-card-disabled');
+            
+            if (hasNewQuinchoToday) {
                 statQuincho.classList.add('blink-red');
                 if (navQuincho) navQuincho.classList.add('blink-red');
+                if (labelVista) labelVista.classList.add('blink-btn');
             } else {
-                statQuincho.classList.add('stat-card-disabled');
                 statQuincho.classList.remove('blink-red');
                 if (navQuincho) navQuincho.classList.remove('blink-red');
+                if (labelVista) labelVista.classList.remove('blink-btn');
             }
         }
 
@@ -2025,7 +2027,8 @@
                     qTurnosConfig[iso].apellido = apellido;
                     qTurnosConfig[iso].telefono = phone;
                     qTurnosConfig[iso].solicitud_id = sol.id;
-                    qTurnosConfig[iso].pendiente = (sol.pendiente || "NO").toString().toUpperCase() === 'SI';
+                    qTurnosConfig[iso].id_user = sol.id_user;
+
                 }
             });
 
@@ -2072,9 +2075,7 @@
 
                 let statusHtml = '';
                 if (!isPast) {
-                    if (cfg.pendiente) {
-                        statusHtml = `<div class="q-slot-badge q-slots-pending">PEDIDO PENDIENTE</div>`;
-                    } else if (cfg.occupied > 0) {
+                    if (cfg.occupied > 0) {
                         statusHtml = `<div class="q-slot-badge q-slots-occupied">OCUPADO</div>`;
                     } else if (cfg.enabled) {
                         statusHtml = `<div class="q-slot-badge q-slots-available">DISPONIBLE</div>`;
@@ -2107,8 +2108,8 @@
                             }).then((result) => {
                                 if (result.isConfirmed) qQuickStatusDirect(iso, true);
                             });
-                        } else if (currentCfg.pendiente || currentCfg.occupied > 0) {
-                            // 2. SI ESTÁ OCUPADA O PENDIENTE -> Abrir Modal para ver quién es o confirmar
+                        } else if (currentCfg.occupied > 0) {
+                            // 2. SI ESTÁ OCUPADA -> Abrir Modal para ver quién es
                             qOpenBooking(iso, currentCfg);
                         } else {
                             // 3. SI ESTÁ DISPONIBLE -> Preguntar si desea Bloquear o Registrar manual
@@ -2190,24 +2191,7 @@
 
             const rejectBtn = document.getElementById('qRejectBtn');
 
-            if (cfg.pendiente) {
-                cancelBtn.style.display = 'none';
-                if (rejectBtn) rejectBtn.style.display = 'block';
-                submitBtn.style.display = 'none';
-                modalTitle.innerHTML = '<i class="fas fa-bell text-primary me-2"></i> Pedido Pendiente App';
-
-                document.getElementById('qBookNombre').readOnly = false;
-                document.getElementById('qBookApellido').readOnly = false;
-                document.getElementById('qBookTel').readOnly = false;
-
-                const confirmFastBtn = document.createElement('button');
-                confirmFastBtn.id = 'qConfirmFastBtn';
-                confirmFastBtn.className = 'btn-premium bg-success text-white w-100 mb-2';
-                confirmFastBtn.innerHTML = '<i class="fas fa-check-double me-2"></i> APROBAR Y OCUPAR FECHA';
-                confirmFastBtn.onclick = () => qConfirmBooking(iso, cfg);
-                submitBtn.parentNode.insertBefore(confirmFastBtn, submitBtn);
-
-            } else if (cfg.occupied > 0) {
+            if (cfg.occupied > 0) {
                 cancelBtn.style.display = 'block';
                 if (rejectBtn) rejectBtn.style.display = 'none';
                 submitBtn.style.display = 'block';
@@ -2382,6 +2366,23 @@
                         await fetch(WEB_APP_URL, {
                             method: 'POST',
                             body: JSON.stringify({ action: 'UPDATE', sheet: 'FECHAS_QUINCHO', id: cfg.backend_id, data: { estado: 'DISPONIBLE' } })
+                        });
+                    }
+
+                    // 3. Enviar mensaje al usuario informando la liberación
+                    if (cfg.id_user && cfg.id_user != 0) {
+                        await fetch(WEB_APP_URL, {
+                            method: 'POST',
+                            body: JSON.stringify({
+                                action: 'CREATE',
+                                sheet: 'MENSAJES',
+                                data: {
+                                    id_user: cfg.id_user,
+                                    titulo: "Reserva Liberada",
+                                    mensaje: `La reserva para el día ${qToSheet(iso)} ha sido liberada por la administración. Deberá volver a solicitar la reserva nuevamente si así lo desea.`,
+                                    fecha: new Date().toLocaleString()
+                                }
+                            })
                         });
                     }
 
