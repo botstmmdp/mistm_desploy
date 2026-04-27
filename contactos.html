@@ -236,23 +236,25 @@
         .contact-list {
             padding: 10px 16px 120px;
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
 
         .contact-card {
             background: white;
-            border-radius: 22px;
-            padding: 16px;
+            border-radius: 25px;
+            padding: 22px 15px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 15px;
+            text-align: center;
+            gap: 12px;
             text-decoration: none;
             color: inherit;
             transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             animation: fadeIn 0.5s ease-out forwards;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid #f1f5f9;
         }
 
         .contact-card:active {
