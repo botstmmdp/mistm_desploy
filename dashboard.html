@@ -445,6 +445,16 @@
             color: white;
         }
 
+        .btn-whatsapp {
+            background-color: #25D366 !important;
+            color: white !important;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #128C7E !important;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.35) !important;
+        }
+
         .action-btn {
             width: 38px;
             height: 38px;
@@ -632,10 +642,8 @@
             }
         }
 
-        /* Asegurar que el modal de confirmación esté por encima de otros modales */
-        #confirmModal {
-            z-index: 2060 !important;
-        }
+        /* Utility Classes */
+        .cursor-pointer { cursor: pointer !important; }
     </style>
 </head>
 
@@ -769,36 +777,38 @@
                         </div>
                     </div>
                 </div>
+
+                <h5 class="fw-black mb-4">Indicadores</h5>
                 <div class="stats-grid">
-                    <div class="stat-card">
+                    <div class="stat-card" id="stat-card-users">
                         <div class="stat-icon bg-accent-soft"><i class="fas fa-users"></i></div>
                         <div>
                             <h3 class="mb-0 fw-black" id="stat-users">0</h3>
                             <p class="mb-0 text-muted small fw-bold">Usuarios activos</p>
                         </div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" id="stat-card-convenios">
                         <div class="stat-icon bg-blue-soft"><i class="fas fa-handshake"></i></div>
                         <div>
                             <h3 class="mb-0 fw-black" id="stat-convenios">0</h3>
                             <p class="mb-0 text-muted small fw-bold">Convenios activos</p>
                         </div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" id="stat-card-novedades">
                         <div class="stat-icon bg-purple-soft"><i class="fas fa-newspaper"></i></div>
                         <div>
                             <h3 class="mb-0 fw-black" id="stat-novedades">0</h3>
                             <p class="mb-0 text-muted small fw-bold">Noticias activas</p>
                         </div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" id="stat-card-recibidos">
                         <div class="stat-icon bg-red-soft"><i class="fas fa-comment-dots"></i></div>
                         <div>
                             <h3 class="mb-0 fw-black" id="stat-recibidos">0</h3>
                             <p class="mb-0 text-muted small fw-bold">Mensajes pendientes de usuarios</p>
                         </div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" id="stat-card-afiliaciones">
                         <div class="stat-icon bg-blue-soft"><i class="fas fa-user-plus"></i></div>
                         <div>
                             <h3 class="mb-0 fw-black" id="stat-afiliaciones">0</h3>
@@ -905,7 +915,6 @@
                     </div>
                 </div>
             </div>
-
 
             <!-- MODULE: MENSAJES -->
             <div id="module-mensajes" class="module d-none animate__animated animate__fadeIn">
@@ -1120,7 +1129,6 @@
         </div>
     </div>
 
-
     <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered">
             <div class="modal-content text-center p-4">
@@ -1251,7 +1259,7 @@
         function verificarAcceso() {
             const isLogged = sessionStorage.getItem('isLogged') === 'true';
             const userPerm = sessionStorage.getItem('usrPermiso');
-            const allowedRoles = ['ADMIN', 'PROVEEDURIA', 'FARMACIA', 'DEPORTE', 'CAPACITACION'];
+            const allowedRoles = ['ADMIN', 'PROVEEDURIA', 'FARMACIA', 'DEPORTE', 'CAPACITACION', 'QUINCHO'];
 
             if (!isLogged || !allowedRoles.includes(userPerm)) {
                 window.location.replace('index-dashboard.html');
@@ -1300,7 +1308,8 @@
                 'PROVEEDURIA': ['PROVEDURÍA'],
                 'FARMACIA': ['FARMACIA'],
                 'DEPORTE': ['DEPORTES'],
-                'CAPACITACION': ['CAPACITACIÓN']
+                'CAPACITACION': ['CAPACITACIÓN'],
+                'QUINCHO': ['QUINCHO']
             };
 
             const allowed = permissions[perm] || [];
@@ -1324,6 +1333,7 @@
                 if (perm === 'FARMACIA') switchModule('farmacia', document.querySelector('button[onclick*="farmacia"]'));
                 if (perm === 'DEPORTE') switchModule('deportes', document.querySelector('button[onclick*="deportes"]'));
                 if (perm === 'CAPACITACION') switchModule('capacitacion', document.querySelector('button[onclick*="capacitacion"]'));
+                if (perm === 'QUINCHO') switchModule('quincho', document.querySelector('button[onclick*="quincho"]'));
             }
         }
 
@@ -1406,9 +1416,24 @@
         }
 
         function updateStats() {
-            document.getElementById('stat-users').innerText = dataStore.Usuarios.length;
-            document.getElementById('stat-convenios').innerText = dataStore.Convenios.filter(c => c.activo === 'SI').length;
-            document.getElementById('stat-novedades').innerText = dataStore.Novedades.filter(n => n.activo === 'SI').length;
+            const usersCount = dataStore.Usuarios.length;
+            const conveniosCount = dataStore.Convenios.filter(c => c.activo === 'SI').length;
+            const novedadesCount = dataStore.Novedades.filter(n => n.activo === 'SI').length;
+            const afiliacionesCount = dataStore.Afiliaciones.length;
+            const quinchoCount = dataStore.SolicitudesQuincho.length;
+
+            document.getElementById('stat-users').innerText = usersCount;
+            document.getElementById('stat-convenios').innerText = conveniosCount;
+            document.getElementById('stat-novedades').innerText = novedadesCount;
+            document.getElementById('stat-afiliaciones').innerText = afiliacionesCount;
+            document.getElementById('stat-quincho').innerText = quinchoCount;
+
+            // Toggle disabled state based on count
+            toggleStatCard('stat-card-users', usersCount);
+            toggleStatCard('stat-card-convenios', conveniosCount);
+            toggleStatCard('stat-card-novedades', novedadesCount);
+            toggleStatCard('stat-card-afiliaciones', afiliacionesCount);
+            toggleStatCard('stat-card-quincho', quinchoCount);
 
             // Lógica robusta para contar NO LEÍDOS (incluyendo vacíos)
             const unreadCount = dataStore.MensajesRecibidos.filter(m => {
@@ -1417,64 +1442,65 @@
             }).length;
 
             const statRecibidos = document.getElementById('stat-recibidos');
+            const cardRecibidos = document.getElementById('stat-card-recibidos');
             const navRecibidos = document.getElementById('nav-mensajes-recibidos');
             statRecibidos.innerText = unreadCount;
 
             if (unreadCount > 0) {
-                statRecibidos.parentElement.parentElement.classList.add('blink-red');
-                statRecibidos.parentElement.parentElement.classList.remove('stat-card-disabled');
+                cardRecibidos.classList.add('blink-red');
+                cardRecibidos.classList.remove('stat-card-disabled');
                 if (navRecibidos) navRecibidos.classList.add('blink-red');
             } else {
-                statRecibidos.parentElement.parentElement.classList.remove('blink-red');
-                statRecibidos.parentElement.parentElement.classList.add('stat-card-disabled');
+                cardRecibidos.classList.remove('blink-red');
+                cardRecibidos.classList.add('stat-card-disabled');
                 if (navRecibidos) navRecibidos.classList.remove('blink-red');
             }
 
-            const statAfiliaciones = document.getElementById('stat-afiliaciones');
             const navAfiliaciones = document.getElementById('nav-afiliaciones');
-            statAfiliaciones.innerText = dataStore.Afiliaciones.length;
-
             const todayISO = new Date().toISOString().split('T')[0];
             const hasNewAfiliationToday = dataStore.Afiliaciones.some(af => {
-                // El formato suele ser YYYY-MM-DD
                 const afDate = (af.fecha_solicitud || "").toString();
                 return afDate.includes(todayISO);
             });
 
-            if (dataStore.Afiliaciones.length > 0) {
-                statAfiliaciones.parentElement.parentElement.classList.remove('stat-card-disabled');
+            if (afiliacionesCount > 0) {
                 if (hasNewAfiliationToday) {
-                    statAfiliaciones.parentElement.parentElement.classList.add('blink-red');
+                    document.getElementById('stat-card-afiliaciones').classList.add('blink-red');
                     if (navAfiliaciones) navAfiliaciones.classList.add('blink-red');
                 } else {
-                    statAfiliaciones.parentElement.parentElement.classList.remove('blink-red');
+                    document.getElementById('stat-card-afiliaciones').classList.remove('blink-red');
                     if (navAfiliaciones) navAfiliaciones.classList.remove('blink-red');
                 }
             } else {
-                statAfiliaciones.parentElement.parentElement.classList.add('stat-card-disabled');
-                statAfiliaciones.parentElement.parentElement.classList.remove('blink-red');
+                document.getElementById('stat-card-afiliaciones').classList.remove('blink-red');
                 if (navAfiliaciones) navAfiliaciones.classList.remove('blink-red');
             }
 
-            // Quincho Stats - Mostrar siempre activo y parpadear si hay solicitudes de hoy
+            // Quincho pulsating logic
             const todayStr = qToSheet(new Date());
             const hasNewQuinchoToday = dataStore.SolicitudesQuincho.some(s => qToSheet(s.fecha_actual) === todayStr);
 
-            document.getElementById('stat-quincho').innerText = dataStore.SolicitudesQuincho.length;
-            const statQuincho = document.getElementById('stat-card-quincho');
             const navQuincho = document.getElementById('nav-quincho');
             const labelVista = document.getElementById('qVistaActualLabel');
 
-            statQuincho.classList.remove('stat-card-disabled');
-
             if (hasNewQuinchoToday) {
-                statQuincho.classList.add('blink-red');
+                document.getElementById('stat-card-quincho').classList.add('blink-red');
                 if (navQuincho) navQuincho.classList.add('blink-red');
                 if (labelVista) labelVista.classList.add('blink-btn');
             } else {
-                statQuincho.classList.remove('blink-red');
+                document.getElementById('stat-card-quincho').classList.remove('blink-red');
                 if (navQuincho) navQuincho.classList.remove('blink-red');
                 if (labelVista) labelVista.classList.remove('blink-btn');
+            }
+        }
+
+        function toggleStatCard(cardId, count) {
+            const card = document.getElementById(cardId);
+            if (!card) return;
+            if (count > 0) {
+                card.classList.remove('stat-card-disabled');
+            } else {
+                card.classList.add('stat-card-disabled');
             }
         }
 
@@ -1773,7 +1799,6 @@
             renderUsuarios(filtered);
         }
 
-
         function renderDynamicFields(data = null) {
             const container = document.getElementById('dynamicForm');
             const statusSec = document.getElementById('statusSection');
@@ -1783,10 +1808,17 @@
             // Adaptar UI según el módulo
             if (activeTab === 'Mensajes' || activeTab === 'Usuarios') {
                 statusSec.style.display = 'none';
-                btnSubmit.innerHTML = activeTab === 'Mensajes' ? `<i class="fas fa-paper-plane me-2"></i> Enviar` : `<i class="fas fa-save me-2"></i> Guardar`;
+                if (activeTab === 'Mensajes') {
+                    btnSubmit.innerHTML = `<i class="fas fa-paper-plane me-2"></i> Enviar`;
+                    btnSubmit.classList.add('btn-whatsapp');
+                } else {
+                    btnSubmit.innerHTML = `<i class="fas fa-save me-2"></i> Guardar`;
+                    btnSubmit.classList.remove('btn-whatsapp');
+                }
             } else {
                 statusSec.style.display = 'block';
                 btnSubmit.innerHTML = `<i class="fas fa-save me-2"></i> Guardar`;
+                btnSubmit.classList.remove('btn-whatsapp');
             }
 
             if (activeTab === 'Convenios') {
@@ -1811,6 +1843,7 @@
                                 <option value="FARMACIA" ${data?.permiso === 'FARMACIA' ? 'selected' : ''}>FARMACIA</option>
                                 <option value="DEPORTE" ${data?.permiso === 'DEPORTE' ? 'selected' : ''}>DEPORTE</option>
                                 <option value="CAPACITACION" ${data?.permiso === 'CAPACITACION' ? 'selected' : ''}>CAPACITACION</option>
+                                <option value="QUINCHO" ${data?.permiso === 'QUINCHO' ? 'selected' : ''}>QUINCHO</option>
                             </select>
                         </div>
                         <div class="row">
@@ -1917,7 +1950,9 @@
             activeTab = 'Mensajes';
 
             document.getElementById('statusSection').style.display = 'none';
-            document.getElementById('btnSubmitForm').innerHTML = `<i class="fas fa-paper-plane me-2"></i> Enviar`;
+            const btnSubmit = document.getElementById('btnSubmitForm');
+            btnSubmit.innerHTML = `<i class="fas fa-paper-plane me-2"></i> Enviar`;
+            btnSubmit.classList.add('btn-whatsapp');
             document.getElementById('entityId').value = "";
             document.getElementById('modalTitle').innerText = `Mensaje para: ${user.apellido}, ${user.nombre}`;
 
@@ -1947,7 +1982,6 @@
 
             setTimeout(showNewModal, 300);
         }
-
 
         function showNewModal() { document.getElementById('entityId').value = ""; document.getElementById('modalTitle').innerText = `Nuevo en ${activeTab}`; renderDynamicFields(); modal.show(); }
         function showFeedback(msg, isSuccess) { const f = document.getElementById('feedbackMessage'); f.innerText = msg; f.className = `feedback show ${isSuccess ? 'success' : 'error'}`; setTimeout(() => f.classList.remove('show'), 3000); }
