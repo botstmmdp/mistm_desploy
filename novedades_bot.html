@@ -302,8 +302,6 @@
             display: block;
         }
 
-
-
         /* --- NAVIGATION --- */
         
 
@@ -367,8 +365,6 @@
             visibility: visible;
             opacity: 1;
         }
-
-
 
         /* --- PRELOADER --- */
         #loader-wrapper {
@@ -570,7 +566,6 @@
 
     <!-- FAB BOT -->
 
-
     <!-- MODAL NOVEDAD DETALLE - DISEÑO CENTRADO PREMIUM -->
     <div class="search-modal" id="modalNovedad" style="display: none; position: fixed; inset: 0; align-items: center; justify-content: center; background: rgba(15, 23, 42, 0.7); z-index: 10000; backdrop-filter: blur(10px); padding: 20px;">
         <div class="search-content" style="position: relative; width: 100%; max-width: 400px; max-height: 90vh; transform: scale(0.5); border-radius: 35px; padding: 35px 25px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0; display: flex; flex-direction: column; text-align: center; background: white; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); overflow: hidden;">
@@ -581,15 +576,8 @@
         </div>
     </div>
 
-
-
-
-
-
-
     <script>
         // Verificación de Acceso
-
 
         const SHEET_ID = "16Y723omF3l38Ntq0MUSh-ZMYnRIvYmctrscidox5ktc";
         const GID = "195669740"; // hoja novedades
@@ -607,6 +595,7 @@
             } else {
                 const vizMatch = String(dateString).match(/Date\((\d{4}),(\d{1,2}),(\d{1,2})\)/);
                 if (vizMatch) {
+                    // La API Viz devuelve el mes ya en base 0, se usa directamente
                     date = new Date(+vizMatch[1], +vizMatch[2], +vizMatch[3]);
                 } else {
                     date = new Date(dateString);
@@ -636,7 +625,8 @@
                         id: (c[0]?.v || "").toString(),
                         titulo: (c[1]?.v || "").toString(),
                         desc: (c[2]?.v || "").toString(),
-                        fecha: (c[3]?.f || c[3]?.v || "").toString(),
+                        // Usamos .v (valor crudo) para evitar ambigüedad de formato regional
+                        fecha: (c[3]?.v || c[3]?.f || "").toString(),
                         activo: (c[4]?.v || "").toString().trim().toUpperCase() === "SI"
                     };
                 }).filter(n => n.activo).sort((a,b) => getRawDate(b.fecha) - getRawDate(a.fecha)); // activas más recientes primero por FECHA
@@ -747,10 +737,6 @@
                 }, 400);
             }
         }
-
-
-
-
 
         function loadSettings() {
             const cfg = { dark: localStorage.getItem('cfg_dark') === 'true' };

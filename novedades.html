@@ -680,6 +680,7 @@
             } else {
                 const vizMatch = String(dateString).match(/Date\((\d{4}),(\d{1,2}),(\d{1,2})\)/);
                 if (vizMatch) {
+                    // La API Viz devuelve el mes ya en base 0, se usa directamente
                     date = new Date(+vizMatch[1], +vizMatch[2], +vizMatch[3]);
                 } else {
                     date = new Date(dateString);
@@ -709,7 +710,8 @@
                         id: (c[0]?.v || "").toString(),
                         titulo: (c[1]?.v || "").toString(),
                         desc: (c[2]?.v || "").toString(),
-                        fecha: (c[3]?.f || c[3]?.v || "").toString(),
+                        // Usamos .v (valor crudo) para evitar ambigüedad de formato regional
+                        fecha: (c[3]?.v || c[3]?.f || "").toString(),
                         activo: (c[4]?.v || "").toString().trim().toUpperCase() === "SI"
                     };
                 }).filter(n => n.activo).sort((a,b) => getRawDate(b.fecha) - getRawDate(a.fecha)); // activas más recientes primero por FECHA
