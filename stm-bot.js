@@ -6,7 +6,15 @@
 (function () {
     // 1. Base de Conocimientos Estática (Módulos de la App)
     const sitePages = [
-        { t: "Deportes y Cultura", d: "Yoga, Taekwondo, Fútbol, Zumba y más", f: "deporte.html", tags: "deporte cultura yoga stretching taekwondo futbol femenino zumba danza expresion funcional cognitiva ajedrez recreacion taller inscripcion", ico: "fa-person-running" },
+        { t: "Deportes y Cultura", d: "Grilla completa de actividades", f: "deporte.html", tags: "deporte cultura actividades talleres inscripción", ico: "fa-person-running" },
+        { t: "Yoga", d: "Horarios de Yoga en el sindicato", f: "deporte.html?id=yoga", tags: "yoga relax estiramiento", ico: "fa-spa" },
+        { t: "Stretching", d: "Horarios de Stretching", f: "deporte.html?id=stretching", tags: "stretching elongacion estiramiento", ico: "fa-child-reaching" },
+        { t: "Taekwondo", d: "Clases de Taekwondo", f: "deporte.html?id=taekwondo", tags: "taekwondo artes marciales defensa personal", ico: "fa-hand-fist" },
+        { t: "Fútbol Femenino", d: "Prácticas de fútbol femenino", f: "deporte.html?id=futbol", tags: "futbol femenino pelota cancha", ico: "fa-futbol" },
+        { t: "Zumba", d: "Clases de Zumba", f: "deporte.html?id=zumba", tags: "zumba baile ritmo", ico: "fa-music" },
+        { t: "Danza", d: "Clases de Danza para niños", f: "deporte.html?id=danza", tags: "danza baile niños coreografia", ico: "fa-person-dots-from-line" },
+        { t: "Funcional", d: "Entrenamiento funcional", f: "deporte.html?id=funcional", tags: "funcional entrenamiento gimnasio pesas", ico: "fa-dumbbell" },
+        { t: "Ajedrez", d: "Taller de Ajedrez", f: "deporte.html?id=ajedrez", tags: "ajedrez mente juego tablero", ico: "fa-chess" },
         { t: "Actividades STM", d: "Beneficios de temporada y eventos", f: "actividades.html", tags: "libros bolsa tiles guardapolvos escolares mochilas canasta educacion hijos accion social escolaridad beneficio primaria secundaria", ico: "fa-calendar-check" },
         { t: "Reclamo Ganancias", d: "Información judicial y trámites", f: "reclamoganancias.html", tags: "ganancias impuesto afip arca ips documentos cronograma", ico: "fa-scale-balanced" },
         { t: "Reclamo Antigüedad", d: "Reclamos judiciales 1995-2014", f: "reclamoantiguedad.html", tags: "antiguedad reclamo judicial abogados demanda activos jubilados", ico: "fa-clock-rotate-left" },

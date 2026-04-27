@@ -487,7 +487,7 @@
 
         <div class="activities-grid">
             <!-- Yoga -->
-            <div class="card-flip" onclick="handleFlip(this)">
+            <div class="card-flip" id="sport-yoga" onclick="handleFlip(this)">
                 <div class="card-inner">
                     <div class="card-front">
                         <i class="fa-solid fa-spa card-icon"></i>
@@ -502,7 +502,7 @@
             </div>
 
             <!-- Stretching -->
-            <div class="card-flip" onclick="handleFlip(this)">
+            <div class="card-flip" id="sport-stretching" onclick="handleFlip(this)">
                 <div class="card-inner">
                     <div class="card-front">
                         <i class="fa-solid fa-child-reaching card-icon"></i>
@@ -518,7 +518,7 @@
             </div>
 
             <!-- Taekwondo -->
-            <div class="card-flip" onclick="handleFlip(this)">
+            <div class="card-flip" id="sport-taekwondo" onclick="handleFlip(this)">
                 <div class="card-inner">
                     <div class="card-front">
                         <i class="fa-solid fa-hand-fist card-icon"></i>
@@ -534,7 +534,7 @@
             </div>
 
             <!-- Fútbol Femenino -->
-            <div class="card-flip" onclick="handleFlip(this)">
+            <div class="card-flip" id="sport-futbol" onclick="handleFlip(this)">
                 <div class="card-inner">
                     <div class="card-front">
                         <i class="fa-solid fa-futbol card-icon"></i>
@@ -549,7 +549,7 @@
             </div>
 
             <!-- Zumba -->
-            <div class="card-flip" onclick="handleFlip(this)">
+            <div class="card-flip" id="sport-zumba" onclick="handleFlip(this)">
                 <div class="card-inner">
                     <div class="card-front">
                         <i class="fa-solid fa-music card-icon"></i>
@@ -564,7 +564,7 @@
             </div>
 
             <!-- Danza -->
-            <div class="card-flip" onclick="handleFlip(this)">
+            <div class="card-flip" id="sport-danza" onclick="handleFlip(this)">
                 <div class="card-inner">
                     <div class="card-front">
                         <i class="fa-solid fa-person-dots-from-line card-icon"></i>
@@ -579,7 +579,7 @@
             </div>
 
             <!-- Funcional -->
-            <div class="card-flip" onclick="handleFlip(this)">
+            <div class="card-flip" id="sport-funcional" onclick="handleFlip(this)">
                 <div class="card-inner">
                     <div class="card-front">
                         <i class="fa-solid fa-dumbbell card-icon"></i>
@@ -594,7 +594,7 @@
             </div>
 
             <!-- Ajedrez -->
-            <div class="card-flip" onclick="handleFlip(this)">
+            <div class="card-flip" id="sport-ajedrez" onclick="handleFlip(this)">
                 <div class="card-inner">
                     <div class="card-front">
                         <i class="fa-solid fa-chess card-icon"></i>
@@ -715,7 +715,19 @@
             document.getElementById('usrDisplayName').innerText = savedName;
             const h = new Date().getHours();
             const greet = h < 12 ? "¡Buen día!" : h < 20 ? "¡Buenas tardes!" : "¡Buenas noches!";
-            document.getElementById('usrGreeting').innerText = greet;
+            if (document.getElementById('usrGreeting')) document.getElementById('usrGreeting').innerText = greet;
+            const urlParams = new URLSearchParams(window.location.search);
+            const focusId = urlParams.get('id');
+            if (focusId) {
+                setTimeout(() => {
+                    const el = document.getElementById('sport-' + focusId);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        setTimeout(() => handleFlip(el), 800);
+                    }
+                }, 800);
+            }
+
             setTimeout(() => { document.getElementById('loader-wrapper').style.opacity = '0'; setTimeout(() => document.getElementById('loader-wrapper').style.display = 'none', 500); }, 600);
         });
     </script>
