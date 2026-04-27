@@ -56,13 +56,49 @@
             z-index: 100;
         }
 
-        body.dark-mode header { background: rgba(15, 23, 42, 0.5); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        body.dark-mode header {
+            background: rgba(15, 23, 42, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-        .header-box { display: flex; align-items: center; gap: 15px; }
-        .logo-box { width: 50px; height: 50px; background: white; border-radius: 14px; padding: 6px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06); display: flex; align-items: center; justify-content: center; }
-        .logo-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .welcome-msg h1 { margin: 0; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.5px; }
-        .welcome-msg p { margin: 0; font-size: 1.05rem; opacity: 0.8; font-weight: 600; color: var(--stm-primary); }
+        .header-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-box {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 14px;
+            padding: 6px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .welcome-msg h1 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .welcome-msg p {
+            margin: 0;
+            font-size: 1.05rem;
+            opacity: 0.8;
+            font-weight: 600;
+            color: var(--stm-primary);
+        }
 
         .container {
             padding: 25px 20px 180px;
@@ -108,7 +144,8 @@
             transform: rotateY(180deg);
         }
 
-        .card-front, .card-back {
+        .card-front,
+        .card-back {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -147,13 +184,36 @@
             color: var(--stm-primary);
             margin-bottom: 12px;
         }
-        body.dark-mode .card-icon { color: var(--stm-primary); }
-        .card-back .card-icon { color: white; }
 
-        .card-title { font-size: 1rem; font-weight: 800; margin: 0; }
-        .card-info-text { font-size: 0.8rem; font-weight: 500; margin-top: 8px; opacity: 0.9; line-height: 1.4; }
+        body.dark-mode .card-icon {
+            color: var(--stm-primary);
+        }
 
-        .tap-hint { font-size: 0.6rem; opacity: 0.4; margin-top: 10px; font-weight: 700; text-transform: uppercase; }
+        .card-back .card-icon {
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .card-info-text {
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 8px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .tap-hint {
+            font-size: 0.6rem;
+            opacity: 0.4;
+            margin-top: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
 
         /* --- PRICE & CONTACT CARDS --- */
         .info-section {
@@ -172,8 +232,14 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             font-weight: 600;
         }
-        .price-row:last-child { border-bottom: none; }
-        body.dark-mode .price-row { border-bottom-color: rgba(255, 255, 255, 0.05); }
+
+        .price-row:last-child {
+            border-bottom: none;
+        }
+
+        body.dark-mode .price-row {
+            border-bottom-color: rgba(255, 255, 255, 0.05);
+        }
 
         .contact-group {
             background: var(--stm-primary);
@@ -263,10 +329,13 @@
         }
 
         @keyframes home-blink {
-            0%, 100% {
+
+            0%,
+            100% {
                 color: #64748b;
                 transform: scale(1);
             }
+
             50% {
                 color: white;
                 transform: scale(1.2);
@@ -292,23 +361,110 @@
             box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
             animation: bounceBot 3s infinite;
         }
-        @keyframes bounceBot { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+        @keyframes bounceBot {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
 
         #loader-wrapper {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white;
-            display: flex; align-items: center; justify-content: center; z-index: 9999; transition: 0.5s;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: 0.5s;
         }
-        body.dark-mode #loader-wrapper { background: #0f172a; }
-        .loader-logo { width: 80px; animation: logo-spin 2s linear infinite; }
-        @keyframes logo-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .bot-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(8px); z-index: 9999; visibility: hidden; opacity: 0; transition: 0.3s; }
-        .bot-modal.active { visibility: visible; opacity: 1; }
-        .bot-content { position: absolute; bottom: 0; width: 100%; background: white; border-top-left-radius: 30px; border-top-right-radius: 30px; padding: 30px 20px 40px; transform: translateY(100%); transition: 0.4s; max-height: 85vh; overflow-y: auto; }
-        body.dark-mode .bot-content { background: #1e293b; color: white; }
-        .bot-modal.active .bot-content { transform: translateY(0); }
-        .bot-input { width: 100%; padding: 15px 20px 15px 50px; border-radius: 18px; border: 2px solid #f1f5f9; background: #f8fafc; font-family: inherit; font-size: 1rem; outline: none; }
-        body.dark-mode .bot-input { background: #0f172a; border-color: #334155; color: white; }
+        body.dark-mode #loader-wrapper {
+            background: #0f172a;
+        }
+
+        .loader-logo {
+            width: 80px;
+            animation: logo-spin 2s linear infinite;
+        }
+
+        @keyframes logo-spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .bot-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .bot-modal.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .bot-content {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            padding: 30px 20px 40px;
+            transform: translateY(100%);
+            transition: 0.4s;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        body.dark-mode .bot-content {
+            background: #1e293b;
+            color: white;
+        }
+
+        .bot-modal.active .bot-content {
+            transform: translateY(0);
+        }
+
+        .bot-input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border-radius: 18px;
+            border: 2px solid #f1f5f9;
+            background: #f8fafc;
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        body.dark-mode .bot-input {
+            background: #0f172a;
+            border-color: #334155;
+            color: white;
+        }
     </style>
 </head>
 
@@ -355,7 +511,8 @@
                     </div>
                     <div class="card-back">
                         <h3 class="card-title">Horarios</h3>
-                        <p class="card-info-text"><b>Tarde:</b> Lun y Mié 17:15 - 18:15<br><b>Mañana:</b> Mar y Jue 09:30 - 10:30</p>
+                        <p class="card-info-text"><b>Tarde:</b> Lun y Mié 17:15 - 18:15<br><b>Mañana:</b> Mar y Jue
+                            09:30 - 10:30</p>
                     </div>
                 </div>
             </div>
@@ -370,7 +527,8 @@
                     </div>
                     <div class="card-back">
                         <h3 class="card-title">Horarios</h3>
-                        <p class="card-info-text">Lunes y Miércoles<br>18:30 a 19:30 hs<br><small>A partir de 7 años</small></p>
+                        <p class="card-info-text">Lunes y Miércoles<br>18:30 a 19:30 hs<br><small>A partir de 7
+                                años</small></p>
                     </div>
                 </div>
             </div>
@@ -452,7 +610,8 @@
         </div>
 
         <div class="info-section">
-            <h3 style="font-weight: 800; color: var(--stm-primary); margin-top: 0;"><i class="fa-solid fa-tags"></i> Valores Mensuales</h3>
+            <h3 style="font-weight: 800; color: var(--stm-primary); margin-top: 0;"><i class="fa-solid fa-tags"></i>
+                Valores Mensuales</h3>
             <div class="price-row"><span>Afiliados Activos</span> <span>$12.000</span></div>
             <div class="price-row"><span>Jubilados</span> <span>$9.000</span></div>
             <div class="price-row"><span>Familiares Directos</span> <span>$12.000</span></div>
@@ -460,14 +619,18 @@
         </div>
 
         <div class="info-section">
-            <h3 style="font-weight: 800; color: var(--stm-primary); margin-top: 0;"><i class="fa-solid fa-circle-info"></i> Consultas e Inscripción</h3>
+            <h3 style="font-weight: 800; color: var(--stm-primary); margin-top: 0;"><i
+                    class="fa-solid fa-circle-info"></i> Consultas e Inscripción</h3>
             <p style="font-size: 0.9rem; margin-bottom: 20px;"><b>Sede:</b> Moreno 4359<br>
-            <b>Atención:</b> Lun, Mié y Vie de 09:30-12:00 / 16:30-19:00 hs.</p>
-            
+                <b>Atención:</b> Lun, Mié y Vie de 09:30-12:00 / 16:30-19:00 hs.
+            </p>
+
             <div class="contact-group">
                 <a href="tel:02234723756" class="contact-link"><i class="fa-solid fa-phone"></i> 472-3756 / 472-9815</a>
-                <a href="https://wa.me/542235504796" class="contact-link"><i class="fa-solid fa-whatsapp"></i> WhatsApp: 223 550-4796</a>
-                <a href="mailto:deportesyrecreacion.stm@gmail.com" class="contact-link"><i class="fa-solid fa-envelope"></i> deportesyrecreacion.stm@gmail.com</a>
+                <a href="https://wa.me/542235504796" class="contact-link"><i class="fa-solid fa-whatsapp"></i> WhatsApp:
+                    223 550-4796</a>
+                <a href="mailto:deportesyrecreacion.stm@gmail.com" class="contact-link"><i
+                        class="fa-solid fa-envelope"></i> deportesyrecreacion.stm@gmail.com</a>
             </div>
         </div>
 
@@ -476,7 +639,8 @@
 
     <!-- TAB BAR NAV (STRICT) -->
     <nav class="bottom-nav">
-        <a href="opciones.html" class="nav-btn nav-home-pulse" onclick="window.location.href='opciones.html'; return false;"><i class="fa-solid fa-house"></i></a>
+        <a href="opciones.html" class="nav-btn nav-home-pulse"
+            onclick="window.location.href='opciones.html'; return false;"><i class="fa-solid fa-house"></i></a>
         <a href="contactos.html" class="nav-btn"><i class="fa-solid fa-phone"></i></a>
         <a href="#" class="nav-btn" onclick="toggleSettings(true)"><i class="fa-solid fa-gear"></i></a>
     </nav>
@@ -487,9 +651,12 @@
     <!-- MODAL ASISTENTE -->
     <div class="bot-modal" id="modalBot" onclick="if(event.target == this) toggleBot(false)">
         <div class="bot-content">
-            <div style="width: 40px; height: 5px; background: #e2e8f0; border-radius: 10px; margin: -10px auto 20px;"></div>
-            <div style="position:relative; margin-bottom:15px;"><i class="fa-solid fa-robot" style="position:absolute; left:18px; top:50%; transform:translateY(-50%); color:var(--stm-primary)"></i>
-                <input type="text" class="bot-input" placeholder="¿En qué puedo ayudarte?" id="botSearch"></div>
+            <div style="width: 40px; height: 5px; background: #e2e8f0; border-radius: 10px; margin: -10px auto 20px;">
+            </div>
+            <div style="position:relative; margin-bottom:15px;"><i class="fa-solid fa-robot"
+                    style="position:absolute; left:18px; top:50%; transform:translateY(-50%); color:var(--stm-primary)"></i>
+                <input type="text" class="bot-input" placeholder="¿En qué puedo ayudarte?" id="botSearch">
+            </div>
             <div id="botRes"></div>
         </div>
     </div>
@@ -497,33 +664,37 @@
     <!-- MODAL CONFIG -->
     <div class="bot-modal" id="modalConfig" onclick="if(event.target == this) toggleSettings(false)">
         <div class="bot-content">
-            <div style="width: 40px; height: 5px; background: #e2e8f0; border-radius: 10px; margin: -10px auto 20px;"></div>
-            <h2 style="font-weight: 800; font-size: 1.3rem; margin-bottom:20px; color: var(--stm-primary);">Configuración</h2>
+            <div style="width: 40px; height: 5px; background: #e2e8f0; border-radius: 10px; margin: -10px auto 20px;">
+            </div>
+            <h2 style="font-weight: 800; font-size: 1.3rem; margin-bottom:20px; color: var(--stm-primary);">
+                Configuración</h2>
             <div style="display: flex; flex-direction: column; gap: 15px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span style="font-weight: 600;">Modo Oscuro</span>
-                    <input type="checkbox" id="checkDark" onchange="applyConfig('dark', this.checked)" style="width: 20px; height: 20px;">
+                    <input type="checkbox" id="checkDark" onchange="applyConfig('dark', this.checked)"
+                        style="width: 20px; height: 20px;">
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span style="font-weight: 600;">Ver Asistente Bot</span>
-                    <input type="checkbox" id="checkBot" onchange="applyConfig('bot', this.checked)" checked style="width: 20px; height: 20px;">
+                    <input type="checkbox" id="checkBot" onchange="applyConfig('bot', this.checked)" checked
+                        style="width: 20px; height: 20px;">
                 </div>
             </div>
-            <button onclick="toggleSettings(false)" style="margin-top: 30px; width: 100%; padding: 15px; border-radius: 15px; border: none; background: #f1f5f9; font-weight: 800; cursor: pointer;">Cerrar</button>
+            <button onclick="toggleSettings(false)"
+                style="margin-top: 30px; width: 100%; padding: 15px; border-radius: 15px; border: none; background: #f1f5f9; font-weight: 800; cursor: pointer;">Cerrar</button>
         </div>
     </div>
 
     <script>
         if (localStorage.getItem('isLogged') !== 'true') { window.location.href = 'index.html'; }
 
-        // Local sitePages for bot search on this page
-        const sitePages = [
-            { t: "Deportes y Cultura", d: "Yoga, Taekwondo, Fútbol, Zumba y más", f: "deporte.html", tags: "deporte cultura yoga stretching taekwondo futbol femenino zumba danza expresion funcional cognitiva ajedrez recreacion taller inscripcion", ico: "fa-person-running" },
-            { t: "Inicio", d: "Panel principal de opciones", f: "opciones.html", tags: "inicio dashboard panel principal volver", ico: "fa-house" }
-        ];
 
-        function normalize(str) { return (str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(); }
-        function toggleBot(show) { document.getElementById('modalBot').classList.toggle('active', show); if (show) document.getElementById('botSearch').focus(); }
+        function handleFlip(card) {
+            const isFlipped = card.classList.contains('is-flipped');
+            document.querySelectorAll('.card-flip').forEach(c => c.classList.remove('is-flipped'));
+            if (!isFlipped) card.classList.add('is-flipped');
+        }
+
         function toggleSettings(show) { document.getElementById('modalConfig').classList.toggle('active', show); }
 
         function applyConfig(type, value) {
@@ -532,28 +703,6 @@
             if (type === 'bot') document.getElementById('fabBotIcon').classList.toggle('hidden', !value);
         }
 
-        function handleFlip(card) {
-            const isFlipped = card.classList.contains('is-flipped');
-            // Cerrar todas las tarjetas primero
-            document.querySelectorAll('.card-flip').forEach(c => c.classList.remove('is-flipped'));
-            // Si la tarjeta no estaba girada, girarla ahora
-            if (!isFlipped) {
-                card.classList.add('is-flipped');
-            }
-        }
-
-        document.getElementById('botSearch').addEventListener('input', (e) => {
-            const val = normalize(e.target.value).trim();
-            const res = document.getElementById('botRes');
-            if (val.length <= 2) { res.innerHTML = ""; return; }
-            res.innerHTML = "";
-            sitePages.filter(p => normalize(p.t + " " + p.tags).includes(val)).forEach(p => {
-                res.innerHTML += `<a href="${p.f}" style="display:flex; align-items:center; gap:12px; padding:12px; border-radius:15px; margin-bottom:8px; text-decoration:none; color:inherit; background:#f8fafc;">
-                    <div style="background:var(--stm-primary); color:white; width:35px; height:35px; border-radius:10px; display:flex; align-items:center; justify-content:center;"><i class="fa-solid ${p.ico}"></i></div>
-                    <div><h4 style="margin:0; font-size:0.85rem">${p.t}</h4><p style="margin:0; font-size:0.7rem; opacity:0.7">${p.d}</p></div>
-                </a>`;
-            });
-        });
 
         window.addEventListener('load', () => {
             const cfg = { dark: localStorage.getItem('cfg_dark') === 'true', bot: localStorage.getItem('cfg_bot') !== 'false' };
@@ -570,5 +719,7 @@
             setTimeout(() => { document.getElementById('loader-wrapper').style.opacity = '0'; setTimeout(() => document.getElementById('loader-wrapper').style.display = 'none', 500); }, 600);
         });
     </script>
+    <script src="stm-bot.js"></script>
 </body>
+
 </html>
