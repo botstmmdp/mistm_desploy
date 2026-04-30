@@ -1078,6 +1078,14 @@
             </div>
         </a>
 
+        <!-- 3. Contactos -->
+        <a href="contactos.html" class="action-card">
+            <div class="ico-box g-2"><i class="fa-solid fa-phone-volume"></i></div>
+            <div class="card-info">
+                <h3>Contacto</h3>
+                <p>Ayuda 24/7</p>
+            </div>
+        </a>
 
         <!-- 4. Convenios -->
         <a href="convenios.html" class="action-card">
@@ -1133,11 +1141,11 @@
             </div>
         </a>
 
-        <!-- 10. Deportes y Cultura -->
+        <!-- 10. Deporte, Cultura y Recreación -->
         <a href="deporte.html" class="action-card">
             <div class="ico-box g-6"><i class="fa-solid fa-person-running"></i></div>
             <div class="card-info">
-                <h3>Deportes y Cultura</h3>
+                <h3>Deporte, Cultura y Recreación</h3>
                 <p>Actividades y Talleres</p>
             </div>
         </a>
@@ -1390,7 +1398,8 @@
             <div style="background: white; padding-top: 10px; text-align: center;">
                 <p style="margin: 0; font-size: 0.85rem; font-weight: 600; color: #94a3b8; font-family: inherit;">
                     Restan <span id="credCountdown"
-                        style="color: #4f46e5; font-weight: 800; min-width: 20px; display: inline-block;">30</span> segundos
+                        style="color: #4f46e5; font-weight: 800; min-width: 20px; display: inline-block;">30</span>
+                    segundos
                 </p>
             </div>
             <div style="background: white; padding: 15px 20px 25px; display: flex; justify-content: center;">
@@ -1556,6 +1565,7 @@
         if (localStorage.getItem('isLogged') !== 'true') { window.location.href = 'index.html'; }
 
         const sitePages = [
+            { t: "Deporte, Cultura y Recreación", d: "Yoga, Taekwondo, Fútbol, Zumba y más", f: "deporte.html", tags: "deporte cultura yoga stretching taekwondo futbol femenino zumba danza expresion funcional cognitiva ajedrez recreacion taller inscripcion", ico: "fa-person-running" },
             { t: "Actividades STM", d: "Beneficios de temporada y eventos", f: "actividades.html", tags: "libros bolsa tiles guardapolvos escolares mochilas canasta educacion hijos accion social escolaridad beneficio primaria secundaria", ico: "fa-calendar-check" },
             { t: "Reclamo Ganancias", d: "Información judicial y trámites", f: "reclamoganancias.html", tags: "ganancias impuesto afip arca ips documentos cronograma", ico: "fa-scale-balanced" },
             { t: "Reclamo Antigüedad", d: "Reclamos judiciales 1995-2014", f: "reclamoantiguedad.html", tags: "antiguedad reclamo judicial abogados demanda activos jubilados", ico: "fa-clock-rotate-left" },
