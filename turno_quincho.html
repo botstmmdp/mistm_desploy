@@ -936,9 +936,10 @@
         function toggleSettings(s) { document.getElementById('modalConfig').classList.toggle('active', s); }
 
         function toggleAction(s) { document.getElementById('modalAction').classList.toggle('active', s); }
-        function applyConfig(k, v) {
-            if (k === 'dark') { document.body.classList.toggle('dark-mode', v); localStorage.setItem('cfg_dark', v); }
-            else if (k === 'bot') { document.getElementById('fabBotIcon').style.display = v ? 'flex' : 'none'; localStorage.setItem('cfg_bot', v); }
+        function applyConfig(type, value) {
+            localStorage.setItem('cfg_' + type, value);
+            if (type === 'dark') document.body.classList.toggle('dark-mode', value);
+            if (type === 'bot') document.getElementById('fabBotIcon').classList.toggle('hidden', !value);
         }
 
         async function changePassword() {
@@ -957,22 +958,24 @@
 
 
 
-        window.onload = () => {
+        window.addEventListener('load', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const userSede = urlParams.get('sede') || 'Sede';
             document.title = "Disponibilidad Quincho - " + userSede.toUpperCase();
 
             loadAvailableDays();
-            const cfgDark = localStorage.getItem('cfg_dark') === 'true';
-            const cfgBot = localStorage.getItem('cfg_bot') !== 'false';
-            document.body.classList.toggle('dark-mode', cfgDark);
-            document.getElementById('checkDark').checked = cfgDark;
-            document.getElementById('fabBotIcon').style.display = cfgBot ? 'flex' : 'none';
-            document.getElementById('checkBot').checked = cfgBot;
-            document.getElementById('usrDisplayName').innerText = localStorage.getItem('usrName') || "Afiliado STM";
+            const cfg = { dark: localStorage.getItem('cfg_dark') === 'true', bot: localStorage.getItem('cfg_bot') !== 'false' };
+            document.body.classList.toggle('dark-mode', cfg.dark);
+            if (document.getElementById('checkDark')) document.getElementById('checkDark').checked = cfg.dark;
+            if (document.getElementById('checkBot')) document.getElementById('checkBot').checked = cfg.bot;
+            if (document.getElementById('fabBotIcon')) document.getElementById('fabBotIcon').classList.toggle('hidden', !cfg.bot);
+
+            const savedName = localStorage.getItem('usrName') || "Afiliado STM";
+            document.getElementById('usrDisplayName').innerText = savedName;
             const h = new Date().getHours();
-            document.getElementById('usrGreeting').innerText = h < 12 ? "¡Buen día!" : h < 20 ? "¡Buenas tardes!" : "¡Buenas noches!";
-        };
+            const greet = h < 12 ? "¡Buen día!" : h < 20 ? "¡Buenas tardes!" : "¡Buenas noches!";
+            if (document.getElementById('usrGreeting')) document.getElementById('usrGreeting').innerText = greet;
+        });
     </script>
     <script src="stm-bot.js"></script>
 </body>

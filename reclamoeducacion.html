@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Autoridades STM - Cuerpo Directivo</title>
+    <title>Educación - STM</title>
     <link rel="icon" type="image/png" href="logo nuevo.png">
 
     <!-- Fonts & Icons -->
@@ -31,12 +31,45 @@
             --glass: rgba(30, 41, 59, 0.85);
         }
 
+        body.dark-mode .info-card {
+            background: #1e293b;
+            border-color: #334155;
+            color: white;
+        }
+
+        body.dark-mode .cron-item {
+            background: #0f172a;
+            border-color: #334155;
+            color: white;
+        }
+
+        body.dark-mode .cron-day {
+            color: #f1f5f9;
+        }
+
+        .res-item-bot {
+            background: #f8fafc;
+            border: 1px solid #f1f5f9;
+            transition: 0.3s;
+        }
+
+        body.dark-mode .res-item-bot {
+            background: #0f172a !important;
+            border-color: #334155 !important;
+            color: white !important;
+        }
+
+        body.dark-mode .res-item-bot p {
+            color: #94a3b8 !important;
+        }
+
         .hidden {
             display: none !important;
         }
 
         .nav-footer,
         .nav-bar,
+
 
         .nav-home-pulse i {
             animation: home-blink 2s infinite ease-in-out;
@@ -113,12 +146,15 @@
             margin: 0;
             font-size: 1.25rem;
             font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
         .welcome-msg p {
             margin: 0;
-            font-size: 0.8rem;
-            opacity: 0.5;
+            font-size: 1.05rem;
+            opacity: 0.8;
+            font-weight: 600;
+            color: var(--stm-primary);
         }
 
         .container {
@@ -127,37 +163,12 @@
             margin: 0 auto;
         }
 
-        /* --- AUTHORITIES LIST --- */
-        .section-title {
-            font-size: 0.8rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--stm-primary);
-            margin: 30px 0 15px 5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--stm-primary);
-            opacity: 0.2;
-        }
-
-        .auth-card {
+        .info-card {
             background: white;
-            border-radius: 22px;
-            padding: 18px 20px;
-            margin-bottom: 12px;
+            border-radius: 26px;
+            padding: 25px;
+            margin-bottom: 20px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            transition: 0.3s;
             border: 1px solid rgba(255, 255, 255, 0.8);
             animation: fadeIn 0.5s ease-out forwards;
         }
@@ -174,49 +185,75 @@
             }
         }
 
-        body.dark-mode .auth-card {
-            background: #1e293b;
-            border-color: #334155;
-        }
-
-        .auth-ico {
-            width: 45px;
-            height: 45px;
-            border-radius: 14px;
-            background: #f1f5f9;
+        .section-title {
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
             color: var(--stm-primary);
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            flex-shrink: 0;
+            gap: 10px;
         }
 
-        body.dark-mode .auth-ico {
-            background: #334155;
-        }
-
-        .auth-info {
-            flex: 1;
-        }
-
-        .auth-pos {
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: #94a3b8;
-            text-transform: uppercase;
-            margin-bottom: 2px;
-        }
-
-        .auth-name {
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: #334155;
+        .cron-list {
+            list-style: none;
+            padding: 0;
             margin: 0;
         }
 
-        body.dark-mode .auth-name {
+        .cron-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: #f8fafc;
+            border-radius: 15px;
+            margin-bottom: 8px;
+            border: 1px solid #f1f5f9;
+            font-size: 0.9rem;
+        }
+
+        .cron-day {
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .cron-docs {
+            font-weight: 800;
+            color: var(--stm-primary);
+        }
+
+        .doc-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 0.92rem;
+            align-items: center;
+        }
+
+        .doc-item i {
+            color: var(--stm-accent);
+            font-size: 1rem;
+        }
+
+        .contact-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: var(--stm-primary);
+            border-radius: 20px;
             color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .contact-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         /* --- BOT STYLES --- */
@@ -275,23 +312,12 @@
             opacity: 1;
         }
 
-        .res-item-bot {
-            background: #f8fafc;
-            border: 1px solid #f1f5f9;
-            transition: 0.3s;
-        }
-
-        body.dark-mode .res-item-bot {
-            background: #0f172a !important;
-            border-color: #334155 !important;
-            color: white !important;
-        }
-
-        body.dark-mode .res-item-bot p {
-            color: #94a3b8 !important;
-        }
-
         /* --- NAVIGATION --- */
+
+
+
+
+
 
         /* --- NOTIFICATION & UTILS --- */
         .stm-notify {
@@ -492,143 +518,67 @@
 
     <div id="loader-wrapper">
         <img src="logo nuevo.png" class="loader-logo" alt="Cargando...">
-        <div style="font-weight:700; color:var(--stm-primary); margin-top:20px">AUTORIDADES STM</div>
+        <div style="font-weight:700; color:var(--stm-primary); margin-top:20px">RECLAMO EDUCACION</div>
     </div>
 
     <header>
         <div class="header-box">
             <div class="logo-box"><img src="logo nuevo.png" alt="STM"></div>
             <div class="welcome-msg">
-                <h1 id="usrGreeting">Autoridades</h1>
-                <p id="usrDisplayName">Cuerpo Directivo</p>
+                <h1 id="usrGreeting">¡Hola!</h1>
+                <p id="usrDisplayName">Cargando...</p>
             </div>
         </div>
     </header>
 
     <div class="container animate__animated animate__fadeIn">
-        <h2 class="section-title">Secretariado General</h2>
+        <a href="judicial.html"
+            style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--stm-primary); font-weight: 700; font-size: 0.9rem; margin-bottom: 20px; background: rgba(79, 70, 229, 0.1); padding: 8px 15px; border-radius: 12px; transition: 0.3s;">
+            <i class="fa-solid fa-arrow-left"></i> Volver a atrás
+        </a>
 
-        <div class="auth-card" style="animation-delay: 0.1s">
-            <div class="auth-ico"><i class="fa-solid fa-user"></i></div>
-            <div class="auth-info">
-                <div class="auth-pos">Secretario General</div>
-                <h3 class="auth-name">Daniel Alberto ZACARIAS</h3>
+        <div class="info-card" style="border-left: 5px solid #10b981;">
+            <h2 class="section-title" style="color: #059669; font-size: 1.4rem;">
+                <i class="fa-solid fa-trophy"></i> TRIUNFO HISTÓRICO
+            </h2>
+            <p style="font-weight: 700; font-size: 1.1rem; line-height: 1.4; margin-bottom: 20px;">
+                DEL STM Y DE LAS/OS DOCENTES MUNICIPALES
+            </p>
+
+            <p style="margin-bottom: 15px; line-height: 1.6;">
+                Después de más de <b>20 años de lucha sindical y judicial</b>, la Suprema Corte de Justicia bonaerense
+                confirmó definitivamente el derecho de las y los docentes municipales a percibir el <b>FONID</b>, en los
+                casos "Cabrer Adriana Inés y otros" y "González Nidia y otras".
+            </p>
+
+            <p style="margin-bottom: 15px; line-height: 1.6;">
+                La Corte rechazó el recurso de la Municipalidad y dejó firme la nulidad del Decreto 73/06, ratificando
+                que el Municipio —como empleador directo— es el responsable del pago del incentivo docente, con todas
+                las actualizaciones correspondientes.
+            </p>
+
+            <div
+                style="background: rgba(16, 185, 129, 0.1); padding: 20px; border-radius: 15px; margin: 20px 0; border-left: 3px solid #10b981;">
+                <p style="font-style: italic; font-weight: 600; margin: 0; color: #065f46;">
+                    "Este fallo repara una injusticia histórica y demuestra que la lucha colectiva siempre da
+                    resultados."
+                </p>
             </div>
+
+            <p style="margin-bottom: 15px; line-height: 1.6;">
+                Este fallo representa una <b>reparación histórica</b> para cientos de docentes que quedaron excluidos
+                del FONID pese a cumplir con todos los requisitos, generando durante años una desigualdad salarial
+                inadmisible.
+            </p>
+
+            <p
+                style="font-size: 0.9rem; opacity: 0.8; margin-top: 25px; border-top: 1px solid #eee; padding-top: 15px;">
+                Un triunfo del Sindicato de Trabajadores Municipales, fruto de las acciones realizadas por el STM y el
+                trabajo jurídico de los Dres. <b>Telma Jara y Alberto Morteo</b>.
+            </p>
         </div>
 
-        <div class="auth-card" style="animation-delay: 0.2s">
-            <div class="auth-ico"><i class="fa-solid fa-user"></i></div>
-            <div class="auth-info">
-                <div class="auth-pos">Secretario Adjunto</div>
-                <h3 class="auth-name">Cristian Gabriel MILASINCIC</h3>
-            </div>
-        </div>
 
-        <h2 class="section-title">Secretarías</h2>
-
-        <div class="auth-card" style="animation-delay: 0.3s">
-            <div class="auth-ico"><i class="fa-solid fa-user"></i></div>
-            <div class="auth-info">
-                <div class="auth-pos">Finanzas</div>
-                <h3 class="auth-name">Carolina Inda</h3>
-            </div>
-        </div>
-
-        <div class="auth-card" style="animation-delay: 0.4s">
-            <div class="auth-ico"><i class="fa-solid fa-user"></i></div>
-            <div class="auth-info">
-                <div class="auth-pos">Organización</div>
-                <h3 class="auth-name">Luis A. MARCHESANI</h3>
-            </div>
-        </div>
-
-        <div class="auth-card" style="animation-delay: 0.5s">
-            <div class="auth-ico"><i class="fa-solid fa-user"></i></div>
-            <div class="auth-info">
-                <div class="auth-pos">Gremial</div>
-                <h3 class="auth-name">María Soledad LEIVA</h3>
-            </div>
-        </div>
-
-        <div class="auth-card" style="animation-delay: 0.6s">
-            <div class="auth-ico"><i class="fa-solid fa-user"></i></div>
-            <div class="auth-info">
-                <div class="auth-pos">Administrativa y de Actas</div>
-                <h3 class="auth-name">María de los Angeles IRAZABAL</h3>
-            </div>
-        </div>
-
-        <div class="auth-card" style="animation-delay: 0.7s">
-            <div class="auth-ico"><i class="fa-solid fa-user"></i></div>
-            <div class="auth-info">
-                <div class="auth-pos">Acción Social y Obras</div>
-                <h3 class="auth-name">Fernando N. SALOME</h3>
-            </div>
-        </div>
-
-        <div class="auth-card" style="animation-delay: 0.8s">
-            <div class="auth-ico"><i class="fa-solid fa-user"></i></div>
-            <div class="auth-info">
-                <div class="auth-pos">Previsión Social</div>
-                <h3 class="auth-name">Sebastián G. MENDEZ</h3>
-            </div>
-        </div>
-
-        <div class="auth-card" style="animation-delay: 0.9s">
-            <div class="auth-ico"><i class="fa-solid fa-user"></i></div>
-            <div class="auth-info">
-                <div class="auth-pos">Prensa y Difusión</div>
-                <h3 class="auth-name">Nicolas A. ALVAREZ LOZZI</h3>
-            </div>
-        </div>
-
-        <div class="auth-card" style="animation-delay: 1.0s">
-            <div class="auth-ico"><i class="fa-solid fa-user"></i></div>
-            <div class="auth-info">
-                <div class="auth-pos">Relac. Públicas y Sindicales</div>
-                <h3 class="auth-name">Ricardo A. PIGNATARO</h3>
-            </div>
-        </div>
-
-        <div class="auth-card" style="animation-delay: 1.1s">
-            <div class="auth-ico"><i class="fa-solid fa-user"></i></div>
-            <div class="auth-info">
-                <div class="auth-pos">Mujer</div>
-                <h3 class="auth-name">Cecilia M. GAUDIOSO</h3>
-            </div>
-        </div>
-
-        <div class="auth-card" style="animation-delay: 1.2s">
-            <div class="auth-ico"><i class="fa-solid fa-user"></i></div>
-            <div class="auth-info">
-                <div class="auth-pos">Docente</div>
-                <h3 class="auth-name">Alejandra S. AYEK</h3>
-            </div>
-        </div>
-
-        <div class="auth-card" style="animation-delay: 1.3s">
-            <div class="auth-ico"><i class="fa-solid fa-user"></i></div>
-            <div class="auth-info">
-                <div class="auth-pos">Personal Jerárquico</div>
-                <h3 class="auth-name">Claudio J. CAMBARERI</h3>
-            </div>
-        </div>
-
-        <div class="auth-card" style="animation-delay: 1.4s">
-            <div class="auth-ico"><i class="fa-solid fa-user"></i></div>
-            <div class="auth-info">
-                <div class="auth-pos">Higiene y Seguridad</div>
-                <h3 class="auth-name">María V. MAIO</h3>
-            </div>
-        </div>
-
-        <div class="auth-card" style="animation-delay: 1.5s">
-            <div class="auth-ico"><i class="fa-solid fa-user"></i></div>
-            <div class="auth-info">
-                <div class="auth-pos">Personal Profesional</div>
-                <h3 class="auth-name">María Laura VILLALBA</h3>
-            </div>
-        </div>
     </div>
 
     <!-- BOT & NAV -->
@@ -700,8 +650,6 @@
             { t: "Inicio", d: "Panel principal de opciones", f: "opciones.html", tags: "inicio dashboard panel principal volver", ico: "fa-house" }
         ];
 
-
-
         // --- NOVEDADES PARA EL BOT ---
         const NEWS_SHEET_ID = "16Y723omF3l38Ntq0MUSh-ZMYnRIvYmctrscidox5ktc";
         const NEWS_GID = "195669740";
@@ -736,21 +684,11 @@
             if (type === 'bot') document.getElementById('fabBotIcon').classList.toggle('hidden', !value);
         }
 
-        let searchTimer = null;
         document.getElementById('botSearch').addEventListener('input', (e) => {
             const val = normalize(e.target.value).trim();
             const res = document.getElementById('botRes');
-            if (searchTimer) clearTimeout(searchTimer);
-
-            if (val.length <= 2) {
-                res.innerHTML = "";
-                return;
-            }
-
-            res.innerHTML = `<div style="padding:20px; text-align:center; color:#94a3b8; font-size:0.85rem;" class="animate__animated animate__pulse animate__infinite">Buscando en el STM...</div>`;
-
-            searchTimer = setTimeout(() => {
-                res.innerHTML = "";
+            res.innerHTML = "";
+            if (val.length > 2) {
                 const words = val.split(" ").filter(w => w.length > 2);
                 sitePages.filter(p => {
                     const target = normalize(p.t + " " + p.tags);
@@ -763,18 +701,31 @@
                         </div>
                     </a>`;
                 });
-            }, 500);
+            }
         });
-
-
 
         window.addEventListener('load', () => {
             const cfg = { dark: localStorage.getItem('cfg_dark') === 'true', bot: localStorage.getItem('cfg_bot') !== 'false' };
             document.body.classList.toggle('dark-mode', cfg.dark);
-            document.getElementById('fabBotIcon').classList.toggle('hidden', !cfg.bot);
+            if (document.getElementById('checkDark')) document.getElementById('checkDark').checked = cfg.dark;
+            if (document.getElementById('checkBot')) document.getElementById('checkBot').checked = cfg.bot;
+            if (document.getElementById('fabBotIcon')) document.getElementById('fabBotIcon').classList.toggle('hidden', !cfg.bot);
+
+            const loader = document.getElementById('loader-wrapper');
             const savedName = localStorage.getItem('usrName') || "Afiliado STM";
-            document.getElementById('usrDisplayName').innerText = savedName;
-            setTimeout(() => { document.getElementById('loader-wrapper').style.opacity = '0'; setTimeout(() => document.getElementById('loader-wrapper').style.display = 'none', 500); }, 600);
+            
+            const greetEl = document.getElementById('usrGreeting');
+            if (greetEl) {
+                const h = new Date().getHours();
+                greetEl.innerText = h < 12 ? "¡Buen día!" : h < 20 ? "¡Buenas tardes!" : "¡Buenas noches!";
+            }
+
+            const nameEl = document.getElementById('usrDisplayName');
+            if (nameEl) nameEl.innerText = savedName;
+
+            if (loader) {
+                setTimeout(() => { loader.style.opacity = '0'; setTimeout(() => loader.style.display = 'none', 500); }, 600);
+            }
         });
     </script>
 

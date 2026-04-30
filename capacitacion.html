@@ -316,13 +316,13 @@
             opacity: 1;
         }
 
-        
 
-        
 
-        
 
-        
+
+
+
+
 
         .nav-home-pulse i {
             animation: home-blink 3s infinite ease-in-out;
@@ -452,7 +452,7 @@
             letter-spacing: 0.5px;
             margin: 0 0 10px;
         }
-    
+
         .bottom-nav {
             position: fixed;
             bottom: 25px;
@@ -473,6 +473,7 @@
             padding: 0 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+
         .nav-btn {
             text-decoration: none;
             color: #64748b;
@@ -579,8 +580,9 @@
     <div class="fab-bot" id="fabBotIcon" onclick="toggleBot(true)"><i class="fa-solid fa-robot"></i></div>
 
     <!-- TAB BAR NAV (STRICT) -->
-        <nav class="bottom-nav">
-        <a href="opciones.html" class="nav-btn nav-home-pulse" onclick="window.location.href='opciones.html'; return false;"><i class="fa-solid fa-house"></i></a>
+    <nav class="bottom-nav">
+        <a href="opciones.html" class="nav-btn nav-home-pulse"
+            onclick="window.location.href='opciones.html'; return false;"><i class="fa-solid fa-house"></i></a>
         <a href="contactos.html" class="nav-btn"><i class="fa-solid fa-phone"></i></a>
         <a href="#" class="nav-btn" onclick="toggleSettings(true)"><i class="fa-solid fa-gear"></i></a>
     </nav>
@@ -631,11 +633,16 @@
             { t: "Servicios STM", d: "Beneficios, camping, subsidios y más", f: "servicios.html", tags: "camping quinchos piletas préstamos proveeduría casamiento nacimiento útiles libros guardapolvos farmacia legal asesoría", ico: "fa-screwdriver-wrench" },
             { t: "Convenios Especiales", d: "Descuentos en comercios y salud", f: "convenios.html", tags: "descuentos convenios beneficios automotor salud veterinaria recreacion comercios", ico: "fa-handshake" },
             { t: "Autoridades", d: "Cuerpo directivo y secretarías", f: "autoridades.html", tags: "quien mando jefe directiva secretario conducción", ico: "fa-users-gear" },
+            { t: "Paritarias", d: "Acuerdos salariales y actas", f: "paritarias.html", tags: "paritarias sueldo salario aumento paritaria acuerdos actas gremio", ico: "fa-comments-dollar" },
+            { t: "Memoria y Balance", d: "Informes anuales y estados contables", f: "memoria.html", tags: "memoria balance contable informe anual finanzas transparencia balance", ico: "fa-chart-pie" },
+            { t: "Afiliación Online", d: "Inicia tu trámite para sumarte al sindicato", f: "afiliacion.html", tags: "alta inscripción socio sindicato ficha nueva sumarse", ico: "fa-user-plus" },
             { t: "Contactos e Internos", d: "Directorio de internos y secretarías", f: "contactos.html", tags: "teléfono oficina directivos secretario ayuda interno llamar", ico: "fa-address-book" },
             { t: "Género y Diversidad", d: "Protección y bienestar integral", f: "generoydiversidad.html", tags: "ayuda derechos protección género diversidad violencia bienestar", ico: "fa-hand-holding-heart" },
             { t: "Mini Turismo", d: "Viajes y escapadas para afiliados", f: "miniturismo.html", tags: "viaje turismo miramar escapada fin de semana costa hotel", ico: "fa-umbrella-beach" },
             { t: "Capacitación", d: "Formación y becas para estudiantes", f: "capacitacion.html", tags: "estudio terciario universitario beca kit utiles voucher formacion", ico: "fa-graduation-cap" },
             { t: "Novedades STM", d: "Últimas noticias y comunicados", f: "novedades.html", tags: "noticias novedad aviso boletin comunicado sorteos informacion ultimo", ico: "fa-newspaper" },
+            { t: "Reclamo EDUCACION", d: "Triunfo histórico docentes municipales", f: "reclamoeducacion.html", tags: "educación docentes educacion triunfo judicial maestros incentivo fonid", ico: "fa-graduation-cap" },
+            { t: "Presentación Judicial", d: "Trámites y reclamos judiciales", f: "judicial.html", tags: "judicial reclamo antigüedad ganancias trámites abogados demanda", ico: "fa-gavel" },
             { t: "Inicio", d: "Panel principal de opciones", f: "opciones.html", tags: "inicio dashboard panel principal volver", ico: "fa-house" }
         ];
 
