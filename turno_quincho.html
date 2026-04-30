@@ -555,7 +555,8 @@
     </div>
 
     <nav class="bottom-nav">
-        <a href="opciones.html" class="nav-btn nav-home-pulse" onclick="window.location.href='opciones.html'; return false;"><i class="fa-solid fa-house"></i></a>
+        <a href="opciones.html" class="nav-btn nav-home-pulse"
+            onclick="window.location.href='opciones.html'; return false;"><i class="fa-solid fa-house"></i></a>
         <a href="contactos.html" class="nav-btn"><i class="fa-solid fa-phone"></i></a>
         <a href="#" class="nav-btn" onclick="toggleSettings(true)"><i class="fa-solid fa-gear"></i></a>
     </nav>
@@ -755,9 +756,9 @@
                         </div>
                     </div>
                     <div style="text-align: center;">
-                        <p style="font-size: 1.1rem; color: var(--text-dark);">Ya tienes una reserva <b>CONFIRMADA</b> para el día <b>${b.date}</b> para el lugar <b>${b.lugar || 'SEDE'}</b>.</p>
                         <p class="text-muted small">Para elegir una nueva fecha o realizar otro trámite, primero debes gestionar tu solicitud actual.</p>
-                    </div>
+                        </div>
+                        <p style="font-size: 1.1rem; color: var(--text-dark);">Ya tenes una reserva <b>CONFIRMADA</b> para el día <b>${b.date}</b> para el lugar <b>${b.lugar || 'SEDE'}</b>. Para finalizar este trámite debe acercarse a la Secretaría de Acción Social en el 2do.piso de la Sede del STM de lunes a viernes de 8:30 a 12hs y de 17 a 19:30hs <b>hasta 5 días hábiles antes del evento</b> para efectibizar pago y completar documentación requerida.</p>
                 `;
 
                 footer.innerHTML = `
@@ -847,7 +848,7 @@
                             data: {
                                 id_user: userId,
                                 titulo: "Reserva de Quincho Recibida",
-                                mensaje: "Su trámite de reserva para el quincho ha sido recibido y confirmado.",
+                                mensaje: "Su trámite de reserva para el quincho ha sido recibido y confirmado. Para finalizar este trámite debe acercarse a la Secretaría de Acción Social en el 2do.piso de la Sede del STM de lunes a viernes de 8:30 a 12hs y de 17 a 19:30hs hasta 5 días hábiles antes del evento para efectibizar pago y completar documentación requerida",
                                 fecha: new Date().toLocaleString()
                             }
                         })
@@ -857,7 +858,7 @@
                     Swal.fire({
                         icon: 'success',
                         title: '¡Reserva Confirmada!',
-                        text: 'Tu reserva para el quincho ha sido procesada con éxito.',
+                        text: 'Tu reserva para el quincho ha sido procesada con éxito. Para finalizar este trámite debe que acercarse a la Secretaría de Acción Social en el 2do.piso de la Sede del STM de lunes a viernes de 8:30 a 12hs y de 17 a 19:30hs hasta 5 días hábiles antes del evento.',
                         confirmButtonColor: 'var(--stm-primary)'
                     });
                     loadAvailableDays();

@@ -185,6 +185,37 @@
             margin-bottom: 12px;
         }
 
+        .card-yellow .card-front {
+            background: #fde68a;
+            border-color: #fcd34d;
+        }
+        body.dark-mode .card-yellow .card-front {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+        .card-yellow .card-front .card-icon,
+        .card-yellow .card-front .card-title {
+            color: #b45309;
+        }
+        body.dark-mode .card-yellow .card-front .card-icon,
+        body.dark-mode .card-yellow .card-front .card-title {
+            color: #fbbf24;
+        }
+        .card-yellow .card-back {
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+        }
+
+        .card-yellow .tap-hint {
+            font-size: 0.85rem !important;
+            font-weight: 900 !important;
+            opacity: 1 !important;
+            color: #b45309 !important;
+            letter-spacing: 0.5px;
+        }
+        body.dark-mode .card-yellow .tap-hint {
+            color: #fbbf24 !important;
+        }
+
         body.dark-mode .card-icon {
             color: var(--stm-primary);
         }
@@ -604,6 +635,36 @@
                     <div class="card-back">
                         <h3 class="card-title">Horarios</h3>
                         <p class="card-info-text">Viernes<br>17:30 a 19:30 hs</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rugby -->
+            <div class="card-flip card-yellow" id="sport-rugby" onclick="handleFlip(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <i class="fa-solid fa-football card-icon" style="font-size: 2.2rem;"></i>
+                        <h3 class="card-title">Rugby</h3>
+                        <span class="tap-hint">CONVENIO</span>
+                    </div>
+                    <div class="card-back">
+                        <h3 class="card-title">Convenio</h3>
+                        <p class="card-info-text">Más información en Secretaría</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hockey -->
+            <div class="card-flip card-yellow" id="sport-hockey" onclick="handleFlip(this)">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <svg viewBox="0 0 512 512" class="card-icon" style="width: 2.2rem; height: 2.2rem; margin-bottom: 12px; fill: currentColor;"><path d="M416 352c-26.5 0-48 21.5-48 48s21.5 48 48 48 48-21.5 48-48-21.5-48-48-48zm-82.3-209.7c-6.2-6.2-16.4-6.2-22.6 0L44.1 409.3c-15.2 15.2-14 40.5 3.3 53.6 12.1 9.1 28.5 9.1 40.6 0l21.3-16c6.2-4.7 15-3.5 19.7 2.7 4.7 6.2 3.5 15-2.7 19.7l-21.3 16c-24.2 18.2-58.4 18.2-82.6 0-33-24.8-35.3-73.4-6.1-102.6L283.7 115.7c6.2-6.2 16.4-6.2 22.6 0l83.7 83.7c6.2 6.2 6.2 16.4 0 22.6s-16.4 6.2-22.6 0l-33.7-33.7z"/></svg>
+                        <h3 class="card-title">Hockey</h3>
+                        <span class="tap-hint">CONVENIO</span>
+                    </div>
+                    <div class="card-back">
+                        <h3 class="card-title">Convenio</h3>
+                        <p class="card-info-text">Más información en Secretaría</p>
                     </div>
                 </div>
             </div>
