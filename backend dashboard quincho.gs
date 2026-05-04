@@ -21,6 +21,9 @@ const SHEETS = {
 
 function doGet(e) {
   try {
+    // 1. Limpieza de registros pasados (Solicitado)
+    limpiarRegistrosViejos();
+
     // Capturamos el userId si viene en la URL (?userId=...)
     let uFilter = (e && e.parameter && e.parameter.userId) ? e.parameter.userId.toString() : null;
 
@@ -72,25 +75,48 @@ function doPost(e) {
     if (action === 'APPROVE_QUINCHO') {
       const sSol = getSheet(SHEETS.SOLICITUD_QUINCHO);
       const sFec = getSheet(SHEETS.FECHAS_QUINCHO);
-      const sMsg = getSheet(SHEETS.MENSAJES);
       if (!sSol || !sFec) throw new Error("Hojas de Quincho no encontradas");
       
-      // FORZAMOS LOS VALORES: 'NO' para pendiente y 'OCUPADO' para estado
-      const updateSol = updateRecord(sSol, requestData.bookingId, { pendiente: 'NO' });
-      const updateFec = updateRecord(sFec, requestData.dateId, { estado: 'OCUPADO' });
+      // 1. CAPTURAR EL ID_USER DIRECTAMENTE DEL EXCEL (Solicitado)
+      const rowsSol = sSol.getDataRange().getValues();
+      const headersSol = rowsSol[0];
+      const colIdUser = headersSol.findIndex(h => (h||"").toString().toLowerCase().trim() === 'id_user');
+      let realUserId = null;
       
-      // Forzar guardado inmediato en la hoja
+      for (let i = 1; i < rowsSol.length; i++) {
+        if (rowsSol[i][0].toString().trim() === requestData.bookingId.toString().trim()) {
+           realUserId = rowsSol[i][colIdUser];
+           break;
+        }
+      }
+
+      // 2. ACTUALIZACIÓN DE TABLAS
+      const resSol = updateRecord(sSol, requestData.bookingId, { pendiente: 'NO' });
+      const resFec = updateRecord(sFec, requestData.dateId, { estado: 'OCUPADO' });
       SpreadsheetApp.flush();
 
-      if (userId && sMsg) {
-        createRecord(sMsg, {
-          id_user: userId,
-          titulo: "Quincho Aprobado",
-          mensaje: requestData.message,
-          fecha: new Date().toLocaleString()
-        });
+      // 3. ENVÍO DE MENSAJE DIRECTO (Respetando columnas A, B, C, D, E, F, G)
+      try {
+        const sMsg = getSheet(SHEETS.MENSAJES);
+        if (sMsg && realUserId && Number(realUserId) > 0) {
+          const nextMsgId = getNextId(sMsg);
+          const msgTexto = requestData.message || "Su solicitud de Quincho fue aprobada. Deberá acercarse al gremio para finalizar el trámite.";
+          
+          // Insertamos directamente según la imagen de 5 columnas: [id_mensaje, id_user, titulo, mensaje, fecha]
+          sMsg.appendRow([
+            nextMsgId, 
+            realUserId, 
+            "Quincho Aprobado", 
+            msgTexto,
+            new Date().toLocaleString()
+          ]);
+          console.log("Mensaje insertado en 5 columnas para usuario: " + realUserId);
+        }
+      } catch (msgErr) {
+        console.error("Error al enviar mensaje: " + msgErr.toString());
       }
-      return createJsonResponse({ status: 'SUCCESS', message: 'Aprobado', details: { updateSol, updateFec } });
+
+      return createJsonResponse({ status: 'SUCCESS', message: 'Trámite procesado con éxito', details: { resSol, resFec, realUserId } });
     }
 
     if (action === 'CANCEL_QUINCHO') {
@@ -489,4 +515,55 @@ function enviarEmailCambioPassword(u) {
 function createJsonResponse(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * LÓGICA DE LIMPIEZA SOLICITADA: Borra fechas anteriores a HOY y sus reservas
+ */
+function limpiarRegistrosViejos() {
+  try {
+    const ss = SpreadsheetApp.openById(STM_MAIN_SPREADSHEET_ID);
+    const sFec = ss.getSheetByName(SHEETS.FECHAS_QUINCHO);
+    const sSol = ss.getSheetByName(SHEETS.SOLICITUD_QUINCHO);
+    if (!sFec) return;
+
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    const dataFec = sFec.getDataRange().getValues();
+    const headersFec = dataFec[0];
+    const colFechaFec = headersFec.findIndex(h => (h||"").toString().toLowerCase().trim() === 'fecha');
+    
+    if (colFechaFec === -1) return;
+
+    let fechasBorradas = [];
+    // Borrar de abajo hacia arriba para no perder el índice
+    for (let i = dataFec.length - 1; i >= 1; i--) {
+      const fechaSheet = dataFec[i][colFechaFec];
+      let fechaObj = (fechaSheet instanceof Date) ? fechaSheet : new Date(fechaSheet);
+      
+      if (fechaObj < hoy) {
+        fechasBorradas.push(fechaSheet.toString());
+        sFec.deleteRow(i + 1);
+      }
+    }
+
+    // Borrar solicitudes asociadas
+    if (sSol && fechasBorradas.length > 0) {
+      const dataSol = sSol.getDataRange().getValues();
+      const headersSol = dataSol[0];
+      const colFechaSol = headersSol.findIndex(h => (h||"").toString().toLowerCase().trim().includes('fecha_solicitada'));
+      
+      if (colFechaSol !== -1) {
+        for (let j = dataSol.length - 1; j >= 1; j--) {
+          if (fechasBorradas.includes(dataSol[j][colFechaSol].toString())) {
+            sSol.deleteRow(j + 1);
+          }
+        }
+      }
+    }
+    SpreadsheetApp.flush();
+  } catch (e) {
+    console.error("Error limpieza: " + e.toString());
+  }
 }
